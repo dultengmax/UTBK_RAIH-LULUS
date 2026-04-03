@@ -1,0 +1,95 @@
+{
+  "packages": [
+    {
+      "id": "pkg-tryout-snbt-1",
+      "code": "PKT-20260322-UTBK",
+      "title": "Tryout SNBT Lengkap 1",
+      "description": "Paket tryout lengkap yang mencakup seluruh subtes utama UTBK-SNBT untuk simulasi ujian penuh.",
+      "status": "published",
+      "difficultyProfile": "mixed",
+      "durationMinutes": 195,
+      "year": 2026,
+      "tags": [
+        "tryout",
+        "snbt",
+        "lengkap"
+      ],
+      "totalQuestions": 140,
+      "sections": [
+        {
+          "id": "section-pu-seed001",
+          "subtestId": "PU",
+          "subtestName": "Penalaran Umum",
+          "questionIds": [
+            "PU-001",
+            "PU-002",
+            "PU-003"
+          ],
+          "questionCount": 20
+        },
+        {
+          "id": "section-ppu-seed001",
+          "subtestId": "PPU",
+          "subtestName": "Pengetahuan dan Pemahaman Umum",
+          "questionIds": [
+            "PPU-001",
+            "PPU-002"
+          ],
+          "questionCount": 20
+        },
+        {
+          "id": "section-pbm-seed001",
+          "subtestId": "PBM",
+          "subtestName": "Pemahaman Bacaan dan Menulis",
+          "questionIds": [
+            "PBM-001",
+            "PBM-002"
+          ],
+          "questionCount": 20
+        },
+        {
+          "id": "section-pk-seed001",
+          "subtestId": "PK",
+          "subtestName": "Pengetahuan Kuantitatif",
+          "questionIds": [
+            "PK-001",
+            "PK-002"
+          ],
+          "questionCount": 20
+        },
+        {
+          "id": "section-lit-ind-seed001",
+          "subtestId": "LIT_IND",
+          "subtestName": "Literasi Bahasa Indonesia",
+          "questionIds": [
+            "LITIND-001",
+            "LITIND-002"
+          ],
+          "questionCount": 20
+        },
+        {
+          "id": "section-lit-ing-seed001",
+          "subtestId": "LIT_ING",
+          "subtestName": "Literasi Bahasa Inggris",
+          "questionIds": [
+            "LITING-001",
+            "LITING-002"
+          ],
+          "questionCount": 20
+        },
+        {
+          "id": "section-pm-seed001",
+          "subtestId": "PM",
+          "subtestName": "Penalaran Matematika",
+          "questionIds": [
+            "PM-001",
+            "PM-002"
+          ],
+          "questionCount": 20
+        }
+      ],
+      "createdAt": "2026-03-22T08:00:00.000Z",
+      "updatedAt": "2026-03-22T08:00:00.000Z"
+    }
+  ]
+}

@@ -16,9 +16,9 @@ export function ProgressBar({ step }: ProgressBarProps) {
   return (
     <div className="space-y-4">
       <div className="relative px-2">
-        <div className="absolute left-8 right-8 top-4 h-px bg-white/10" />
+        <div className="absolute left-8 right-8 top-4 h-px bg-slate-200" />
         <motion.div
-          className="absolute left-8 right-8 top-4 h-px bg-primary"
+          className="absolute left-8 right-8 top-4 h-px bg-linear-to-r from-sky-500 to-emerald-500"
           animate={{ scaleX: progress }}
           style={{ transformOrigin: "left center" }}
           transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -41,13 +41,13 @@ export function ProgressBar({ step }: ProgressBarProps) {
                         }
                       : isActive
                         ? {
-                            backgroundColor: "rgba(34,211,238,0.22)",
-                            borderColor: "rgba(34,211,238,0.9)",
+                            backgroundColor: "rgba(14,165,233,0.14)",
+                            borderColor: "rgba(14,165,233,0.72)",
                             scale: [1, 1.08, 1],
                           }
                         : {
-                            backgroundColor: "rgba(255,255,255,0.04)",
-                            borderColor: "rgba(255,255,255,0.1)",
+                            backgroundColor: "rgba(255,255,255,0.92)",
+                            borderColor: "rgba(203,213,225,0.9)",
                             scale: 1,
                           }
                   }
@@ -60,10 +60,10 @@ export function ProgressBar({ step }: ProgressBarProps) {
                         }
                       : { duration: 0.2 }
                   }
-                  className="flex size-8 items-center justify-center rounded-full border text-xs font-semibold"
+                  className="flex size-8 items-center justify-center rounded-full border text-xs font-semibold shadow-sm"
                 >
                   {isDone ? (
-                    <svg viewBox="0 0 20 20" className="size-4" fill="none" aria-hidden="true">
+                    <svg viewBox="0 0 20 20" className="size-4 text-white" fill="none" aria-hidden="true">
                       <path
                         d="M5 10.5 8.4 14 15 7.5"
                         stroke="currentColor"
@@ -73,14 +73,14 @@ export function ProgressBar({ step }: ProgressBarProps) {
                       />
                     </svg>
                   ) : (
-                    <span className={cn(isActive ? "text-white" : "text-white/65")}>
+                    <span className={cn(isActive ? "text-sky-700" : "text-slate-500")}>
                       {index + 1}
                     </span>
                   )}
                 </motion.div>
 
                 <div className="space-y-1">
-                  <p className={cn("text-[11px] font-semibold", isActive ? "text-white" : "text-white/60")}>
+                  <p className={cn("text-[11px] font-semibold", isActive ? "text-slate-900" : "text-slate-500")}>
                     {item.label}
                   </p>
                 </div>

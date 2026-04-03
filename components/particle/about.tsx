@@ -1,24 +1,20 @@
 "use client"
 
-import { motion, useInView } from "motion/react"
-import { useRef } from "react"
-import { 
-  Building2, 
-  Shield, 
-  GraduationCap, 
-  Target, 
-  Trophy, 
-  Users, 
-  BarChart3, 
+import { motion } from "motion/react"
+import {
+  Award,
+  BarChart3,
+  Building2,
   CheckCircle,
   Clock,
-  Award
+  GraduationCap,
+  Shield,
+  Target,
+  Trophy,
+  Users,
 } from "lucide-react"
 
 const AboutSection = () => {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, amount: 0.2 })
-
   const tryoutTypes = [
     {
       id: "snbt",
@@ -28,7 +24,7 @@ const AboutSection = () => {
       bgColor: "bg-linear-to-br",
       stats: "50k+ Peserta",
       description: "UI, ITB, UGM, UNPAD & PTN Top Lainnya",
-      features: ["Simulasi Full CBT", "Prediksi Passing Grade", "Ranking Nasional"]
+      features: ["Simulasi Full CBT", "Prediksi Passing Grade", "Ranking Nasional"],
     },
     {
       id: "stan",
@@ -38,7 +34,7 @@ const AboutSection = () => {
       bgColor: "bg-linear-to-br",
       stats: "85% Lulus TKD",
       description: "Sekolah Tinggi Akuntansi Negara",
-      features: ["Tes Kemampuan Dasar", "Tes Bahasa Inggris", "Tes Potensi Akademik"]
+      features: ["Tes Kemampuan Dasar", "Tes Bahasa Inggris", "Tes Potensi Akademik"],
     },
     {
       id: "cpns",
@@ -48,8 +44,8 @@ const AboutSection = () => {
       bgColor: "bg-linear-to-br",
       stats: "1000+ Soal Update",
       description: "Formasi Seluruh Indonesia",
-      features: ["TWK, TIU, TKP", "Simulasi CAT", "Bank Soal Lengkap"]
-    }
+      features: ["TWK, TIU, TKP", "Simulasi CAT", "Bank Soal Lengkap"],
+    },
   ]
 
   const achievementStats = [
@@ -59,74 +55,90 @@ const AboutSection = () => {
     { value: "Top 10", label: "Ranking Nasional", icon: Award, color: "text-purple-600" },
   ]
 
+  const tagContainer = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.08,
+      },
+    },
+  }
+
+  const tagItem = {
+    hidden: { opacity: 0, scale: 0.8, y: 10 },
+    show: { opacity: 1, scale: 1, y: 0 },
+  }
+
   return (
-    <section ref={ref} className="relative py-24 bg-linear-to-b from-white to-slate-50 overflow-hidden">
-      {/* Background Elements */}
+    <section className="relative overflow-hidden bg-linear-to-b from-white to-slate-50 py-24">
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-60 -right-60 w-[800px] h-[800px] bg-linear-to-br from-blue-100 to-cyan-100 rounded-full blur-3xl opacity-40" />
-        <div className="absolute -bottom-60 -left-60 w-[800px] h-[800px] bg-linear-to-br from-emerald-100 to-green-100 rounded-full blur-3xl opacity-30" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-linear-to-r from-amber-100 to-orange-100 rounded-full blur-3xl opacity-20" />
+        <div className="absolute -top-60 -right-60 h-[800px] w-[800px] rounded-full bg-linear-to-br from-blue-100 to-cyan-100 opacity-40 blur-3xl" />
+        <div className="absolute -bottom-60 -left-60 h-[800px] w-[800px] rounded-full bg-linear-to-br from-emerald-100 to-green-100 opacity-30 blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-linear-to-r from-amber-100 to-orange-100 opacity-20 blur-3xl" />
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header Section */}
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-4xl mx-auto mb-16"
+          className="mx-auto mb-16 max-w-4xl text-center"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium mb-6">
-            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-2 text-sm font-medium text-blue-700">
+            <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
             Platform Tryout Terlengkap di Indonesia
           </div>
-          
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+
+          <h2 className="mb-6 text-4xl leading-tight font-bold text-gray-900 md:text-5xl lg:text-6xl">
             Siap Hadapi
             <span className="block bg-linear-to-r from-blue-600 via-emerald-600 to-amber-600 bg-clip-text text-transparent">
               Ujian Nasional & Seleksi Negeri
             </span>
           </h2>
-          
-          <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
-            Dari <span className="font-semibold text-blue-600">SNBT</span> hingga <span className="font-semibold text-emerald-600">CPNS</span>, 
-            kami menyediakan platform simulasi terintegrasi untuk semua jenjang seleksi negeri dengan sistem yang
+
+          <p className="text-lg leading-relaxed text-gray-600 md:text-xl">
+            Dari <span className="font-semibold text-blue-600">SNBT</span> hingga{" "}
+            <span className="font-semibold text-emerald-600">CPNS</span>, kami menyediakan
+            platform simulasi terintegrasi untuk semua jenjang seleksi negeri dengan sistem yang
             <span className="font-semibold text-amber-600"> 99% mirip ujian asli</span>.
           </p>
         </motion.div>
 
-        {/* Tryout Types Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+        <div className="mb-20 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {tryoutTypes.map((type, index) => (
             <motion.div
               key={type.id}
               initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.6, delay: index * 0.16 }}
               whileHover={{ y: -8 }}
               className="group"
             >
-              <div className="h-full bg-white rounded-3xl p-1 shadow-lg hover:shadow-2xl transition-all duration-300">
-                <div className={`h-full rounded-3xl p-8 bg-linear-to-br from-white to-slate-50 border border-slate-200`}>
-                  {/* Icon & Header */}
-                  <div className="flex items-start justify-between mb-6">
-                    <div className={`p-4 rounded-2xl ${type.bgColor} ${type.color} bg-opacity-10`}>
-                      <type.icon className={`w-8 h-8 ${type.color.replace('from-', 'text-').replace(' to-', '')}`} />
+              <div className="h-full rounded-3xl bg-white p-1 shadow-lg transition-all duration-300 hover:shadow-2xl">
+                <div className="h-full rounded-3xl border border-slate-200 bg-linear-to-br from-white to-slate-50 p-8">
+                  <div className="mb-6 flex items-start justify-between">
+                    <div className={`rounded-2xl p-4 ${type.bgColor} ${type.color} bg-opacity-10`}>
+                      <type.icon
+                        className={`w-8 h-8 ${type.color.replace("from-", "text-").replace(" to-", "")}`}
+                      />
                     </div>
                     <motion.div
                       whileHover={{ rotate: 90 }}
-                      className="p-2 rounded-full bg-slate-100 group-hover:bg-blue-50 transition-colors"
+                      className="rounded-full bg-slate-100 p-2 transition-colors group-hover:bg-blue-50"
                     >
-                      <CheckCircle className="w-5 h-5 text-slate-400 group-hover:text-blue-500" />
+                      <CheckCircle className="h-5 w-5 text-slate-400 group-hover:text-blue-500" />
                     </motion.div>
                   </div>
 
-                  {/* Content */}
                   <div className="space-y-4">
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900 mb-2">{type.title}</h3>
-                      <div className="flex items-center gap-2 text-lg font-semibold  bg-clip-text text-transparent bg-linear-to-r">
-                        <span className={`${type.color.replace('from-', 'text-').replace(' to-', '')}`}>
+                      <h3 className="mb-2 text-2xl font-bold text-gray-900">{type.title}</h3>
+                      <div className="flex items-center gap-2 bg-linear-to-r bg-clip-text text-lg font-semibold text-transparent">
+                        <span
+                          className={type.color.replace("from-", "text-").replace(" to-", "")}
+                        >
                           {type.stats}
                         </span>
                       </div>
@@ -134,27 +146,28 @@ const AboutSection = () => {
 
                     <p className="text-gray-600">{type.description}</p>
 
-                    {/* Features */}
                     <ul className="space-y-3 pt-4">
-                      {type.features.map((feature, idx) => (
+                      {type.features.map((feature, featureIndex) => (
                         <motion.li
-                          key={idx}
+                          key={feature}
                           initial={{ opacity: 0, x: -10 }}
-                          animate={isInView ? { opacity: 1, x: 0 } : {}}
-                          transition={{ delay: 1 + (index * 0.3) + (idx * 0.1) }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true, amount: 0.2 }}
+                          transition={{ delay: 0.35 + index * 0.15 + featureIndex * 0.08 }}
                           className="flex items-center gap-3 text-sm"
                         >
-                          <div className={`w-2 h-2 rounded-full ${type.color.replace('from-', 'bg-linear-to-r from-').replace(' to-', ' to-')}`} />
+                          <div
+                            className={`h-2 w-2 rounded-full ${type.color.replace("from-", "bg-linear-to-r from-").replace(" to-", " to-")}`}
+                          />
                           <span className="text-gray-700">{feature}</span>
                         </motion.li>
                       ))}
                     </ul>
 
-                    {/* CTA Button */}
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className={`w-full mt-6 py-3 rounded-xl font-semibold text-white transition-all duration-300 ${type.bgColor} ${type.color} hover:shadow-lg`}
+                      className={`mt-6 w-full rounded-xl py-3 font-semibold text-white transition-all duration-300 ${type.bgColor} ${type.color} hover:shadow-lg`}
                     >
                       Mulai Tryout {type.title}
                     </motion.button>
@@ -165,80 +178,81 @@ const AboutSection = () => {
           ))}
         </div>
 
-        {/* Stats & Achievement Section */}
         <motion.div
           initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="bg-linear-to-r from-slate-900 to-gray-900 rounded-3xl p-8 md:p-12 relative overflow-hidden"
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8 }}
+          className="relative overflow-hidden rounded-3xl bg-linear-to-r from-slate-900 to-gray-900 p-8 md:p-12"
         >
-          {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-linear-to-br from-blue-500 to-transparent rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-linear-to-tr from-emerald-500 to-transparent rounded-full blur-3xl" />
+            <div className="absolute top-0 right-0 h-64 w-64 rounded-full bg-linear-to-br from-blue-500 to-transparent blur-3xl" />
+            <div className="absolute bottom-0 left-0 h-64 w-64 rounded-full bg-linear-to-tr from-emerald-500 to-transparent blur-3xl" />
           </div>
 
           <div className="relative z-10">
-            <div className="max-w-3xl mx-auto text-center mb-12">
-              <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            <div className="mx-auto mb-12 max-w-3xl text-center">
+              <h3 className="mb-4 text-3xl font-bold text-white md:text-4xl">
                 Keunggulan Platform Kami
               </h3>
-              <p className="text-slate-300 text-lg">
+              <p className="text-lg text-slate-300">
                 Terbukti membantu ribuan peserta meraih kesuksesan dalam berbagai seleksi negeri
               </p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
               {achievementStats.map((stat, index) => (
                 <motion.div
                   key={stat.label}
                   initial={{ opacity: 0, scale: 0.9 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ duration: 0.5, delay: 1 + index * 0.1 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{ duration: 0.5, delay: index * 0.08 }}
                   whileHover={{ y: -5 }}
-                  className="text-center p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10"
+                  className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur-sm"
                 >
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-linear-to-br from-white/10 to-transparent mb-4">
-                    <stat.icon className={`w-8 h-8 ${stat.color}`} />
+                  <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br from-white/10 to-transparent">
+                    <stat.icon className={`h-8 w-8 ${stat.color}`} />
                   </div>
-                  <div className={`text-4xl font-bold mb-2 ${stat.color}`}>{stat.value}</div>
-                  <div className="text-slate-300 font-medium">{stat.label}</div>
+                  <div className={`mb-2 text-4xl font-bold ${stat.color}`}>{stat.value}</div>
+                  <div className="font-medium text-slate-300">{stat.label}</div>
                 </motion.div>
               ))}
             </div>
 
-            {/* Feature Highlights */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 1.4 }}
-              className="mt-12 pt-8 border-t border-white/10"
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="mt-12 border-t border-white/10 pt-8"
             >
-              <div className="grid md:grid-cols-3 gap-8">
+              <div className="grid gap-8 md:grid-cols-3">
                 {[
                   {
                     title: "Sistem CAT Realistik",
-                    description: "Simulasi Computer Assisted Test dengan timer dan antarmuka mirip ujian asli",
-                    icon: BarChart3
+                    description:
+                      "Simulasi Computer Assisted Test dengan timer dan antarmuka mirip ujian asli",
+                    icon: BarChart3,
                   },
                   {
                     title: "Pembahasan Lengkap",
                     description: "Video pembahasan step-by-step oleh tutor berpengalaman",
-                    icon: Target
+                    icon: Target,
                   },
                   {
                     title: "Analisis Performa",
                     description: "Laporan detil kekuatan & kelemahan untuk fokus belajar",
-                    icon: Trophy
-                  }
-                ].map((feature, index) => (
-                  <div key={index} className="flex items-start gap-4">
-                    <div className="p-3 rounded-xl bg-linear-to-br from-blue-500/20 to-emerald-500/20">
-                      <feature.icon className="w-6 h-6 text-white" />
+                    icon: Trophy,
+                  },
+                ].map((feature) => (
+                  <div key={feature.title} className="flex items-start gap-4">
+                    <div className="rounded-xl bg-linear-to-br from-blue-500/20 to-emerald-500/20 p-3">
+                      <feature.icon className="h-6 w-6 text-white" />
                     </div>
                     <div>
-                      <h4 className="text-lg font-semibold text-white mb-2">{feature.title}</h4>
-                      <p className="text-slate-300 text-sm">{feature.description}</p>
+                      <h4 className="mb-2 text-lg font-semibold text-white">{feature.title}</h4>
+                      <p className="text-sm text-slate-300">{feature.description}</p>
                     </div>
                   </div>
                 ))}
@@ -247,40 +261,44 @@ const AboutSection = () => {
           </div>
         </motion.div>
 
-        {/* CTA Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 1.6 }}
-          className="text-center mt-16"
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="mt-16 text-center"
         >
-          <div className="inline-flex flex-wrap items-center justify-center gap-4 mb-8">
-            {["SNBT", "PKN STAN", "CPNS", "BUMN", "PPPK", "TNI/POLRI"].map((item, index) => (
+          <motion.div
+            variants={tagContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            className="mb-8 inline-flex flex-wrap items-center justify-center gap-4"
+          >
+            {["SNBT", "PKN STAN", "CPNS", "BUMN", "PPPK", "TNI/POLRI"].map((item) => (
               <motion.span
                 key={item}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ delay: 1.8 + index * 0.1 }}
-                className="px-4 py-2 bg-linear-to-r from-blue-50 to-emerald-50 text-gray-700 rounded-full font-medium border border-blue-100"
+                variants={tagItem}
+                className="rounded-full border border-blue-100 bg-linear-to-r from-blue-50 to-emerald-50 px-4 py-2 font-medium text-gray-700"
               >
                 {item}
               </motion.span>
             ))}
-          </div>
-          
-          <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          </motion.div>
+
+          <h3 className="mb-6 text-3xl font-bold text-gray-900 md:text-4xl">
             Siap <span className="text-blue-600">#TaklukkanUjian</span> Bersama Kami?
           </h3>
-          
+
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-12 py-4 bg-linear-to-r from-blue-600 to-emerald-600 text-white font-semibold rounded-2xl text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+            className="rounded-2xl bg-linear-to-r from-blue-600 to-emerald-600 px-12 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl"
           >
             Mulai Sekarang Gratis
           </motion.button>
-          
-          <p className="text-gray-500 mt-4 text-sm">
+
+          <p className="mt-4 text-sm text-gray-500">
             *Gratis akses 3 tryout pertama untuk semua kategori
           </p>
         </motion.div>

@@ -32,7 +32,7 @@ export function StepKelemahan({ program, selected, error, onToggle }: StepKelema
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center gap-3">
-        <p className="text-sm text-white/70">
+        <p className="text-sm text-slate-600">
           {isOverseas
             ? "Pilih skill yang paling ingin kamu tingkatkan untuk kebutuhan aplikasi internasional."
             : "Pilih subtes atau area materi yang paling sering terasa menghambat saat latihan."}
@@ -42,7 +42,7 @@ export function StepKelemahan({ program, selected, error, onToggle }: StepKelema
           key={selected.length}
           initial={{ scale: 0.9, opacity: 0.75 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="rounded-full border border-primary/25 bg-primary/12 px-3 py-1 text-xs font-semibold text-primary"
+          className="rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700"
         >
           {selected.length} dipilih
         </motion.span>
@@ -69,22 +69,22 @@ export function StepKelemahan({ program, selected, error, onToggle }: StepKelema
             >
               <motion.div
                 animate={{
-                  borderColor: isSelected ? "rgba(34,211,238,0.65)" : "rgba(255,255,255,0.08)",
-                  backgroundColor: isSelected ? "rgba(8,145,178,0.14)" : "rgba(255,255,255,0.03)",
+                  borderColor: isSelected ? "rgba(14,165,233,0.52)" : "rgba(203,213,225,0.9)",
+                  backgroundColor: isSelected ? "rgba(14,165,233,0.08)" : "rgba(255,255,255,0.92)",
                 }}
                 transition={{ duration: 0.18 }}
-                className="flex h-full items-start gap-4 rounded-2xl border p-4"
+                className="flex h-full items-start gap-4 rounded-2xl border p-4 shadow-sm"
               >
                 <motion.div
                   animate={{
-                    backgroundColor: isSelected ? "rgba(34,211,238,0.95)" : "rgba(255,255,255,0.03)",
-                    borderColor: isSelected ? "rgba(34,211,238,0.95)" : "rgba(255,255,255,0.14)",
+                    backgroundColor: isSelected ? "rgba(14,165,233,0.95)" : "rgba(255,255,255,0.9)",
+                    borderColor: isSelected ? "rgba(14,165,233,0.95)" : "rgba(203,213,225,0.9)",
                   }}
                   transition={{ duration: 0.18 }}
                   className="mt-1 flex size-5 shrink-0 items-center justify-center rounded-md border"
                 >
                   {isSelected ? (
-                    <svg viewBox="0 0 20 20" className="size-3.5 text-slate-950" fill="none" aria-hidden="true">
+                    <svg viewBox="0 0 20 20" className="size-3.5 text-white" fill="none" aria-hidden="true">
                       <path
                         d="M5 10.5 8.4 14 15 7.5"
                         stroke="currentColor"
@@ -97,8 +97,8 @@ export function StepKelemahan({ program, selected, error, onToggle }: StepKelema
                 </motion.div>
 
                 <div className="space-y-2">
-                  <p className="text-sm font-semibold text-white">{option.label}</p>
-                  <p className="text-sm leading-relaxed text-white/65">{option.description}</p>
+                  <p className="text-sm font-semibold text-slate-900">{option.label}</p>
+                  <p className="text-sm leading-relaxed text-slate-500">{option.description}</p>
                 </div>
               </motion.div>
             </motion.button>
@@ -113,7 +113,7 @@ export function StepKelemahan({ program, selected, error, onToggle }: StepKelema
             animate={{ opacity: 1, height: "auto", y: 0 }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="rounded-xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-200"
+            className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600"
           >
             {error}
           </motion.p>

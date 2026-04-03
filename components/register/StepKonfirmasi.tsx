@@ -77,16 +77,16 @@ export function StepKonfirmasi({ data, submitError }: StepKonfirmasiProps) {
         variants={container}
         initial="hidden"
         animate="show"
-        className="rounded-2xl border border-white/10 bg-white/[0.03] p-4"
+        className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4"
       >
         <div className="mb-4 flex items-center justify-between gap-3">
           <div>
-            <p className="text-sm font-semibold text-white">Ringkasan pendaftaran</p>
-            <p className="mt-1 text-sm text-white/60">
+            <p className="text-sm font-semibold text-slate-900">Ringkasan pendaftaran</p>
+            <p className="mt-1 text-sm text-slate-500">
               Semua detail ini akan dikirim saat kamu menekan tombol buat akun.
             </p>
           </div>
-          <span className="rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+          <span className="rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700">
             Final check
           </span>
         </div>
@@ -96,12 +96,12 @@ export function StepKonfirmasi({ data, submitError }: StepKonfirmasiProps) {
             <motion.div
               key={row.id}
               variants={item}
-              className="flex flex-col gap-2 rounded-2xl border border-white/8 bg-white/[0.02] px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+              className="flex flex-col gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
             >
-              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-white/40">
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
                 {row.label}
               </span>
-              <span className="text-sm font-medium text-white">{row.value}</span>
+              <span className="text-sm font-medium text-slate-800">{row.value}</span>
             </motion.div>
           ))}
         </div>
@@ -111,11 +111,11 @@ export function StepKonfirmasi({ data, submitError }: StepKonfirmasiProps) {
         variants={container}
         initial="hidden"
         animate="show"
-        className="rounded-2xl border border-white/10 bg-white/[0.03] p-4"
+        className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4"
       >
         <div className="mb-4">
-          <p className="text-sm font-semibold text-white">Fokus kelemahan</p>
-          <p className="mt-1 text-sm text-white/60">
+          <p className="text-sm font-semibold text-slate-900">Fokus kelemahan</p>
+          <p className="mt-1 text-sm text-slate-500">
             Area ini akan membantu personalisasi rekomendasi awal di dashboard.
           </p>
         </div>
@@ -125,7 +125,7 @@ export function StepKonfirmasi({ data, submitError }: StepKonfirmasiProps) {
             <motion.span
               key={weakness}
               variants={item}
-              className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1.5 text-sm text-primary"
+              className="rounded-full border border-sky-200 bg-sky-50 px-3 py-1.5 text-sm text-sky-700"
             >
               {weakness}
             </motion.span>
@@ -140,7 +140,7 @@ export function StepKonfirmasi({ data, submitError }: StepKonfirmasiProps) {
             animate={{ opacity: 1, height: "auto", y: 0 }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="rounded-xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-200"
+            className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600"
           >
             {submitError}
           </motion.p>

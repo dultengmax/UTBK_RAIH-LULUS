@@ -93,7 +93,7 @@ export function StepAkun({
               key={field.id}
               className={field.id === "password" || field.id === "confirmPassword" ? "sm:col-span-2" : ""}
             >
-              <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-white/45">
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
                 {field.label}
               </label>
 
@@ -108,7 +108,7 @@ export function StepAkun({
                       : onConfirmPasswordChange(event.target.value)
                   }
                   placeholder={field.placeholder}
-                  className="h-12 rounded-2xl border-white/10 bg-white/[0.03] px-4 text-white placeholder:text-white/35 focus-visible:border-primary/50 focus-visible:ring-primary/15"
+                  className="h-12 rounded-2xl border-slate-200 bg-white px-4 text-slate-900 placeholder:text-slate-400 focus-visible:border-sky-400 focus-visible:ring-sky-100"
                 />
 
                 {isPasswordField ? (
@@ -120,14 +120,14 @@ export function StepAkun({
                         ? setShowPassword((value) => !value)
                         : setShowConfirmPassword((value) => !value)
                     }
-                    className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center justify-center rounded-full p-2 text-white/55 transition-colors hover:text-white"
+                    className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center justify-center rounded-full p-2 text-slate-400 transition-colors hover:text-slate-700"
                   >
                     <PasswordToggleIcon visible={isVisible} />
                   </motion.button>
                 ) : null}
               </div>
 
-              <p className="mt-2 text-xs text-white/45">{field.helper}</p>
+              <p className="mt-2 text-xs text-slate-400">{field.helper}</p>
 
               <AnimatePresence>
                 {errors[field.id] ? (
@@ -136,7 +136,7 @@ export function StepAkun({
                     animate={{ opacity: 1, height: "auto", y: 0 }}
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="mt-2 text-sm text-rose-200"
+                    className="mt-2 text-sm text-rose-600"
                   >
                     {errors[field.id]}
                   </motion.p>
@@ -147,14 +147,14 @@ export function StepAkun({
         })}
       </div>
 
-      <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+      <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-sm font-semibold text-white">Kekuatan password</p>
-            <p className="mt-1 text-sm text-white/60">{passwordStrengthLabel}</p>
+            <p className="text-sm font-semibold text-slate-900">Kekuatan password</p>
+            <p className="mt-1 text-sm text-slate-500">{passwordStrengthLabel}</p>
           </div>
 
-          <span className="rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+          <span className="rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700">
             {passwordScore}/4 indikator
           </span>
         </div>
@@ -164,12 +164,12 @@ export function StepAkun({
             const isActive = passwordScore > index
 
             return (
-              <div key={`strength-${index}`} className="h-2 overflow-hidden rounded-full bg-white/8">
+              <div key={`strength-${index}`} className="h-2 overflow-hidden rounded-full bg-slate-200">
                 <motion.div
                   animate={{ scaleX: isActive ? 1 : 0.2 }}
                   style={{ transformOrigin: "left center" }}
                   transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
-                  className="h-full rounded-full bg-primary"
+                  className="h-full rounded-full bg-linear-to-r from-sky-500 to-emerald-500"
                 />
               </div>
             )
@@ -185,8 +185,8 @@ export function StepAkun({
                 <span
                   className={
                     isActive
-                      ? "flex size-5 items-center justify-center rounded-full bg-primary text-primary-foreground"
-                      : "flex size-5 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-white/40"
+                      ? "flex size-5 items-center justify-center rounded-full bg-sky-500 text-white"
+                      : "flex size-5 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-400"
                   }
                 >
                   <svg viewBox="0 0 20 20" className="size-3" fill="none" aria-hidden="true">
@@ -199,7 +199,7 @@ export function StepAkun({
                     />
                   </svg>
                 </span>
-                <span className={isActive ? "text-white/80" : "text-white/50"}>{rule.label}</span>
+                <span className={isActive ? "text-slate-700" : "text-slate-500"}>{rule.label}</span>
               </div>
             )
           })}

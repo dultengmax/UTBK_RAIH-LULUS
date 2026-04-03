@@ -48,26 +48,28 @@ export function StepProgram({ value, error, onChange }: StepProgramProps) {
             >
               <motion.div
                 animate={{
-                  borderColor: selected ? "rgba(34,211,238,0.7)" : "rgba(255,255,255,0.08)",
-                  backgroundColor: selected ? "rgba(8,145,178,0.14)" : "rgba(255,255,255,0.03)",
+                  borderColor: selected ? "rgba(14,165,233,0.55)" : "rgba(203,213,225,0.8)",
+                  backgroundColor: selected ? "rgba(14,165,233,0.08)" : "rgba(255,255,255,0.9)",
                 }}
                 transition={{ duration: 0.18 }}
-                className="flex h-full min-h-36 flex-col justify-between rounded-2xl border p-4 shadow-lg shadow-black/10"
+                className="flex h-full min-h-36 flex-col justify-between rounded-2xl border p-4 shadow-sm"
               >
                 <div className="flex items-start justify-between gap-3">
-                  <span className="text-sm font-semibold text-white">{program.label}</span>
+                  <span className="text-sm font-semibold text-slate-900">{program.label}</span>
                   {program.badge ? (
-                    <Badge className="border-primary/30 bg-primary/15 text-primary" variant="outline">
+                    <Badge className="border-sky-200 bg-sky-50 text-sky-700" variant="outline">
                       {program.badge}
                     </Badge>
                   ) : null}
                 </div>
 
-                <p className="mt-4 text-sm leading-relaxed text-white/68">{program.description}</p>
+                <p className="mt-4 text-sm leading-relaxed text-slate-600">{program.description}</p>
 
-                <div className="mt-5 flex items-center justify-between text-xs text-white/55">
+                <div className="mt-5 flex items-center justify-between text-xs text-slate-500">
                   <span>Sesuaikan materi</span>
-                  <span>{selected ? "Terpilih" : "Pilih"}</span>
+                  <span className={selected ? "font-semibold text-sky-700" : ""}>
+                    {selected ? "Terpilih" : "Pilih"}
+                  </span>
                 </div>
               </motion.div>
             </motion.button>
@@ -82,7 +84,7 @@ export function StepProgram({ value, error, onChange }: StepProgramProps) {
             animate={{ opacity: 1, height: "auto", y: 0 }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="rounded-xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-200"
+            className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600"
           >
             {error}
           </motion.p>

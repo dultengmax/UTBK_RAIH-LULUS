@@ -133,6 +133,20 @@ const itemVariants = {
   }
 };
 
+const paymentProgramMap: Record<string, string> = {
+  snbt: 'utbk',
+  stan: 'kedinasan',
+  cpns: 'cpns',
+  'all-access': 'all',
+};
+
+const getPaymentHref = (tierId: string) => {
+  const normalizedId = tierId.replace(/[^a-zA-Z0-9]/g, '').toUpperCase().padEnd(5, 'X').slice(0, 5);
+  const orderId = `TRY-2025-${normalizedId}`;
+  const program = paymentProgramMap[tierId] ?? 'all';
+  return `/payment/${orderId}?program=${program}`;
+};
+
 const DiscountBadge = ({ discount, color }: { discount: number; color: string }) => (
   <motion.div
     initial={{ rotate: -45, x: -50, y: -50, opacity: 0 }}
@@ -360,7 +374,7 @@ const PricingPage = () => {
                     {/* Button */}
                     <div className="px-6 pb-8">
                       <motion.a
-                        href="#"
+                        href={getPaymentHref(tier.id)}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className={`block w-full bg-gradient-to-r ${tier.gradient} text-white text-center font-semibold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden group/btn`}

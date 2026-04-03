@@ -73,7 +73,7 @@ export function StepJurusan({
 
   if (!program) {
     return (
-      <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 text-sm text-white/65">
+      <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-5 text-sm text-slate-500">
         Pilih program pada langkah sebelumnya untuk membuka daftar tujuan yang relevan.
       </div>
     )
@@ -87,8 +87,8 @@ export function StepJurusan({
     return (
       <div className="space-y-6">
         <div className="space-y-2">
-          <p className="text-sm font-medium text-white">{OVERSEAS_SEARCH_COPY.title}</p>
-          <p className="text-sm text-white/65">{OVERSEAS_SEARCH_COPY.description}</p>
+          <p className="text-sm font-medium text-slate-900">{OVERSEAS_SEARCH_COPY.title}</p>
+          <p className="text-sm text-slate-500">{OVERSEAS_SEARCH_COPY.description}</p>
         </div>
 
         <div className="flex flex-wrap gap-2">
@@ -105,8 +105,8 @@ export function StepJurusan({
                 className={cn(
                   "rounded-full border px-4 py-2 text-sm transition-colors",
                   isActive
-                    ? "border-primary/40 bg-primary/15 text-primary"
-                    : "border-white/10 bg-white/[0.03] text-white/65 hover:text-white",
+                    ? "border-sky-200 bg-sky-50 text-sky-700"
+                    : "border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-900",
                 )}
               >
                 {tab.label}
@@ -121,7 +121,7 @@ export function StepJurusan({
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder={OVERSEAS_SEARCH_COPY.searchPlaceholder}
-            className="w-full rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-white/35 focus:border-primary/50 focus:outline-none"
+            className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-400 focus:outline-none"
           />
         </label>
 
@@ -152,11 +152,11 @@ export function StepJurusan({
                 >
                   <motion.div
                     animate={{
-                      borderColor: isSelected ? "rgba(34,211,238,0.65)" : "rgba(255,255,255,0.08)",
-                      backgroundColor: isSelected ? "rgba(8,145,178,0.14)" : "rgba(255,255,255,0.03)",
+                      borderColor: isSelected ? "rgba(14,165,233,0.52)" : "rgba(203,213,225,0.9)",
+                      backgroundColor: isSelected ? "rgba(14,165,233,0.08)" : "rgba(255,255,255,0.92)",
                     }}
                     transition={{ duration: 0.18 }}
-                    className="h-full rounded-2xl border p-4"
+                    className="h-full rounded-2xl border p-4 shadow-sm"
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div>
@@ -164,12 +164,12 @@ export function StepJurusan({
                           <span className="text-lg" aria-hidden="true">
                             {itemData.flag}
                           </span>
-                          <p className="text-sm font-semibold text-white">{itemData.name}</p>
+                          <p className="text-sm font-semibold text-slate-900">{itemData.name}</p>
                         </div>
-                        <p className="mt-1 text-sm text-white/60">{itemData.country}</p>
+                        <p className="mt-1 text-sm text-slate-500">{itemData.country}</p>
                       </div>
 
-                      <div className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs font-medium text-white/70">
+                      <div className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-500">
                         QS #{itemData.qsRank}
                       </div>
                     </div>
@@ -178,7 +178,7 @@ export function StepJurusan({
                       {itemData.previewMajors.map((major) => (
                         <span
                           key={major}
-                          className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[11px] text-white/70"
+                          className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] text-slate-500"
                         >
                           {major}
                         </span>
@@ -190,8 +190,8 @@ export function StepJurusan({
             })}
           </motion.div>
         ) : (
-          <div className="rounded-2xl border border-dashed border-white/10 bg-white/[0.02] p-5 text-sm text-white/60">
-            <p className="font-medium text-white">{OVERSEAS_SEARCH_COPY.emptyTitle}</p>
+          <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-5 text-sm text-slate-500">
+            <p className="font-medium text-slate-900">{OVERSEAS_SEARCH_COPY.emptyTitle}</p>
             <p className="mt-2">{OVERSEAS_SEARCH_COPY.emptyDescription}</p>
           </div>
         )}
@@ -204,11 +204,11 @@ export function StepJurusan({
               animate={{ opacity: 1, height: "auto", y: 0 }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.24 }}
-              className="overflow-hidden rounded-2xl border border-primary/20 bg-primary/[0.08] p-4"
+              className="overflow-hidden rounded-2xl border border-sky-200 bg-sky-50/80 p-4"
             >
               <div className="space-y-2">
-                <p className="text-sm font-semibold text-white">{OVERSEAS_SEARCH_COPY.majorsTitle}</p>
-                <p className="text-sm text-white/65">{OVERSEAS_SEARCH_COPY.majorsDescription}</p>
+                <p className="text-sm font-semibold text-slate-900">{OVERSEAS_SEARCH_COPY.majorsTitle}</p>
+                <p className="text-sm text-slate-500">{OVERSEAS_SEARCH_COPY.majorsDescription}</p>
               </div>
 
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -226,14 +226,14 @@ export function StepJurusan({
                     >
                       <motion.div
                         animate={{
-                          borderColor: isSelected ? "rgba(34,211,238,0.65)" : "rgba(255,255,255,0.08)",
-                          backgroundColor: isSelected ? "rgba(34,211,238,0.12)" : "rgba(255,255,255,0.03)",
+                          borderColor: isSelected ? "rgba(14,165,233,0.52)" : "rgba(203,213,225,0.9)",
+                          backgroundColor: isSelected ? "rgba(14,165,233,0.08)" : "rgba(255,255,255,0.92)",
                         }}
                         transition={{ duration: 0.18 }}
                         className="rounded-2xl border p-4"
                       >
-                        <p className="text-sm font-semibold text-white">{major.label}</p>
-                        <p className="mt-2 text-sm leading-relaxed text-white/65">{major.focus}</p>
+                        <p className="text-sm font-semibold text-slate-900">{major.label}</p>
+                        <p className="mt-2 text-sm leading-relaxed text-slate-500">{major.focus}</p>
                       </motion.div>
                     </motion.button>
                   )
@@ -245,15 +245,15 @@ export function StepJurusan({
 
         <AnimatePresence>
           {error ? (
-            <motion.p
+          <motion.p
               initial={{ opacity: 0, height: 0, y: -4 }}
               animate={{ opacity: 1, height: "auto", y: 0 }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
-              className="rounded-xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-200"
-            >
-              {error}
-            </motion.p>
+              className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600"
+          >
+            {error}
+          </motion.p>
           ) : null}
         </AnimatePresence>
       </div>
@@ -282,8 +282,8 @@ export function StepJurusan({
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <p className="text-sm font-medium text-white">{fieldMeta.title}</p>
-        <p className="text-sm text-white/65">{fieldMeta.description}</p>
+        <p className="text-sm font-medium text-slate-900">{fieldMeta.title}</p>
+        <p className="text-sm text-slate-500">{fieldMeta.description}</p>
       </div>
 
       <label className="block">
@@ -292,7 +292,7 @@ export function StepJurusan({
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder={fieldMeta.searchPlaceholder}
-          className="w-full rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-white/35 focus:border-primary/50 focus:outline-none"
+          className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-400 focus:outline-none"
         />
       </label>
 
@@ -302,11 +302,11 @@ export function StepJurusan({
             <motion.div
               key={section.id}
               variants={item}
-              className="rounded-2xl border border-white/10 bg-white/[0.02] p-4"
+              className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4"
             >
               <div className="mb-4 space-y-1">
-                <p className="text-sm font-semibold text-white">{section.label}</p>
-                <p className="text-sm text-white/60">{section.description}</p>
+                <p className="text-sm font-semibold text-slate-900">{section.label}</p>
+                <p className="text-sm text-slate-500">{section.description}</p>
               </div>
 
               <div className="grid gap-3 sm:grid-cols-2">
@@ -324,17 +324,17 @@ export function StepJurusan({
                     >
                       <motion.div
                         animate={{
-                          borderColor: isSelected ? "rgba(34,211,238,0.65)" : "rgba(255,255,255,0.08)",
-                          backgroundColor: isSelected ? "rgba(8,145,178,0.14)" : "rgba(255,255,255,0.03)",
+                          borderColor: isSelected ? "rgba(14,165,233,0.52)" : "rgba(203,213,225,0.9)",
+                          backgroundColor: isSelected ? "rgba(14,165,233,0.08)" : "rgba(255,255,255,0.92)",
                         }}
                         transition={{ duration: 0.18 }}
                         className="rounded-2xl border p-4"
                       >
-                        <p className="text-sm font-semibold text-white">{itemData.label}</p>
-                        <p className="mt-2 text-sm leading-relaxed text-white/65">
+                        <p className="text-sm font-semibold text-slate-900">{itemData.label}</p>
+                        <p className="mt-2 text-sm leading-relaxed text-slate-500">
                           {itemData.description}
                         </p>
-                        <p className="mt-3 text-xs text-white/45">{itemData.hint}</p>
+                        <p className="mt-3 text-xs text-slate-400">{itemData.hint}</p>
                       </motion.div>
                     </motion.button>
                   )
@@ -344,8 +344,8 @@ export function StepJurusan({
           ))}
         </motion.div>
       ) : (
-        <div className="rounded-2xl border border-dashed border-white/10 bg-white/[0.02] p-5 text-sm text-white/60">
-          <p className="font-medium text-white">{fieldMeta.emptyTitle}</p>
+        <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-5 text-sm text-slate-500">
+          <p className="font-medium text-slate-900">{fieldMeta.emptyTitle}</p>
           <p className="mt-2">{fieldMeta.emptyDescription}</p>
         </div>
       )}
@@ -357,7 +357,7 @@ export function StepJurusan({
             animate={{ opacity: 1, height: "auto", y: 0 }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="rounded-xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-200"
+            className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600"
           >
             {error}
           </motion.p>

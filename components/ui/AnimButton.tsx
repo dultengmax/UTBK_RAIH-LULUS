@@ -15,12 +15,12 @@ interface AnimButtonProps extends Omit<HTMLMotionProps<"button">, "ref"> {
 
 const variantClasses: Record<AnimButtonVariant, string> = {
   primary:
-    "bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90",
+    "bg-linear-to-r from-sky-500 to-cyan-500 text-white shadow-lg shadow-sky-500/20 hover:from-sky-500/95 hover:to-cyan-500/95",
   secondary:
-    "bg-white/10 text-white hover:bg-white/14 border border-white/10",
+    "border border-slate-200 bg-white text-slate-700 shadow-sm hover:bg-slate-50",
   outline:
-    "border border-white/12 bg-white/[0.03] text-white hover:bg-white/[0.07]",
-  ghost: "bg-transparent text-white/80 hover:bg-white/[0.06] hover:text-white",
+    "border border-slate-200 bg-slate-50/80 text-slate-700 hover:bg-slate-100",
+  ghost: "bg-transparent text-slate-500 hover:bg-slate-100 hover:text-slate-900",
 }
 
 export function AnimButton({

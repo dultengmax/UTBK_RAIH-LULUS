@@ -5,6 +5,7 @@ import Link from "next/link"
 import { AnimatePresence, motion } from "motion/react"
 
 import { BrandLogo } from "@/components/brand-logo"
+import { LearningCurveCard } from "@/components/register/LearningCurveCard"
 import { ProgressBar } from "@/components/register/ProgressBar"
 import { StepAkun } from "@/components/register/StepAkun"
 import { StepJurusan } from "@/components/register/StepJurusan"
@@ -23,6 +24,7 @@ import {
   REGISTER_STEP_META,
   UNIVERSITIES,
 } from "@/data/registerData"
+import { REGISTER_EXPERIENCE_COPY, REGISTER_TRUST_CHIPS } from "@/data/registerExperience"
 import { useRegisterForm } from "@/hooks/useRegisterForm"
 import { BRAND } from "@/lib/brand"
 import type { AccountFieldId, ProgramId, RegisterData } from "@/types/register"
@@ -275,34 +277,37 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="dark min-h-screen overflow-hidden bg-[#0a192f] font-sans">
-      <div className="absolute left-[-12%] top-[-12%] size-[24rem] rounded-full bg-sky-600/10 blur-[120px]" />
-      <div className="absolute bottom-[-12%] right-[-10%] size-[28rem] rounded-full bg-indigo-600/10 blur-[140px]" />
+    <div className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(186,230,253,0.55),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(167,243,208,0.45),transparent_25%),linear-gradient(180deg,#f8fbff_0%,#eef6ff_44%,#f8fbff_100%)] font-sans text-slate-900">
+      <div className="absolute left-[-8%] top-[-10%] size-112 rounded-full bg-sky-300/40 blur-[140px]" />
+      <div className="absolute right-[-8%] bottom-[-10%] size-[30rem] rounded-full bg-emerald-200/40 blur-[160px]" />
 
-      <div className="relative flex min-h-screen items-center justify-center p-0 lg:p-6">
+      <div className="relative flex min-h-screen items-center justify-center p-0 sm:p-4 lg:p-6">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
-          className="grid min-h-screen w-full max-w-7xl overflow-hidden border border-white/10 bg-white/5 shadow-2xl backdrop-blur-xl lg:min-h-[780px] lg:rounded-[2.5rem] xl:grid-cols-[1.02fr_1.18fr]"
+          className="grid min-h-screen w-full max-w-7xl overflow-hidden border border-white/80 bg-white/[0.78] shadow-[0_30px_120px_rgba(15,23,42,0.12)] backdrop-blur-xl lg:min-h-195 lg:rounded-[2.5rem] xl:grid-cols-[0.96fr_1.04fr]"
         >
-          <aside className="relative hidden overflow-hidden border-r border-white/6 p-10 xl:flex xl:flex-col xl:justify-between">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.16),transparent_42%),radial-gradient(circle_at_bottom_right,rgba(99,102,241,0.16),transparent_42%)]" />
+          <aside className="relative hidden overflow-hidden border-r border-sky-100/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.92)_0%,rgba(240,249,255,0.94)_56%,rgba(236,253,245,0.9)_100%)] p-8 lg:flex lg:flex-col lg:justify-between xl:p-10">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.18),transparent_42%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.14),transparent_38%)]" />
             <div className="relative z-10">
               <BrandLogo
-                theme="light"
+                theme="dark"
                 subtitle={REGISTER_PAGE_COPY.heroSubtitle}
-                titleClassName="text-white"
-                subtitleClassName="text-white/70"
-                logoWrapperClassName="border-white/10"
+                titleClassName="text-slate-950"
+                subtitleClassName="text-slate-500"
+                logoWrapperClassName="border-white/90 shadow-sm"
               />
 
-              <div className="mt-14 space-y-6">
+              <div className="mt-10 space-y-6">
                 <div className="space-y-4">
-                  <h1 className="max-w-lg text-4xl font-bold leading-tight text-white">
+                  <span className="inline-flex rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-700">
+                    {REGISTER_EXPERIENCE_COPY.eyebrow}
+                  </span>
+                  <h1 className="max-w-lg text-4xl font-bold leading-tight text-slate-950">
                     {REGISTER_PAGE_COPY.heroTitle}
                   </h1>
-                  <p className="max-w-md text-base leading-relaxed text-white/68">
+                  <p className="max-w-md text-base leading-relaxed text-slate-600">
                     {REGISTER_PAGE_COPY.heroDescription}
                   </p>
                 </div>
@@ -311,64 +316,103 @@ export default function RegisterPage() {
                   {REGISTER_HIGHLIGHTS.map((highlight) => (
                     <div
                       key={highlight.label}
-                      className="rounded-2xl border border-white/8 bg-white/[0.04] p-4"
+                      className="rounded-2xl border border-white/80 bg-white/75 p-4 shadow-sm"
                     >
                       <div className="flex items-center justify-between gap-3">
-                        <p className="text-sm font-semibold text-white">{highlight.label}</p>
-                        <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
+                        <p className="text-sm font-semibold text-slate-900">{highlight.label}</p>
+                        <span className="rounded-full border border-sky-200 bg-sky-50 px-2.5 py-1 text-xs font-semibold text-sky-700">
                           {highlight.value}
                         </span>
                       </div>
-                      <p className="mt-3 text-sm leading-relaxed text-white/62">
+                      <p className="mt-3 text-sm leading-relaxed text-slate-500">
                         {highlight.description}
                       </p>
                     </div>
                   ))}
                 </div>
+
+                <LearningCurveCard />
               </div>
             </div>
 
-            <div className="relative z-10 space-y-4 rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-6">
+            <div className="relative z-10 space-y-4 rounded-[1.75rem] border border-white/[0.85] bg-white/[0.78] p-6 shadow-sm">
               <div>
-                <p className="text-sm font-semibold text-white">{REGISTER_PAGE_COPY.sideCardTitle}</p>
-                <p className="mt-2 text-sm leading-relaxed text-white/62">
+                <p className="text-sm font-semibold text-slate-900">{REGISTER_PAGE_COPY.sideCardTitle}</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-500">
                   {REGISTER_PAGE_COPY.sideCardDescription}
                 </p>
               </div>
 
-              <div className="space-y-3 border-t border-white/8 pt-4">
+              <div className="space-y-3 border-t border-slate-200/80 pt-4">
                 {selectionDetails.map((detail) => (
                   <div key={detail.label} className="flex items-center justify-between gap-4">
-                    <span className="text-xs uppercase tracking-[0.2em] text-white/38">{detail.label}</span>
-                    <span className="text-sm font-medium text-white/82">{detail.value}</span>
+                    <span className="text-xs uppercase tracking-[0.2em] text-slate-400">{detail.label}</span>
+                    <span className="text-right text-sm font-medium text-slate-700">{detail.value}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="rounded-2xl border border-white/8 bg-white/[0.03] p-4 text-sm italic leading-relaxed text-white/70">
+              <div className="rounded-2xl border border-sky-100 bg-sky-50/70 p-4 text-sm italic leading-relaxed text-slate-600">
                 {REGISTER_PAGE_COPY.testimonial}
-                <p className="mt-3 text-xs not-italic uppercase tracking-[0.2em] text-white/38">
+                <p className="mt-3 text-xs not-italic uppercase tracking-[0.2em] text-slate-400">
                   {REGISTER_PAGE_COPY.testimonialAuthor}
                 </p>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {REGISTER_TRUST_CHIPS.map((chip) => (
+                  <span
+                    key={chip}
+                    className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-medium text-emerald-700"
+                  >
+                    {chip}
+                  </span>
+                ))}
               </div>
             </div>
           </aside>
 
-          <section className="flex min-h-screen flex-col bg-[#0d1e36]/90 px-6 py-8 sm:px-8 lg:px-10 lg:py-10 xl:min-h-0 xl:bg-transparent">
+          <section className="flex min-h-screen flex-col bg-white/70 px-5 py-7 sm:px-8 lg:px-10 lg:py-10 xl:min-h-0">
             <div className="mb-8 flex items-center justify-between gap-4 xl:hidden">
               <BrandLogo
-                theme="light"
+                theme="dark"
                 subtitle={REGISTER_PAGE_COPY.mobileSubtitle}
-                titleClassName="text-white"
-                subtitleClassName="text-white/70"
-                logoWrapperClassName="border-white/10"
+                titleClassName="text-slate-950"
+                subtitleClassName="text-slate-500"
+                logoWrapperClassName="border-white/90 shadow-sm"
               />
               <Link
                 href="/login"
-                className="text-sm font-semibold text-primary transition-colors hover:text-primary/80"
+                className="text-sm font-semibold text-sky-700 transition-colors hover:text-sky-600"
               >
                 {ACTION_LABELS.signIn}
               </Link>
+            </div>
+
+            <div className="mb-6 space-y-4 lg:hidden">
+              <div className="rounded-[1.75rem] border border-white/[0.85] bg-white/80 p-5 shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-sky-700">
+                  {REGISTER_EXPERIENCE_COPY.eyebrow}
+                </p>
+                <h1 className="mt-3 text-2xl font-bold leading-tight text-slate-950">
+                  {REGISTER_EXPERIENCE_COPY.mobileTitle}
+                </h1>
+                <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                  {REGISTER_EXPERIENCE_COPY.description}
+                </p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {REGISTER_TRUST_CHIPS.map((chip) => (
+                    <span
+                      key={chip}
+                      className="rounded-full border border-sky-100 bg-sky-50 px-3 py-1 text-[11px] font-medium text-sky-700"
+                    >
+                      {chip}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <LearningCurveCard compact />
             </div>
 
             <div className="mb-8">
@@ -376,16 +420,16 @@ export default function RegisterPage() {
             </div>
 
             <div className="mb-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/38">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
                 Step {step + 1} / {REGISTER_STEP_META.length}
               </p>
-              <h2 className="mt-3 text-3xl font-bold text-white">{activeStep.title}</h2>
-              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/62">
+              <h2 className="mt-3 text-3xl font-bold text-slate-950">{activeStep.title}</h2>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600">
                 {activeStep.description}
               </p>
             </div>
 
-            <div className="flex-1">
+            <div className="flex-1 rounded-[1.9rem] border border-slate-200/80 bg-white/82 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] sm:p-5 lg:p-6">
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
                   key={step}
@@ -402,12 +446,12 @@ export default function RegisterPage() {
               </AnimatePresence>
             </div>
 
-            <div className="mt-8 flex flex-col gap-4 border-t border-white/8 pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mt-8 flex flex-col gap-4 border-t border-slate-200/80 pt-6 sm:flex-row sm:items-center sm:justify-between">
               <div className="space-y-2">
-                <p className="text-sm text-white/55">{REGISTER_PAGE_COPY.footerDescription}</p>
-                <p className="text-xs text-white/35">
+                <p className="text-sm text-slate-600">{REGISTER_PAGE_COPY.footerDescription}</p>
+                <p className="text-xs text-slate-400">
                   Sudah punya akun?{" "}
-                  <Link href="/login" className="font-semibold text-primary hover:text-primary/80">
+                  <Link href="/login" className="font-semibold text-sky-700 hover:text-sky-600">
                     {ACTION_LABELS.signIn}
                   </Link>
                 </p>
@@ -432,7 +476,7 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <p className="mt-6 text-xs text-white/28">
+            <p className="mt-6 text-xs text-slate-400">
               {BRAND.displayName} membantu pengguna baru langsung masuk ke alur belajar yang lebih terarah.
             </p>
           </section>

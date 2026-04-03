@@ -120,6 +120,18 @@ export interface HighlightStat {
   description: string
 }
 
+export interface LearningCurvePoint {
+  label: string
+  score: number
+  accent: string
+}
+
+export interface LearningCurveStat {
+  label: string
+  value: string
+  description: string
+}
+
 export interface PasswordRule {
   id: string
   label: string

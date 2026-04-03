@@ -1,24 +1,24 @@
 "use client"
 
-import { motion } from "motion/react";
-import { ArrowRight, Facebook, Instagram, Mail, MapPin, Phone, Twitter, Youtube } from "lucide-react";
+import { motion } from "motion/react"
+import { ArrowRight, Facebook, Instagram, Mail, MapPin, Phone, Twitter, Youtube } from "lucide-react"
 
-import { BrandLogo } from '@/components/brand-logo';
-import { BRAND } from '@/lib/brand';
+import { BrandLogo } from "@/components/brand-logo"
+import { BRAND } from "@/lib/brand"
 
 const quickLinks = [
-  { label: 'Beranda', href: '/' },
-  { label: 'Paket Belajar', href: '/pricing' },
-  { label: 'Dashboard Siswa', href: '/profile' },
-  { label: 'Login', href: '/login' },
-];
+  { label: "Beranda", href: "/" },
+  { label: "Paket Belajar", href: "/pricing" },
+  { label: "Dashboard Siswa", href: "/profile" },
+  { label: "Login", href: "/login" },
+]
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="relative overflow-hidden border-t border-white/5 bg-[#050c1a] pb-10 pt-20">
-      <div className="absolute right-0 top-0 h-75 w-75 rounded-full bg-blue-600/5 blur-[100px]" />
+    <footer className="relative overflow-hidden border-t border-white/5 bg-[#050c1a] pt-20 pb-10">
+      <div className="absolute top-0 right-0 h-75 w-75 rounded-full bg-blue-600/5 blur-[100px]" />
 
       <div className="container relative z-10 mx-auto px-6">
         <div className="mb-16 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
@@ -50,7 +50,10 @@ const Footer = () => {
             <ul className="space-y-4">
               {quickLinks.map((item) => (
                 <li key={item.href}>
-                  <a href={item.href} className="group inline-flex items-center text-gray-400 transition-all hover:translate-x-2 hover:text-blue-400">
+                  <a
+                    href={item.href}
+                    className="group inline-flex items-center text-gray-400 transition-all hover:translate-x-2 hover:text-blue-400"
+                  >
                     <ArrowRight size={14} className="mr-2 opacity-0 transition-all group-hover:opacity-100" />
                     {item.label}
                   </a>
@@ -79,14 +82,16 @@ const Footer = () => {
 
           <div>
             <h3 className="mb-6 text-lg font-bold text-white">Update Terbaru</h3>
-            <p className="mb-4 text-sm text-gray-400">Dapatkan info tryout terbaru, promo paket, dan tips belajar langsung di emailmu.</p>
+            <p className="mb-4 text-sm text-gray-400">
+              Dapatkan info tryout terbaru, promo paket, dan tips belajar langsung di emailmu.
+            </p>
             <div className="relative">
               <input
                 type="email"
                 placeholder="Email kamu..."
                 className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white transition-all focus:border-blue-500 focus:outline-none"
               />
-              <button className="absolute bottom-2 right-2 top-2 rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white transition-all hover:bg-blue-500">
+              <button className="absolute top-2 right-2 bottom-2 rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white transition-all hover:bg-blue-500">
                 Gabung
               </button>
             </div>
@@ -94,15 +99,21 @@ const Footer = () => {
         </div>
 
         <div className="flex flex-col items-center justify-between space-y-4 border-t border-white/5 pt-8 text-sm text-gray-500 md:flex-row md:space-y-0">
-          <p>&copy; {currentYear} {BRAND.displayName}. Seluruh hak cipta dilindungi undang-undang.</p>
+          <p>
+            &copy; {currentYear} {BRAND.displayName}. Seluruh hak cipta dilindungi undang-undang.
+          </p>
           <div className="flex space-x-8">
-            <a href="/pricing" className="transition-colors hover:text-white">Paket Belajar</a>
-            <a href="/login" className="transition-colors hover:text-white">Masuk</a>
+            <a href="/pricing" className="transition-colors hover:text-white">
+              Paket Belajar
+            </a>
+            <a href="/login" className="transition-colors hover:text-white">
+              Masuk
+            </a>
           </div>
         </div>
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

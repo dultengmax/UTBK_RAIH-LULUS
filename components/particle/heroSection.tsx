@@ -2,6 +2,7 @@
 
 import { useEffect } from "react"
 import { motion, useAnimate, useReducedMotion } from "motion/react"
+import RotatingText from "../RotatingText"
 
 const floatingClouds = [
   {
@@ -129,14 +130,24 @@ const HeroSection = () => {
             </span>
           </motion.div>
 
+<RotatingText
+  texts={['Lolos PTN Impian', 'Lolos di kedinasan', 'Lolos seleksi BUMN']}
+  mainClassName="px-2 sm:px-2 md:px-3  text-white overflow-hidden py-0.5 sm:py-1  text-5xl lg:text-7xl font-bold"
+  staggerFrom={"last"}
+  initial={{ y: "100%" }}
+  animate={{ y: 0 }}
+  exit={{ y: "-120%" }}
+  staggerDuration={0.025}
+  splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
+  transition={{ type: "spring", damping: 30, stiffness: 400 }}
+  rotationInterval={6000}
+/>
+          <p className="mb-10 max-w-lg text-lg leading-relaxed text-gray-400">
           <h1 className="mb-6 text-5xl font-bold leading-[1.1] text-white lg:text-7xl">
-            Lolos PTN Impian <br />
             <span className="bg-linear-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
               Mulai Dari Sini.
             </span>
           </h1>
-
-          <p className="mb-10 max-w-lg text-lg leading-relaxed text-gray-400">
             Simulasi ujian dengan sistem penilaian IRT yang akurat, pembahasan mendalam, dan
             pemetaan peluang masuk jurusan favoritmu secara real-time.
           </p>

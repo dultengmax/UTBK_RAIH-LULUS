@@ -1,23 +1,18 @@
 'use client'
 
-import { useState } from 'react'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Button } from '@/components/ui/button'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import { Input } from '@/components/ui/input'
-import { Card } from '@/components/ui/card'
-import { RichTextEditor } from './rich-text-editor'
-import { Badge } from '@/components/ui/badge'
+import { useMemo, useState } from 'react'
 import { Loader2, Plus, X } from 'lucide-react'
-import { SUBTEST_CATALOG } from '@/lib/exam-package-catalog'
 
-const CATEGORIES = SUBTEST_CATALOG.map((subtest) => subtest.name)
+import { QUESTION_PACKAGE_OPTIONS } from '@/data/question-management'
+import { PROGRAM_CATALOG, SUBTEST_BY_ID } from '@/lib/exam-package-catalog'
+import type { ProgramId, SubtestCode } from '@/types/exam-package'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { RichTextEditor } from './rich-text-editor'
 
 const DIFFICULTY_LEVELS = [
   { label: 'Mudah', value: 'easy' },
@@ -26,7 +21,9 @@ const DIFFICULTY_LEVELS = [
 ]
 
 interface QuestionFormData {
-  category: string
+  programId: ProgramId | ''
+  packageId: string
+  subtestId: SubtestCode | ''
   difficulty: string
   question: string
   options: string[]
@@ -37,20 +34,42 @@ interface QuestionFormData {
   currentTag: string
 }
 
+const createInitialForm = (): QuestionFormData => ({
+  programId: '',
+  packageId: '',
+  subtestId: '',
+  difficulty: '',
+  question: '',
+  options: ['', '', '', '', ''],
+  correctAnswer: '',
+  explanation: '',
+  timeLimit: '60',
+  tags: [],
+  currentTag: '',
+})
+
 export function QuestionForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
-  const [formData, setFormData] = useState<QuestionFormData>({
-    category: '',
-    difficulty: '',
-    question: '',
-    options: ['', '', '', '', ''],
-    correctAnswer: '',
-    explanation: '',
-    timeLimit: '60',
-    tags: [],
-    currentTag: '',
-  })
+  const [formData, setFormData] = useState<QuestionFormData>(createInitialForm())
+
+  const availablePackages = useMemo(
+    () => QUESTION_PACKAGE_OPTIONS.filter((pkg) => pkg.programId === formData.programId),
+    [formData.programId],
+  )
+
+  const selectedPackage = useMemo(
+    () => availablePackages.find((pkg) => pkg.id === formData.packageId) ?? null,
+    [availablePackages, formData.packageId],
+  )
+
+  const availableSubtests = useMemo(() => {
+    if (!selectedPackage) return []
+    return selectedPackage.subtestIds.map((subtestId) => SUBTEST_BY_ID[subtestId])
+  }, [selectedPackage])
+
+  const safeTimeLimit = Number.parseInt(formData.timeLimit, 10)
+  const timeLimitValue = Number.isNaN(safeTimeLimit) ? 0 : safeTimeLimit
 
   const updateOption = (index: number, value: string) => {
     const newOptions = [...formData.options]
@@ -59,10 +78,11 @@ export function QuestionForm() {
   }
 
   const addTag = () => {
-    if (formData.currentTag.trim() && !formData.tags.includes(formData.currentTag)) {
+    const nextTag = formData.currentTag.trim()
+    if (nextTag && !formData.tags.includes(nextTag)) {
       setFormData({
         ...formData,
-        tags: [...formData.tags, formData.currentTag],
+        tags: [...formData.tags, nextTag],
         currentTag: '',
       })
     }
@@ -71,16 +91,38 @@ export function QuestionForm() {
   const removeTag = (tag: string) => {
     setFormData({
       ...formData,
-      tags: formData.tags.filter(t => t !== tag),
+      tags: formData.tags.filter((item) => item !== tag),
     })
   }
 
+  const setProgram = (value: ProgramId) => {
+    setFormData((previous) => ({
+      ...previous,
+      programId: value,
+      packageId: '',
+      subtestId: '',
+    }))
+  }
+
+  const setPackage = (value: string) => {
+    const packageData = QUESTION_PACKAGE_OPTIONS.find((pkg) => pkg.id === value)
+    setFormData((previous) => ({
+      ...previous,
+      packageId: value,
+      subtestId: packageData?.subtestIds[0] ?? '',
+    }))
+  }
+
   const handleSaveDraft = async () => {
+    if (!formData.programId || !formData.packageId || !formData.subtestId) {
+      alert('Pilih program, paket, dan subtest terlebih dahulu.')
+      return
+    }
+
     setIsLoading(true)
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      setSuccessMessage('Draft tersimpan berhasil!')
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      setSuccessMessage('Draft soal tersimpan pada flow Program - Paket - Subtest.')
       setTimeout(() => setSuccessMessage(''), 3000)
     } finally {
       setIsLoading(false)
@@ -88,31 +130,29 @@ export function QuestionForm() {
   }
 
   const handlePublish = async () => {
-    if (!formData.category || !formData.difficulty || !formData.question) {
-      alert('Harap lengkapi semua bidang yang diperlukan')
+    const hasEmptyOption = formData.options.some((option) => !option.trim())
+
+    if (
+      !formData.programId ||
+      !formData.packageId ||
+      !formData.subtestId ||
+      !formData.difficulty ||
+      !formData.question ||
+      !formData.correctAnswer ||
+      hasEmptyOption
+    ) {
+      alert('Harap lengkapi semua bidang yang diperlukan.')
       return
     }
 
     setIsLoading(true)
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      setSuccessMessage('Soal berhasil dipublikasikan!')
+      await new Promise((resolve) => setTimeout(resolve, 1500))
+      setSuccessMessage('Soal berhasil dipublikasikan pada program yang dipilih.')
       setTimeout(() => {
         setSuccessMessage('')
-        // Reset form
-        setFormData({
-          category: '',
-          difficulty: '',
-          question: '',
-          options: ['', '', '', '', ''],
-          correctAnswer: '',
-          explanation: '',
-          timeLimit: '60',
-          tags: [],
-          currentTag: '',
-        })
-      }, 2000)
+        setFormData(createInitialForm())
+      }, 1800)
     } finally {
       setIsLoading(false)
     }
@@ -120,43 +160,38 @@ export function QuestionForm() {
 
   const handleResetForm = () => {
     if (confirm('Apakah Anda yakin ingin mengosongkan form ini?')) {
-      setFormData({
-        category: '',
-        difficulty: '',
-        question: '',
-        options: ['', '', '', '', ''],
-        correctAnswer: '',
-        explanation: '',
-        timeLimit: '60',
-        tags: [],
-        currentTag: '',
-      })
+      setFormData(createInitialForm())
     }
   }
 
   return (
     <div className="space-y-6">
-      {/* Success Message */}
       {successMessage && (
-        <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg animate-in fade-in">
-          ✓ {successMessage}
+        <div className="animate-in fade-in rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-green-800">
+          {successMessage}
         </div>
       )}
 
-      {/* Category and Difficulty */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <Card className="border-border bg-secondary/20 p-4">
+        <p className="text-sm font-semibold text-foreground">Flow Input Soal</p>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Pilih urutan berikut: Program - Paket - Subtest, lalu isi detail soal.
+        </p>
+      </Card>
+
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         <div className="space-y-2">
           <label className="block text-sm font-medium text-foreground">
-            Pilih Kategori / Subtes <span className="text-destructive">*</span>
+            Program <span className="text-destructive">*</span>
           </label>
-          <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
+          <Select value={formData.programId || undefined} onValueChange={(value) => setProgram(value as ProgramId)}>
             <SelectTrigger className="bg-card">
-              <SelectValue placeholder="Pilih kategori soal" />
+              <SelectValue placeholder="Pilih program" />
             </SelectTrigger>
             <SelectContent>
-              {CATEGORIES.map((cat) => (
-                <SelectItem key={cat} value={cat}>
-                  {cat}
+              {PROGRAM_CATALOG.map((program) => (
+                <SelectItem key={program.id} value={program.id}>
+                  {program.name}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -165,48 +200,86 @@ export function QuestionForm() {
 
         <div className="space-y-2">
           <label className="block text-sm font-medium text-foreground">
-            Pilih Tingkat Kesulitan <span className="text-destructive">*</span>
+            Paket <span className="text-destructive">*</span>
           </label>
-          <RadioGroup value={formData.difficulty} onValueChange={(value) => setFormData({ ...formData, difficulty: value })}>
-            <div className="flex gap-6">
-              {DIFFICULTY_LEVELS.map((level) => (
-                <div key={level.value} className="flex items-center space-x-2">
-                  <RadioGroupItem value={level.value} id={level.value} />
-                  <label htmlFor={level.value} className="text-sm cursor-pointer text-foreground">
-                    {level.label}
-                  </label>
-                </div>
+          <Select
+            value={formData.packageId || undefined}
+            onValueChange={setPackage}
+            disabled={!formData.programId || availablePackages.length === 0}
+          >
+            <SelectTrigger className="bg-card">
+              <SelectValue placeholder="Pilih paket" />
+            </SelectTrigger>
+            <SelectContent>
+              {availablePackages.map((pkg) => (
+                <SelectItem key={pkg.id} value={pkg.id}>
+                  {pkg.code} - {pkg.title}
+                </SelectItem>
               ))}
-            </div>
-          </RadioGroup>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-foreground">
+            Subtest <span className="text-destructive">*</span>
+          </label>
+          <Select
+            value={formData.subtestId || undefined}
+            onValueChange={(value) => setFormData({ ...formData, subtestId: value as SubtestCode })}
+            disabled={!selectedPackage}
+          >
+            <SelectTrigger className="bg-card">
+              <SelectValue placeholder="Pilih subtest" />
+            </SelectTrigger>
+            <SelectContent>
+              {availableSubtests.map((subtest) => (
+                <SelectItem key={subtest.id} value={subtest.id}>
+                  {subtest.code} - {subtest.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
-      {/* Question Text */}
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-foreground">
+          Tingkat Kesulitan <span className="text-destructive">*</span>
+        </label>
+        <RadioGroup value={formData.difficulty} onValueChange={(value) => setFormData({ ...formData, difficulty: value })}>
+          <div className="flex gap-6">
+            {DIFFICULTY_LEVELS.map((level) => (
+              <div key={level.value} className="flex items-center space-x-2">
+                <RadioGroupItem value={level.value} id={level.value} />
+                <label htmlFor={level.value} className="cursor-pointer text-sm text-foreground">
+                  {level.label}
+                </label>
+              </div>
+            ))}
+          </div>
+        </RadioGroup>
+      </div>
+
       <RichTextEditor
         label="Soal"
         value={formData.question}
         onChange={(value) => setFormData({ ...formData, question: value })}
-        placeholder="Tuliskan soal di sini. Gunakan toolbar untuk format teks, menambahkan gambar, atau rumus matematika..."
+        placeholder="Tuliskan soal di sini. Gunakan toolbar untuk format teks, gambar, atau rumus matematika..."
       />
 
-      {/* Answer Options */}
-      <Card className="p-6 bg-card border-border">
-        <h3 className="text-lg font-semibold text-foreground mb-6">Opsi Jawaban</h3>
+      <Card className="border-border bg-card p-6">
+        <h3 className="mb-6 text-lg font-semibold text-foreground">Opsi Jawaban</h3>
 
         <RadioGroup value={formData.correctAnswer} onValueChange={(value) => setFormData({ ...formData, correctAnswer: value })}>
           <div className="space-y-4">
             {formData.options.map((option, index) => {
-              const optionLabel = String.fromCharCode(65 + index) // A, B, C, D, E
+              const optionLabel = String.fromCharCode(65 + index)
               return (
-                <div key={index} className="space-y-2">
+                <div key={optionLabel} className="space-y-2">
                   <div className="flex items-center gap-3">
-                    <RadioGroupItem
-                      value={optionLabel}
-                      id={`answer-${index}`}
-                      className="cursor-pointer"
-                    />
-                    <label htmlFor={`answer-${index}`} className="font-medium text-foreground cursor-pointer">
+                    <RadioGroupItem value={optionLabel} id={`answer-${index}`} className="cursor-pointer" />
+                    <label htmlFor={`answer-${index}`} className="cursor-pointer font-medium text-foreground">
                       {optionLabel}
                     </label>
                   </div>
@@ -214,7 +287,7 @@ export function QuestionForm() {
                     value={option}
                     onChange={(e) => updateOption(index, e.target.value)}
                     placeholder={`Masukkan opsi jawaban ${optionLabel}...`}
-                    className="ml-7 bg-background border-border text-foreground"
+                    className="ml-7 border-border bg-background text-foreground"
                   />
                 </div>
               )
@@ -223,7 +296,7 @@ export function QuestionForm() {
         </RadioGroup>
 
         {formData.correctAnswer && (
-          <div className="mt-6 pt-4 border-t border-border">
+          <div className="mt-6 border-t border-border pt-4">
             <p className="text-sm text-muted-foreground">
               Kunci Jawaban: <span className="font-bold text-primary">{formData.correctAnswer}</span>
             </p>
@@ -231,16 +304,14 @@ export function QuestionForm() {
         )}
       </Card>
 
-      {/* Explanation */}
       <RichTextEditor
         label="Pembahasan"
         value={formData.explanation}
         onChange={(value) => setFormData({ ...formData, explanation: value })}
-        placeholder="Jelaskan jawaban yang benar dan berikan pembahasan mendalam untuk membantu pemelajar..."
+        placeholder="Jelaskan jawaban yang benar dan berikan pembahasan yang terstruktur..."
         minHeight="min-h-40"
       />
 
-      {/* Time Limit */}
       <div className="space-y-2">
         <label htmlFor="timeLimit" className="block text-sm font-medium text-foreground">
           Batas Waktu per Soal (detik)
@@ -253,29 +324,31 @@ export function QuestionForm() {
             max="300"
             value={formData.timeLimit}
             onChange={(e) => setFormData({ ...formData, timeLimit: e.target.value })}
-            className="max-w-32 bg-card border-border text-foreground"
+            className="max-w-32 border-border bg-card text-foreground"
           />
           <span className="text-sm text-muted-foreground">
-            ({Math.floor(parseInt(formData.timeLimit) / 60)}m {parseInt(formData.timeLimit) % 60}s)
+            ({Math.floor(timeLimitValue / 60)}m {timeLimitValue % 60}s)
           </span>
         </div>
       </div>
 
-      {/* Tags */}
       <div className="space-y-3">
-        <label className="block text-sm font-medium text-foreground">
-          Tag / Keyword
-        </label>
+        <label className="block text-sm font-medium text-foreground">Tag / Keyword</label>
         <div className="flex gap-2">
           <Input
             value={formData.currentTag}
             onChange={(e) => setFormData({ ...formData, currentTag: e.target.value })}
-            onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault()
+                addTag()
+              }
+            }}
             placeholder="Masukkan tag dan tekan Enter..."
-            className="bg-card border-border text-foreground flex-1"
+            className="flex-1 border-border bg-card text-foreground"
           />
           <Button onClick={addTag} variant="outline" className="gap-2 bg-transparent">
-            <Plus className="w-4 h-4" />
+            <Plus className="h-4 w-4" />
             <span className="hidden sm:inline">Tambah</span>
           </Button>
         </div>
@@ -285,11 +358,8 @@ export function QuestionForm() {
             {formData.tags.map((tag) => (
               <Badge key={tag} variant="secondary" className="gap-2 pl-3">
                 {tag}
-                <button
-                  onClick={() => removeTag(tag)}
-                  className="ml-1 hover:text-foreground"
-                >
-                  <X className="w-3 h-3" />
+                <button onClick={() => removeTag(tag)} className="ml-1 hover:text-foreground">
+                  <X className="h-3 w-3" />
                 </button>
               </Badge>
             ))}
@@ -297,30 +367,16 @@ export function QuestionForm() {
         )}
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t border-border">
-        <Button
-          onClick={handleResetForm}
-          variant="outline"
-          className="flex-1 bg-transparent"
-        >
+      <div className="flex flex-col gap-3 border-t border-border pt-6 sm:flex-row">
+        <Button onClick={handleResetForm} variant="outline" className="flex-1 bg-transparent">
           Reset Form
         </Button>
-        <Button
-          onClick={handleSaveDraft}
-          variant="secondary"
-          disabled={isLoading}
-          className="flex-1 gap-2"
-        >
-          {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
+        <Button onClick={handleSaveDraft} variant="secondary" disabled={isLoading} className="flex-1 gap-2">
+          {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
           Simpan Draft
         </Button>
-        <Button
-          onClick={handlePublish}
-          disabled={isLoading}
-          className="flex-1 gap-2"
-        >
-          {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
+        <Button onClick={handlePublish} disabled={isLoading} className="flex-1 gap-2">
+          {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
           Publikasikan
         </Button>
       </div>

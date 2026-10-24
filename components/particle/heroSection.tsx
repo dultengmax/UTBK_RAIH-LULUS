@@ -87,7 +87,7 @@ const HeroSection = () => {
     >
       <div className="absolute left-[-5%] top-[-10%] h-[34%] w-[34%] rounded-full bg-blue-600/18 blur-[96px]" />
       <div className="absolute bottom-[-10%] right-[-5%] h-[34%] w-[34%] rounded-full bg-indigo-600/18 blur-[96px]" />
-      <div className="absolute inset-x-0 top-0 h-32 bg-linear-to-b from-white/[0.04] to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-32 bg-linear-to-b from-white/4 to-transparent" />
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {floatingClouds.map((cloud) => (
@@ -115,7 +115,7 @@ const HeroSection = () => {
         ))}
       </div>
 
-      <div className="container relative z-10 mx-auto grid items-center gap-14 px-6 lg:min-h-[42rem] lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-end">
+      <div className="container relative z-10 mx-auto grid items-center gap-14 px-6 lg:min-h-168 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-end">
         <motion.div data-hero-left className="pb-2 lg:pb-10">
           <motion.div
             data-hero-badge
@@ -142,15 +142,13 @@ const HeroSection = () => {
   transition={{ type: "spring", damping: 30, stiffness: 400 }}
   rotationInterval={6000}
 />
-          <p className="mb-10 max-w-lg text-lg leading-relaxed text-gray-400">
-          <h1 className="mb-6 text-5xl font-bold leading-[1.1] text-white lg:text-7xl">
-            <span className="bg-linear-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
+          <h1 className="mb-10 max-w-lg text-lg leading-relaxed text-gray-400">
+          <p className="mb-6 text-5xl font-bold leading-[1.1] lg:text-7xl bg-linear-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
               Mulai Dari Sini.
-            </span>
-          </h1>
+          </p>
             Simulasi ujian dengan sistem penilaian IRT yang akurat, pembahasan mendalam, dan
             pemetaan peluang masuk jurusan favoritmu secara real-time.
-          </p>
+          </h1>
 
           <div className="flex flex-col gap-4 sm:flex-row">
             <motion.button
@@ -188,17 +186,17 @@ const HeroSection = () => {
 
         <motion.div
           data-hero-right
-          className="relative hidden min-h-[42rem] transform-gpu lg:flex lg:items-end lg:justify-end"
+          className="relative hidden min-h-168 transform-gpu lg:flex lg:items-end lg:justify-end"
         >
           <div className="pointer-events-none absolute inset-x-12 bottom-2 h-20 rounded-full bg-blue-500/10 blur-2xl" />
 
-          <div className="relative z-20 ml-auto flex h-[38rem] w-full max-w-[62rem] items-end justify-center overflow-hidden  bg-linear-to-b from-transparent to-white/[0.01] shadow-[0_34px_100px_rgba(2,8,23,0.42)]">
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:150px_100%] opacity-20" />
+          <div className="relative z-20 ml-auto flex h-152 w-full max-w-248 items-end justify-center overflow-hidden  bg-linear-to-b from-transparent to-white/1 shadow-[0_34px_100px_rgba(2,8,23,0.42)]">
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-size-[150px_100%] opacity-20" />
             <div className="absolute inset-x-0 bottom-0 z-10 h-44 bg-linear-to-t from-[#0a192f] via-[#0a192f]/58 to-transparent" />
             <img
-              src="https://media.canva.com/v2/image-resize/format:PNG/height:893/quality:100/uri:ifs%3A%2F%2FM%2F27a9e123-5bc8-48e0-90b0-9fd1543532df/watermark:F/width:1600?csig=AAAAAAAAAAAAAAAAAAAAANGuFNW_BdEOwPdV8pa-rKVyCXKHRcOjuCGR3I0Ys_aE&exp=1775222798&osig=AAAAAAAAAAAAAAAAAAAAAB69OVhixPZK02Y7SA9ns5yoPTO1W8xy8Apert2T5NyA&signer=media-rpc&x-canva-quality=screen_2x"
+              src="/orang.png"
               alt="Students Studying"
-              className="relative z-0 h-[118%] w-auto max-w-none object-contain object-bottom opacity-[0.96]"
+              className="relative z-0 h-[105%] w-auto max-w-none object-contain object-bottom opacity-[0.96]"
             />
           </div>
 

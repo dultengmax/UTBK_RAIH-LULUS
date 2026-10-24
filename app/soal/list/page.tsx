@@ -1,81 +1,96 @@
 'use client'
 
-import { useState } from 'react'
-import { Sidebar } from '@/components/sidebar'
+import { useMemo, useState } from 'react'
+import Link from 'next/link'
+import { Edit, Eye, Plus, Search, Trash2 } from 'lucide-react'
+
 import { Header } from '@/components/header'
+import { Sidebar } from '@/components/sidebar'
+import { MANAGED_QUESTIONS, QUESTION_PACKAGE_OPTIONS } from '@/data/question-management'
+import { PROGRAM_CATALOG, PROGRAM_NAME_BY_ID, SUBTEST_BY_ID } from '@/lib/exam-package-catalog'
+import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Search, Plus, Trash2, Edit, Eye } from 'lucide-react'
-import Link from 'next/link'
+import type { ProgramId, SubtestCode } from '@/types/exam-package'
 
 export default function QuestionListPage() {
   const [searchTerm, setSearchTerm] = useState('')
-  const [categoryFilter, setCategoryFilter] = useState('all')
-  const [difficultyFilter, setDifficultyFilter] = useState('all')
+  const [programFilter, setProgramFilter] = useState<'all' | ProgramId>('all')
+  const [packageFilter, setPackageFilter] = useState<'all' | string>('all')
+  const [subtestFilter, setSubtestFilter] = useState<'all' | SubtestCode>('all')
+  const [difficultyFilter, setDifficultyFilter] = useState<'all' | 'Easy' | 'Medium' | 'Hard'>('all')
 
-  const questions = [
-    {
-      id: 1,
-      number: 'UTBK-001',
-      question: 'Jika x + 2y = 10 dan 3x - y = 5, maka nilai x adalah...',
-      category: 'Matematika',
-      difficulty: 'Medium',
-      createdBy: 'Admin User',
-      createdAt: '2024-01-15',
-      status: 'Dipublikasikan',
-    },
-    {
-      id: 2,
-      number: 'UTBK-002',
-      question: 'Berapa kecepatan cahaya dalam vakum?',
-      category: 'Fisika',
-      difficulty: 'Easy',
-      createdBy: 'Editor User',
-      createdAt: '2024-01-14',
-      status: 'Draft',
-    },
-    {
-      id: 3,
-      number: 'UTBK-003',
-      question: 'Senyawa apa yang terbentuk dari reaksi asam dan basa?',
-      category: 'Kimia',
-      difficulty: 'Medium',
-      createdBy: 'Admin User',
-      createdAt: '2024-01-13',
-      status: 'Dipublikasikan',
-    },
-    {
-      id: 4,
-      number: 'UTBK-004',
-      question: 'Proses fotosintesis terjadi di bagian mana dalam sel tumbuhan?',
-      category: 'Biologi',
-      difficulty: 'Easy',
-      createdBy: 'Editor User',
-      createdAt: '2024-01-12',
-      status: 'Dipublikasikan',
-    },
-    {
-      id: 5,
-      number: 'UTBK-005',
-      question: 'Integrasikan fungsi f(x) = 2x³ + 3x²',
-      category: 'Matematika',
-      difficulty: 'Hard',
-      createdBy: 'Admin User',
-      createdAt: '2024-01-11',
-      status: 'Dipublikasikan',
-    },
-  ]
+  const packageMap = useMemo(
+    () => Object.fromEntries(QUESTION_PACKAGE_OPTIONS.map((pkg) => [pkg.id, pkg])),
+    [],
+  )
 
-  const filteredQuestions = questions.filter((q) => {
-    const matchSearch = q.question.toLowerCase().includes(searchTerm.toLowerCase()) || q.number.includes(searchTerm)
-    const matchCategory = categoryFilter === 'all' || q.category === categoryFilter
-    const matchDifficulty = difficultyFilter === 'all' || q.difficulty === difficultyFilter
-    return matchSearch && matchCategory && matchDifficulty
-  })
+  const packageOptions = useMemo(() => {
+    if (programFilter === 'all') return QUESTION_PACKAGE_OPTIONS
+    return QUESTION_PACKAGE_OPTIONS.filter((pkg) => pkg.programId === programFilter)
+  }, [programFilter])
 
-  const getDifficultyColor = (difficulty: string) => {
+  const subtestOptions = useMemo(() => {
+    if (packageFilter !== 'all') {
+      const selectedPackage = QUESTION_PACKAGE_OPTIONS.find((pkg) => pkg.id === packageFilter)
+      return selectedPackage ? selectedPackage.subtestIds.map((subtestId) => SUBTEST_BY_ID[subtestId]) : []
+    }
+
+    if (programFilter === 'all') {
+      return PROGRAM_CATALOG.flatMap((program) => program.subtests)
+    }
+
+    const selectedProgram = PROGRAM_CATALOG.find((program) => program.id === programFilter)
+    return selectedProgram?.subtests ?? []
+  }, [packageFilter, programFilter])
+
+  const filteredQuestions = useMemo(
+    () =>
+      MANAGED_QUESTIONS.filter((question) => {
+        const packageInfo = packageMap[question.packageId]
+        const subtestInfo = SUBTEST_BY_ID[question.subtestId]
+        const searchableText = [
+          question.number,
+          question.question,
+          PROGRAM_NAME_BY_ID[question.programId],
+          packageInfo?.title ?? '',
+          subtestInfo.name,
+        ]
+          .join(' ')
+          .toLowerCase()
+
+        const matchSearch = searchableText.includes(searchTerm.toLowerCase())
+        const matchProgram = programFilter === 'all' || question.programId === programFilter
+        const matchPackage = packageFilter === 'all' || question.packageId === packageFilter
+        const matchSubtest = subtestFilter === 'all' || question.subtestId === subtestFilter
+        const matchDifficulty = difficultyFilter === 'all' || question.difficulty === difficultyFilter
+
+        return matchSearch && matchProgram && matchPackage && matchSubtest && matchDifficulty
+      }),
+    [difficultyFilter, packageFilter, packageMap, programFilter, searchTerm, subtestFilter],
+  )
+
+  const handleProgramChange = (value: string) => {
+    setProgramFilter(value as 'all' | ProgramId)
+    setPackageFilter('all')
+    setSubtestFilter('all')
+  }
+
+  const handlePackageChange = (value: string) => {
+    setPackageFilter(value)
+    setSubtestFilter('all')
+  }
+
+  const resetFilters = () => {
+    setSearchTerm('')
+    setProgramFilter('all')
+    setPackageFilter('all')
+    setSubtestFilter('all')
+    setDifficultyFilter('all')
+  }
+
+  const getDifficultyColor = (difficulty: 'Easy' | 'Medium' | 'Hard') => {
     switch (difficulty) {
       case 'Easy':
         return 'bg-green-100 text-green-800'
@@ -88,61 +103,88 @@ export default function QuestionListPage() {
     }
   }
 
-  const getStatusColor = (status: string) => {
-    return status === 'Dipublikasikan' ? 'bg-primary/20 text-primary' : 'bg-secondary/20 text-secondary'
-  }
+  const getStatusColor = (status: 'Dipublikasikan' | 'Draft') =>
+    status === 'Dipublikasikan' ? 'bg-primary/20 text-primary' : 'bg-secondary/20 text-secondary'
 
   return (
     <div className="min-h-screen bg-background">
       <Sidebar />
       <Header />
 
-      {/* Main Content */}
-      <main className="pt-20 md:pt-16 md:ml-64 min-h-screen">
-        <div className="p-6 md:p-8 max-w-7xl mx-auto">
-          {/* Page Header */}
-          <div className="flex items-center justify-between mb-8">
+      <main className="min-h-screen pt-20 md:ml-64 md:pt-16">
+        <div className="mx-auto max-w-7xl p-6 md:p-8">
+          <div className="mb-8 flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">Daftar Soal</h1>
-              <p className="text-muted-foreground">Kelola semua soal tryout UTBK Anda di sini.</p>
+              <h1 className="mb-2 text-3xl font-bold text-foreground">Daftar Soal</h1>
+              <p className="text-muted-foreground">
+                Kelola soal berbasis flow Program - Paket - Subtest agar struktur bank soal konsisten.
+              </p>
             </div>
             <Link href="/soal/input">
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                <Plus className="w-4 h-4 mr-2" />
+              <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+                <Plus className="mr-2 h-4 w-4" />
                 Soal Baru
               </Button>
             </Link>
           </div>
 
-          {/* Filters */}
-          <Card className="p-6 bg-card border-border mb-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
+          <Card className="mb-6 border-border bg-card p-6">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-6">
+              <div className="relative md:col-span-2">
+                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Cari soal atau nomor..."
+                  placeholder="Cari soal, program, paket, subtest..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 bg-background border-border text-foreground"
+                  className="border-border bg-background pl-10 text-foreground"
                 />
               </div>
 
-              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                <SelectTrigger className="bg-background border-border text-foreground">
-                  <SelectValue placeholder="Kategori" />
+              <Select value={programFilter} onValueChange={handleProgramChange}>
+                <SelectTrigger className="border-border bg-background text-foreground">
+                  <SelectValue placeholder="Program" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Semua Kategori</SelectItem>
-                  <SelectItem value="Matematika">Matematika</SelectItem>
-                  <SelectItem value="Fisika">Fisika</SelectItem>
-                  <SelectItem value="Kimia">Kimia</SelectItem>
-                  <SelectItem value="Biologi">Biologi</SelectItem>
+                  <SelectItem value="all">Semua Program</SelectItem>
+                  {PROGRAM_CATALOG.map((program) => (
+                    <SelectItem key={program.id} value={program.id}>
+                      {program.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
 
-              <Select value={difficultyFilter} onValueChange={setDifficultyFilter}>
-                <SelectTrigger className="bg-background border-border text-foreground">
-                  <SelectValue placeholder="Tingkat Kesulitan" />
+              <Select value={packageFilter} onValueChange={handlePackageChange}>
+                <SelectTrigger className="border-border bg-background text-foreground">
+                  <SelectValue placeholder="Paket" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Semua Paket</SelectItem>
+                  {packageOptions.map((pkg) => (
+                    <SelectItem key={pkg.id} value={pkg.id}>
+                      {pkg.code}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select value={subtestFilter} onValueChange={(value) => setSubtestFilter(value as 'all' | SubtestCode)}>
+                <SelectTrigger className="border-border bg-background text-foreground">
+                  <SelectValue placeholder="Subtest" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Semua Subtest</SelectItem>
+                  {subtestOptions.map((subtest) => (
+                    <SelectItem key={subtest.id} value={subtest.id}>
+                      {subtest.code}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select value={difficultyFilter} onValueChange={(value) => setDifficultyFilter(value as 'all' | 'Easy' | 'Medium' | 'Hard')}>
+                <SelectTrigger className="border-border bg-background text-foreground">
+                  <SelectValue placeholder="Tingkat" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Semua Tingkat</SelectItem>
@@ -151,22 +193,25 @@ export default function QuestionListPage() {
                   <SelectItem value="Hard">Sulit</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
 
-              <Button variant="outline" className="border-border text-foreground hover:bg-secondary bg-transparent">
+            <div className="mt-4 flex justify-end">
+              <Button variant="outline" className="border-border bg-transparent text-foreground hover:bg-secondary" onClick={resetFilters}>
                 Reset Filter
               </Button>
             </div>
           </Card>
 
-          {/* Questions Table */}
-          <Card className="bg-card border-border overflow-hidden">
+          <Card className="overflow-hidden border-border bg-card">
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-secondary/20 border-b border-border">
+                <thead className="border-b border-border bg-secondary/20">
                   <tr>
                     <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Nomor</th>
                     <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Pertanyaan</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Kategori</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Program</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Paket</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Subtest</th>
                     <th className="px-6 py-4 text-center text-sm font-semibold text-foreground">Tingkat</th>
                     <th className="px-6 py-4 text-center text-sm font-semibold text-foreground">Status</th>
                     <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Tanggal</th>
@@ -174,46 +219,55 @@ export default function QuestionListPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredQuestions.map((question) => (
-                    <tr key={question.id} className="border-b border-border hover:bg-secondary/10 transition-colors">
-                      <td className="px-6 py-4 text-sm font-medium text-foreground">{question.number}</td>
-                      <td className="px-6 py-4 text-sm text-foreground max-w-xs truncate">{question.question}</td>
-                      <td className="px-6 py-4 text-sm text-muted-foreground">{question.category}</td>
-                      <td className="px-6 py-4 text-center">
-                        <span className={`text-xs font-semibold px-3 py-1 rounded-full ${getDifficultyColor(question.difficulty)}`}>
-                          {question.difficulty}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-center">
-                        <span className={`text-xs font-semibold px-3 py-1 rounded-full ${getStatusColor(question.status)}`}>
-                          {question.status}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-sm text-muted-foreground">{question.createdAt}</td>
-                      <td className="px-6 py-4 text-center">
-                        <div className="flex items-center justify-center gap-2">
-                          <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                            <Eye className="w-4 h-4" />
-                          </Button>
-                          <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                            <Edit className="w-4 h-4" />
-                          </Button>
-                          <Button variant="ghost" size="sm" className="text-destructive hover:bg-destructive/10">
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                  {filteredQuestions.map((question) => {
+                    const packageInfo = packageMap[question.packageId]
+                    const subtest = SUBTEST_BY_ID[question.subtestId]
+
+                    return (
+                      <tr key={question.id} className="border-b border-border transition-colors hover:bg-secondary/10">
+                        <td className="px-6 py-4 text-sm font-medium text-foreground">{question.number}</td>
+                        <td className="max-w-xs truncate px-6 py-4 text-sm text-foreground">{question.question}</td>
+                        <td className="px-6 py-4 text-sm text-muted-foreground">{PROGRAM_NAME_BY_ID[question.programId]}</td>
+                        <td className="px-6 py-4 text-sm text-muted-foreground">{packageInfo?.code ?? question.packageId}</td>
+                        <td className="px-6 py-4 text-sm text-muted-foreground">
+                          {subtest.code} - {subtest.name}
+                        </td>
+                        <td className="px-6 py-4 text-center">
+                          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${getDifficultyColor(question.difficulty)}`}>
+                            {question.difficulty}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-center">
+                          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${getStatusColor(question.status)}`}>
+                            {question.status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-sm text-muted-foreground">{question.createdAt}</td>
+                        <td className="px-6 py-4 text-center">
+                          <div className="flex items-center justify-center gap-2">
+                            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button variant="ghost" size="sm" className="text-destructive hover:bg-destructive/10">
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  })}
                 </tbody>
               </table>
             </div>
 
             {filteredQuestions.length === 0 && (
               <div className="p-12 text-center">
-                <p className="text-muted-foreground mb-2">Tidak ada soal yang cocok dengan filter Anda.</p>
+                <p className="mb-2 text-muted-foreground">Tidak ada soal yang cocok dengan filter Anda.</p>
                 <Link href="/soal/input">
-                  <Button variant="outline" className="border-border text-foreground hover:bg-secondary bg-transparent">
+                  <Button variant="outline" className="border-border bg-transparent text-foreground hover:bg-secondary">
                     Tambah Soal Baru
                   </Button>
                 </Link>
@@ -221,24 +275,11 @@ export default function QuestionListPage() {
             )}
           </Card>
 
-          {/* Pagination */}
           {filteredQuestions.length > 0 && (
             <div className="mt-6 flex items-center justify-between">
               <p className="text-sm text-muted-foreground">
-                Menampilkan {filteredQuestions.length} dari {questions.length} soal
+                Menampilkan {filteredQuestions.length} dari {MANAGED_QUESTIONS.length} soal
               </p>
-              <div className="flex gap-2">
-                <Button variant="outline" className="border-border text-foreground hover:bg-secondary bg-transparent">
-                  Sebelumnya
-                </Button>
-                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">1</Button>
-                <Button variant="outline" className="border-border text-foreground hover:bg-secondary bg-transparent">
-                  2
-                </Button>
-                <Button variant="outline" className="border-border text-foreground hover:bg-secondary bg-transparent">
-                  Berikutnya
-                </Button>
-              </div>
             </div>
           )}
         </div>

@@ -279,14 +279,14 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(186,230,253,0.55),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(167,243,208,0.45),transparent_25%),linear-gradient(180deg,#f8fbff_0%,#eef6ff_44%,#f8fbff_100%)] font-sans text-slate-900">
       <div className="absolute left-[-8%] top-[-10%] size-112 rounded-full bg-sky-300/40 blur-[140px]" />
-      <div className="absolute right-[-8%] bottom-[-10%] size-[30rem] rounded-full bg-emerald-200/40 blur-[160px]" />
+      <div className="absolute right-[-8%] bottom-[-10%] size-120 rounded-full bg-emerald-200/40 blur-[160px]" />
 
       <div className="relative flex min-h-screen items-center justify-center p-0 sm:p-4 lg:p-6">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
-          className="grid min-h-screen w-full max-w-7xl overflow-hidden border border-white/80 bg-white/[0.78] shadow-[0_30px_120px_rgba(15,23,42,0.12)] backdrop-blur-xl lg:min-h-195 lg:rounded-[2.5rem] xl:grid-cols-[0.96fr_1.04fr]"
+          className="grid min-h-screen w-full max-w-7xl overflow-hidden border border-white/80 bg-white/78 shadow-[0_30px_120px_rgba(15,23,42,0.12)] backdrop-blur-xl lg:min-h-195 lg:rounded-[2.5rem] xl:grid-cols-[0.96fr_1.04fr]"
         >
           <aside className="relative hidden overflow-hidden border-r border-sky-100/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.92)_0%,rgba(240,249,255,0.94)_56%,rgba(236,253,245,0.9)_100%)] p-8 lg:flex lg:flex-col lg:justify-between xl:p-10">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.18),transparent_42%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.14),transparent_38%)]" />
@@ -335,7 +335,7 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <div className="relative z-10 space-y-4 rounded-[1.75rem] border border-white/[0.85] bg-white/[0.78] p-6 shadow-sm">
+            <div className="relative z-10 space-y-4 rounded-[1.75rem] border border-white/85 bg-white/78 p-6 shadow-sm">
               <div>
                 <p className="text-sm font-semibold text-slate-900">{REGISTER_PAGE_COPY.sideCardTitle}</p>
                 <p className="mt-2 text-sm leading-relaxed text-slate-500">
@@ -390,7 +390,7 @@ export default function RegisterPage() {
             </div>
 
             <div className="mb-6 space-y-4 lg:hidden">
-              <div className="rounded-[1.75rem] border border-white/[0.85] bg-white/80 p-5 shadow-sm">
+              <div className="rounded-[1.75rem] border border-white/85 bg-white/80 p-5 shadow-sm">
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-sky-700">
                   {REGISTER_EXPERIENCE_COPY.eyebrow}
                 </p>

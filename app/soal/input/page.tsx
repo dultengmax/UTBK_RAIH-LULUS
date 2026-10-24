@@ -1,50 +1,45 @@
-import { Sidebar } from '@/components/sidebar'
 import { Header } from '@/components/header'
 import { QuestionForm } from '@/components/question-form'
+import { Sidebar } from '@/components/sidebar'
 
 export default function QuestionInputPage() {
   return (
     <div className="min-h-screen bg-background">
-      {/* Sidebar and Main Layout */}
       <Sidebar />
       <Header />
 
-      {/* Main Content */}
-      <main className="pt-20 md:pt-16 md:ml-64 min-h-screen">
-        <div className="p-6 md:p-8 max-w-6xl mx-auto">
-          {/* Page Header */}
+      <main className="min-h-screen pt-20 md:ml-64 md:pt-16">
+        <div className="mx-auto max-w-6xl p-6 md:p-8">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-foreground mb-2">Input Soal Baru</h1>
+            <h1 className="mb-2 text-3xl font-bold text-foreground">Input Soal Baru</h1>
             <p className="text-muted-foreground">
-              Tambahkan soal tryout UTBK baru dengan format lengkap termasuk pertanyaan, opsi jawaban, dan pembahasan.
+              Tambahkan soal baru dengan alur Program - Paket - Subtest agar bank soal lebih terstruktur.
             </p>
           </div>
 
-          {/* Form Container */}
-          <div className="bg-card rounded-lg border border-border shadow-sm p-8">
+          <div className="rounded-lg border border-border bg-card p-8 shadow-sm">
             <QuestionForm />
           </div>
 
-          {/* Footer Info */}
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-secondary/30 rounded-lg p-6 border border-border">
-              <h3 className="font-semibold text-foreground mb-2">💡 Tips</h3>
+          <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+            <div className="rounded-lg border border-border bg-secondary/30 p-6">
+              <h3 className="mb-2 font-semibold text-foreground">Tips</h3>
               <p className="text-sm text-muted-foreground">
-                Pastikan soal Anda jelas dan unggul dari segi kualitas. Gunakan pembahasan yang terperinci untuk membantu pembelajaran.
+                Pastikan materi soal sesuai subtest yang dipilih, lalu berikan pembahasan yang mudah dipahami.
               </p>
             </div>
 
-            <div className="bg-secondary/30 rounded-lg p-6 border border-border">
-              <h3 className="font-semibold text-foreground mb-2">📋 Format</h3>
+            <div className="rounded-lg border border-border bg-secondary/30 p-6">
+              <h3 className="mb-2 font-semibold text-foreground">Format</h3>
               <p className="text-sm text-muted-foreground">
-                Setiap soal harus memiliki pertanyaan, lima opsi jawaban, dan satu kunci jawaban yang benar.
+                Setiap soal perlu pertanyaan, lima opsi jawaban, satu kunci jawaban, dan waktu pengerjaan.
               </p>
             </div>
 
-            <div className="bg-secondary/30 rounded-lg p-6 border border-border">
-              <h3 className="font-semibold text-foreground mb-2">🎯 Kategori</h3>
+            <div className="rounded-lg border border-border bg-secondary/30 p-6">
+              <h3 className="mb-2 font-semibold text-foreground">Kategori</h3>
               <p className="text-sm text-muted-foreground">
-                Pilih kategori yang sesuai dengan jenis soal Anda untuk memudahkan pengorganisasian dan pencarian.
+                Gunakan urutan Program, Paket, lalu Subtest supaya proses review dan pencarian soal makin cepat.
               </p>
             </div>
           </div>

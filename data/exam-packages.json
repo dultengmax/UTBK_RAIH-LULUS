@@ -1,95 +1,217 @@
 {
   "packages": [
     {
-      "id": "pkg-tryout-snbt-1",
-      "code": "PKT-20260322-UTBK",
-      "title": "Tryout SNBT Lengkap 1",
-      "description": "Paket tryout lengkap yang mencakup seluruh subtes utama UTBK-SNBT untuk simulasi ujian penuh.",
+      "id": "pkg-utbk-001",
+      "code": "UTBK-20260322-A1B2",
+      "title": "UTBK Intensif TPS 1",
+      "description": "Paket UTBK fokus TPS lengkap untuk simulasi tryout reguler.",
+      "programId": "utbk",
       "status": "published",
       "difficultyProfile": "mixed",
-      "durationMinutes": 195,
+      "durationMinutes": 150,
       "year": 2026,
-      "tags": [
-        "tryout",
-        "snbt",
-        "lengkap"
-      ],
-      "totalQuestions": 140,
+      "tags": ["utbk", "tps", "intensif"],
+      "totalQuestions": 80,
       "sections": [
         {
-          "id": "section-pu-seed001",
-          "subtestId": "PU",
-          "subtestName": "Penalaran Umum",
-          "questionIds": [
-            "PU-001",
-            "PU-002",
-            "PU-003"
-          ],
-          "questionCount": 20
-        },
-        {
-          "id": "section-ppu-seed001",
-          "subtestId": "PPU",
-          "subtestName": "Pengetahuan dan Pemahaman Umum",
-          "questionIds": [
-            "PPU-001",
-            "PPU-002"
-          ],
-          "questionCount": 20
-        },
-        {
-          "id": "section-pbm-seed001",
-          "subtestId": "PBM",
-          "subtestName": "Pemahaman Bacaan dan Menulis",
-          "questionIds": [
-            "PBM-001",
-            "PBM-002"
-          ],
-          "questionCount": 20
-        },
-        {
-          "id": "section-pk-seed001",
+          "id": "section-pk-001",
           "subtestId": "PK",
+          "subtestCode": "PK",
           "subtestName": "Pengetahuan Kuantitatif",
-          "questionIds": [
-            "PK-001",
-            "PK-002"
-          ],
+          "questionIds": ["UTBK-PK-001", "UTBK-PK-002", "UTBK-PK-003"],
           "questionCount": 20
         },
         {
-          "id": "section-lit-ind-seed001",
-          "subtestId": "LIT_IND",
-          "subtestName": "Literasi Bahasa Indonesia",
-          "questionIds": [
-            "LITIND-001",
-            "LITIND-002"
-          ],
+          "id": "section-pu-001",
+          "subtestId": "PU",
+          "subtestCode": "PU",
+          "subtestName": "Penalaran Umum",
+          "questionIds": ["UTBK-PU-001", "UTBK-PU-002", "UTBK-PU-003"],
           "questionCount": 20
         },
         {
-          "id": "section-lit-ing-seed001",
-          "subtestId": "LIT_ING",
-          "subtestName": "Literasi Bahasa Inggris",
-          "questionIds": [
-            "LITING-001",
-            "LITING-002"
-          ],
+          "id": "section-ppu-001",
+          "subtestId": "PPU",
+          "subtestCode": "PPU",
+          "subtestName": "Pengetahuan dan Pemahaman Umum",
+          "questionIds": ["UTBK-PPU-001", "UTBK-PPU-002", "UTBK-PPU-003"],
           "questionCount": 20
         },
         {
-          "id": "section-pm-seed001",
-          "subtestId": "PM",
-          "subtestName": "Penalaran Matematika",
-          "questionIds": [
-            "PM-001",
-            "PM-002"
-          ],
+          "id": "section-pbm-001",
+          "subtestId": "PBM",
+          "subtestCode": "PBM",
+          "subtestName": "Pemahaman Bacaan dan Menulis",
+          "questionIds": ["UTBK-PBM-001", "UTBK-PBM-002", "UTBK-PBM-003"],
           "questionCount": 20
         }
       ],
       "createdAt": "2026-03-22T08:00:00.000Z",
-      "updatedAt": "2026-03-22T08:00:00.000Z"
+      "updatedAt": "2026-03-24T09:15:00.000Z"
+    },
+    {
+      "id": "pkg-utbk-002",
+      "code": "UTBK-20260325-C9D1",
+      "title": "UTBK Literasi & PM",
+      "description": "Paket UTBK fokus literasi Indonesia, literasi Inggris, dan penalaran matematika.",
+      "programId": "utbk",
+      "status": "draft",
+      "difficultyProfile": "medium",
+      "durationMinutes": 120,
+      "year": 2026,
+      "tags": ["utbk", "literasi", "pm"],
+      "totalQuestions": 60,
+      "sections": [
+        {
+          "id": "section-litind-001",
+          "subtestId": "LIT_IND",
+          "subtestCode": "LIT IND",
+          "subtestName": "Literasi Bahasa Indonesia",
+          "questionIds": ["UTBK-LITIND-001", "UTBK-LITIND-002"],
+          "questionCount": 20
+        },
+        {
+          "id": "section-liting-001",
+          "subtestId": "LIT_ING",
+          "subtestCode": "LIT ING",
+          "subtestName": "Literasi Bahasa Inggris",
+          "questionIds": ["UTBK-LITING-001", "UTBK-LITING-002"],
+          "questionCount": 20
+        },
+        {
+          "id": "section-pm-001",
+          "subtestId": "PM",
+          "subtestCode": "PM",
+          "subtestName": "Penalaran Matematika",
+          "questionIds": ["UTBK-PM-001", "UTBK-PM-002"],
+          "questionCount": 20
+        }
+      ],
+      "createdAt": "2026-03-25T10:00:00.000Z",
+      "updatedAt": "2026-03-25T10:00:00.000Z"
+    },
+    {
+      "id": "pkg-cpns-001",
+      "code": "CPNS-20260322-P4Q7",
+      "title": "CPNS SKD Premium",
+      "description": "Paket latihan SKD CPNS mencakup TWK, TIU, dan TKP untuk persiapan seleksi CAT.",
+      "programId": "cpns",
+      "status": "published",
+      "difficultyProfile": "mixed",
+      "durationMinutes": 100,
+      "year": 2026,
+      "tags": ["cpns", "skd", "cat"],
+      "totalQuestions": 110,
+      "sections": [
+        {
+          "id": "section-cpns-twk-001",
+          "subtestId": "CPNS_TWK",
+          "subtestCode": "TWK",
+          "subtestName": "Tes Wawasan Kebangsaan",
+          "questionIds": ["CPNS-TWK-001", "CPNS-TWK-002", "CPNS-TWK-003"],
+          "questionCount": 30
+        },
+        {
+          "id": "section-cpns-tiu-001",
+          "subtestId": "CPNS_TIU",
+          "subtestCode": "TIU",
+          "subtestName": "Tes Intelegensi Umum",
+          "questionIds": ["CPNS-TIU-001", "CPNS-TIU-002", "CPNS-TIU-003"],
+          "questionCount": 35
+        },
+        {
+          "id": "section-cpns-tkp-001",
+          "subtestId": "CPNS_TKP",
+          "subtestCode": "TKP",
+          "subtestName": "Tes Karakteristik Pribadi",
+          "questionIds": ["CPNS-TKP-001", "CPNS-TKP-002", "CPNS-TKP-003"],
+          "questionCount": 45
+        }
+      ],
+      "createdAt": "2026-03-22T08:00:00.000Z",
+      "updatedAt": "2026-03-24T09:30:00.000Z"
+    },
+    {
+      "id": "pkg-bumn-001",
+      "code": "BUMN-20260328-L8R2",
+      "title": "BUMN Rekrutmen Dasar",
+      "description": "Paket latihan BUMN berisi TKD, AKHLAK, dan English Test untuk tahap seleksi awal.",
+      "programId": "bumn",
+      "status": "draft",
+      "difficultyProfile": "medium",
+      "durationMinutes": 90,
+      "year": 2026,
+      "tags": ["bumn", "tkd", "akhlak"],
+      "totalQuestions": 100,
+      "sections": [
+        {
+          "id": "section-bumn-tkd-001",
+          "subtestId": "BUMN_TKD",
+          "subtestCode": "TKD",
+          "subtestName": "Tes Kemampuan Dasar",
+          "questionIds": ["BUMN-TKD-001", "BUMN-TKD-002", "BUMN-TKD-003"],
+          "questionCount": 40
+        },
+        {
+          "id": "section-bumn-akhlak-001",
+          "subtestId": "BUMN_AKHLAK",
+          "subtestCode": "AKHLAK",
+          "subtestName": "Core Values BUMN",
+          "questionIds": ["BUMN-AKHLAK-001", "BUMN-AKHLAK-002", "BUMN-AKHLAK-003"],
+          "questionCount": 30
+        },
+        {
+          "id": "section-bumn-eng-001",
+          "subtestId": "BUMN_ENG",
+          "subtestCode": "ENG",
+          "subtestName": "English Test",
+          "questionIds": ["BUMN-ENG-001", "BUMN-ENG-002", "BUMN-ENG-003"],
+          "questionCount": 30
+        }
+      ],
+      "createdAt": "2026-03-28T07:00:00.000Z",
+      "updatedAt": "2026-03-28T07:00:00.000Z"
+    },
+    {
+      "id": "pkg-stan-001",
+      "code": "STAN-20260329-M5T4",
+      "title": "STAN Core Test",
+      "description": "Paket persiapan STAN dengan TPA, TBI, dan TWK untuk simulasi kedinasan.",
+      "programId": "stan",
+      "status": "published",
+      "difficultyProfile": "hard",
+      "durationMinutes": 110,
+      "year": 2026,
+      "tags": ["stan", "kedinasan", "tpa"],
+      "totalQuestions": 120,
+      "sections": [
+        {
+          "id": "section-stan-tpa-001",
+          "subtestId": "STAN_TPA",
+          "subtestCode": "TPA",
+          "subtestName": "Tes Potensi Akademik",
+          "questionIds": ["STAN-TPA-001", "STAN-TPA-002", "STAN-TPA-003"],
+          "questionCount": 50
+        },
+        {
+          "id": "section-stan-tbi-001",
+          "subtestId": "STAN_TBI",
+          "subtestCode": "TBI",
+          "subtestName": "Tes Bahasa Inggris",
+          "questionIds": ["STAN-TBI-001", "STAN-TBI-002", "STAN-TBI-003"],
+          "questionCount": 35
+        },
+        {
+          "id": "section-stan-twk-001",
+          "subtestId": "STAN_TWK",
+          "subtestCode": "TWK",
+          "subtestName": "Tes Wawasan Kebangsaan",
+          "questionIds": ["STAN-TWK-001", "STAN-TWK-002", "STAN-TWK-003"],
+          "questionCount": 35
+        }
+      ],
+      "createdAt": "2026-03-29T08:00:00.000Z",
+      "updatedAt": "2026-03-30T10:10:00.000Z"
     }
   ]
 }

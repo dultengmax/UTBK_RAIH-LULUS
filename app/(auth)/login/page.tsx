@@ -1,40 +1,63 @@
 "use client"
-import { motion } from "framer-motion";
-import { Mail, Lock, ArrowRight } from "lucide-react";
-import Link from "next/link";
 
-import { BrandLogo } from '@/components/brand-logo';
-import { BRAND } from '@/lib/brand';
+import { useState, type FormEvent } from "react"
+import Link from "next/link"
+import { useRouter, useSearchParams } from "next/navigation"
+import { motion } from "framer-motion"
+import { ArrowRight, Lock, Mail } from "lucide-react"
+
+import { BrandLogo } from "@/components/brand-logo"
+import { BRAND } from "@/lib/brand"
 
 const LoginPage = () => {
-  return (
-    <div className="min-h-screen bg-[#0a192f] flex items-center justify-center p-0 sm:p-6 md:p-8 relative overflow-hidden font-sans">
-      {/* Background Glow Ornaments */}
-      <div className="absolute top-[-10%] left-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-blue-600/10 blur-[100px] rounded-full" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-indigo-600/10 blur-[100px] rounded-full" />
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
 
-      <motion.div 
+  const handleLogin = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    if (!email.trim() || !password.trim()) {
+      setErrorMessage("Email dan password wajib diisi.")
+      return
+    }
+
+    const nextParam = searchParams.get("next")
+    const nextPath = nextParam && nextParam.startsWith("/") ? nextParam : "/dashboard"
+    const secureAttr = window.location.protocol === "https:" ? "; secure" : ""
+
+    document.cookie = `rl_auth=1; path=/; max-age=${60 * 60 * 24 * 7}; samesite=lax${secureAttr}`
+    setErrorMessage("")
+    router.push(nextPath)
+  }
+
+  return (
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0a192f] p-0 font-sans sm:p-6 md:p-8">
+      <div className="absolute left-[-10%] top-[-10%] h-[300px] w-[300px] rounded-full bg-blue-600/10 blur-[100px] md:h-[500px] md:w-[500px]" />
+      <div className="absolute bottom-[-10%] right-[-10%] h-[300px] w-[300px] rounded-full bg-indigo-600/10 blur-[100px] md:h-[500px] md:w-[500px]" />
+
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="w-full max-w-5xl bg-white/5 border border-white/10 sm:rounded-[2.5rem] overflow-hidden backdrop-blur-xl shadow-2xl flex flex-col md:flex-row min-h-screen sm:min-h-[650px]"
+        className="flex min-h-screen w-full max-w-5xl flex-col overflow-hidden border border-white/10 bg-white/5 shadow-2xl backdrop-blur-xl sm:min-h-[650px] sm:rounded-[2.5rem] md:flex-row"
       >
-        
-        {/* LEFT SIDE: VISUAL & IMAGE (Sembunyi di Mobile < 768px) */}
-        <div className="hidden md:flex md:w-1/2 p-12 text-white flex-col justify-between relative overflow-hidden border-r border-white/5">
-          {/* BACKGROUND IMAGE DENGAN OVERLAY */}
+        <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden border-r border-white/5 p-12 text-white md:flex">
           <div className="absolute inset-0 z-0">
-            <img 
-              src="https://images.unsplash.com/photo-1523240715630-974bb1ad1932?q=80&w=2070&auto=format&fit=crop" 
+            <img
+              src="https://images.unsplash.com/photo-1523240715630-974bb1ad1932?q=80&w=2070&auto=format&fit=crop"
               alt="Academic Background"
-              className="w-full h-full object-cover opacity-20 mix-blend-overlay"
+              className="h-full w-full object-cover opacity-20 mix-blend-overlay"
             />
-            {/* Gradient Overlay untuk memastikan teks terbaca */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-700/80 to-indigo-900/90" />
-            
-            {/* Grid Pattern Pattern */}
-            <div className="absolute inset-0 opacity-10 pointer-events-none" 
-              style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h1v1H0V0zm1 1h1v1H1V1z' fill='%23ffffff' fill-opacity='0.4' fill-rule='evenodd'%3E%3C/path%3E%3C/svg%3E")` }} 
+            <div
+              className="pointer-events-none absolute inset-0 opacity-10"
+              style={{
+                backgroundImage:
+                  "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h1v1H0V0zm1 1h1v1H1V1z' fill='%23ffffff' fill-opacity='0.4' fill-rule='evenodd'%3E%3C/path%3E%3C/svg%3E\")",
+              }}
             />
           </div>
 
@@ -48,33 +71,36 @@ const LoginPage = () => {
                 logoWrapperClassName="border-white/10"
               />
             </div>
-            <h2 className="text-4xl lg:text-5xl font-bold leading-tight mb-6">
+            <h2 className="mb-6 text-4xl font-bold leading-tight lg:text-5xl">
               Kembali Melangkah <br /> Menuju <span className="text-blue-400">PTN Impian.</span>
             </h2>
-            <p className="text-blue-100/70 text-lg max-w-sm leading-relaxed">
+            <p className="max-w-sm text-lg leading-relaxed text-blue-100/70">
               Pantau progres skor IRT dan ukur kemampuanmu dengan simulasi paling akurat hari ini.
             </p>
           </div>
 
-          <div className="relative z-10 bg-white/5 border border-white/10 backdrop-blur-md p-6 rounded-2xl">
-            <div className="flex -space-x-3 mb-4">
+          <div className="relative z-10 rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-md">
+            <div className="mb-4 flex -space-x-3">
               {[1, 2, 3].map((i) => (
-                <img key={i} className="w-10 h-10 rounded-full border-2 border-blue-600 shadow-xl" src={`https://i.pravatar.cc/150?u=${i+20}`} alt="avatar" />
+                <img
+                  key={i}
+                  className="h-10 w-10 rounded-full border-2 border-blue-600 shadow-xl"
+                  src={`https://i.pravatar.cc/150?u=${i + 20}`}
+                  alt="avatar"
+                />
               ))}
-              <div className="w-10 h-10 rounded-full border-2 border-blue-600 bg-blue-600 flex items-center justify-center text-[10px] font-bold shadow-xl">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-blue-600 bg-blue-600 text-[10px] font-bold shadow-xl">
                 +12k
               </div>
             </div>
-            <p className="text-sm text-blue-100/80 italic leading-relaxed">
+            <p className="text-sm italic leading-relaxed text-blue-100/80">
               "Sistem IRT di sini benar-benar membantu saya memetakan peluang lolos di jurusan pilihan."
             </p>
           </div>
         </div>
 
-        {/* RIGHT SIDE: LOGIN FORM (Penuh di Mobile) */}
-        <div className="w-full md:w-1/2 p-8 sm:p-12 lg:p-16 flex flex-col justify-center bg-[#0d1e36]/90 md:bg-transparent">
-          {/* Logo Mobile Only */}
-          <div className="md:hidden mb-12 flex justify-center text-center">
+        <div className="flex w-full flex-col justify-center bg-[#0d1e36]/90 p-8 md:w-1/2 md:bg-transparent sm:p-12 lg:p-16">
+          <div className="mb-12 flex justify-center text-center md:hidden">
             <BrandLogo
               theme="light"
               subtitle="Masuk ke akunmu"
@@ -85,17 +111,17 @@ const LoginPage = () => {
           </div>
 
           <div className="mb-10 text-center md:text-left">
-            <h3 className="text-3xl font-bold text-white mb-3">Selamat Datang</h3>
+            <h3 className="mb-3 text-3xl font-bold text-white">Selamat Datang</h3>
             <p className="text-gray-400">Silakan masuk ke dashboard akun Anda.</p>
           </div>
 
-          {/* OAUTH GOOGLE */}
-          <motion.button 
+          <motion.button
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
-            className="w-full bg-white text-gray-900 font-bold py-3.5 px-4 rounded-xl flex items-center justify-center space-x-3 shadow-lg hover:bg-gray-100 transition-all mb-8"
+            className="mb-8 flex w-full items-center justify-center space-x-3 rounded-xl bg-white px-4 py-3.5 font-bold text-gray-900 shadow-lg transition-all hover:bg-gray-100"
+            type="button"
           >
-            <svg className="w-5 h-5" viewBox="0 0 24 24">
+            <svg className="h-5 w-5" viewBox="0 0 24 24">
               <path
                 fill="#4285F4"
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -116,64 +142,86 @@ const LoginPage = () => {
             <span className="text-sm">Masuk dengan Google</span>
           </motion.button>
 
-          <div className="relative flex items-center py-4 mb-8">
-            <div className="flex-grow border-t border-white/5"></div>
-            <span className="flex-shrink mx-4 text-gray-600 text-[10px] uppercase tracking-[0.2em] font-bold">Atau Email</span>
-            <div className="flex-grow border-t border-white/5"></div>
+          <div className="relative mb-8 flex items-center py-4">
+            <div className="flex-grow border-t border-white/5" />
+            <span className="mx-4 flex-shrink text-[10px] font-bold uppercase tracking-[0.2em] text-gray-600">
+              Atau Email
+            </span>
+            <div className="flex-grow border-t border-white/5" />
           </div>
 
-          {/* FORM */}
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleLogin}>
             <div className="group">
-              <label className="block text-xs font-bold text-gray-500 uppercase mb-2 ml-1 tracking-widest">Alamat Email</label>
+              <label className="ml-1 mb-2 block text-xs font-bold uppercase tracking-widest text-gray-500">
+                Alamat Email
+              </label>
               <div className="relative">
-                <input 
-                  type="email" 
-                  placeholder="name@example.com" 
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 px-12 text-white focus:outline-none focus:border-blue-500 focus:bg-blue-500/5 transition-all outline-none"
+                <input
+                  type="email"
+                  placeholder="name@example.com"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-12 py-3.5 text-white outline-none transition-all focus:border-blue-500 focus:bg-blue-500/5"
                 />
-                <Mail className="absolute left-4 top-3.5 text-gray-500 group-focus-within:text-blue-500 transition-colors" size={18} />
+                <Mail
+                  className="absolute left-4 top-3.5 text-gray-500 transition-colors group-focus-within:text-blue-500"
+                  size={18}
+                />
               </div>
             </div>
 
             <div className="group">
-              <div className="flex justify-between mb-2 ml-1">
-                <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Password</label>
-                <a href="#" className="text-[10px] font-bold text-blue-500 hover:text-blue-400 transition-colors">Lupa Password?</a>
+              <div className="ml-1 mb-2 flex justify-between">
+                <label className="text-xs font-bold uppercase tracking-widest text-gray-500">Password</label>
+                <a href="#" className="text-[10px] font-bold text-blue-500 transition-colors hover:text-blue-400">
+                  Lupa Password?
+                </a>
               </div>
               <div className="relative">
-                <input 
-                  type="password" 
-                  placeholder="••••••••" 
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 px-12 text-white focus:outline-none focus:border-blue-500 focus:bg-blue-500/5 transition-all outline-none"
+                <input
+                  type="password"
+                  placeholder="********"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-12 py-3.5 text-white outline-none transition-all focus:border-blue-500 focus:bg-blue-500/5"
                 />
-                <Lock className="absolute left-4 top-3.5 text-gray-500 group-focus-within:text-blue-500 transition-colors" size={18} />
+                <Lock
+                  className="absolute left-4 top-3.5 text-gray-500 transition-colors group-focus-within:text-blue-500"
+                  size={18}
+                />
               </div>
             </div>
 
-            <motion.button 
+            {errorMessage ? <p className="text-sm text-red-400">{errorMessage}</p> : null}
+
+            <motion.button
+              type="submit"
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
-              className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl shadow-xl shadow-blue-600/20 transition-all flex items-center justify-center space-x-2 group mt-4"
+              className="group mt-4 flex w-full items-center justify-center space-x-2 rounded-xl bg-blue-600 py-4 font-bold text-white shadow-xl shadow-blue-600/20 transition-all hover:bg-blue-500"
             >
               <span>Masuk Sekarang</span>
-              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
             </motion.button>
           </form>
 
-          <p className="mt-10 text-center text-gray-500 text-sm">
-            Belum punya akun? {" "}
-            <Link href="/register" className="text-blue-500 font-bold hover:text-blue-400 transition-colors underline underline-offset-4">Daftar Gratis</Link>
+          <p className="mt-10 text-center text-sm text-gray-500">
+            Belum punya akun?{" "}
+            <Link
+              href="/register"
+              className="font-bold text-blue-500 underline underline-offset-4 transition-colors hover:text-blue-400"
+            >
+              Daftar Gratis
+            </Link>
           </p>
 
           <p className="mt-6 text-center text-xs text-gray-600 md:text-left">
             {BRAND.displayName} membantu kamu belajar lebih terarah dengan simulasi yang rapi dan profesional.
           </p>
         </div>
-
       </motion.div>
     </div>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage

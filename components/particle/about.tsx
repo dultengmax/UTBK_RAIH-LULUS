@@ -72,9 +72,9 @@ const AboutSection = () => {
   return (
     <section className="relative overflow-hidden bg-linear-to-b from-white to-slate-50 py-24">
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-60 -right-60 h-[800px] w-[800px] rounded-full bg-linear-to-br from-blue-100 to-cyan-100 opacity-40 blur-3xl" />
-        <div className="absolute -bottom-60 -left-60 h-[800px] w-[800px] rounded-full bg-linear-to-br from-emerald-100 to-green-100 opacity-30 blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-linear-to-r from-amber-100 to-orange-100 opacity-20 blur-3xl" />
+        <div className="absolute -top-60 -right-60 h-200 w-200 rounded-full bg-linear-to-br from-blue-100 to-cyan-100 opacity-40 blur-3xl" />
+        <div className="absolute -bottom-60 -left-60 h-200 w-200 rounded-full bg-linear-to-br from-emerald-100 to-green-100 opacity-30 blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 h-150 w-150 -translate-x-1/2 -translate-y-1/2 rounded-full bg-linear-to-r from-amber-100 to-orange-100 opacity-20 blur-3xl" />
       </div>
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">

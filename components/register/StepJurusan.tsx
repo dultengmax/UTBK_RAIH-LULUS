@@ -1,7 +1,6 @@
 "use client"
 
 import { useDeferredValue, useEffect, useState } from "react"
-import { AnimatePresence, motion } from "motion/react"
 
 import {
   OVERSEAS_PROGRAM_ID,
@@ -11,6 +10,7 @@ import {
   PROGRAM_GROUPS,
   UNIVERSITIES,
 } from "@/data/registerData"
+import { ProgramChoiceCard } from "@/components/register/ProgramChoiceCard"
 import { cn } from "@/lib/utils"
 import type { ProgramId, RegisterData, UniversityOption } from "@/types/register"
 
@@ -20,18 +20,6 @@ interface StepJurusanProps {
   jurusan: string
   error: string
   onChange: (fields: Partial<RegisterData>) => void
-}
-
-const container = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.05, delayChildren: 0.05 },
-  },
-}
-
-const item = {
-  hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.25 } },
 }
 
 function matchesUniversity(university: UniversityOption, query: string) {
@@ -96,21 +84,19 @@ export function StepJurusan({
             const isActive = tab.id === activeRegion
 
             return (
-              <motion.button
+              <button
                 key={tab.id}
                 type="button"
-                whileHover={{ y: -1 }}
-                whileTap={{ scale: 0.98 }}
                 onClick={() => setActiveRegion(tab.id)}
                 className={cn(
-                  "rounded-full border px-4 py-2 text-sm transition-colors",
+                  "rounded-full border px-4 py-2 text-sm transition-all duration-200 hover:-translate-y-0.5 active:scale-95",
                   isActive
                     ? "border-blue-200 bg-blue-50 text-blue-700"
                     : "border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-900",
                 )}
               >
                 {tab.label}
-              </motion.button>
+              </button>
             )
           })}
         </div>
@@ -126,23 +112,16 @@ export function StepJurusan({
         </label>
 
         {filteredUniversities.length > 0 ? (
-          <motion.div
-            variants={container}
-            initial="hidden"
-            animate="show"
-            className="grid gap-3 sm:grid-cols-2"
-          >
-            {filteredUniversities.map((itemData) => {
+          <div className="grid gap-3 sm:grid-cols-2">
+            {filteredUniversities.map((itemData, index) => {
               const isSelected = itemData.id === university
 
               return (
-                <motion.button
+                <button
                   key={itemData.id}
                   type="button"
-                  variants={item}
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.985 }}
-                  className="text-left"
+                  className="anim-fade-up text-left"
+                  style={{ animationDelay: `${0.05 + index * 0.05}s` }}
                   onClick={() =>
                     onChange({
                       university: itemData.id,
@@ -150,13 +129,13 @@ export function StepJurusan({
                     })
                   }
                 >
-                  <motion.div
-                    animate={{
-                      borderColor: isSelected ? "rgba(37,99,235,0.52)" : "rgba(203,213,225,0.9)",
-                      backgroundColor: isSelected ? "rgba(37,99,235,0.08)" : "rgba(255,255,255,0.92)",
-                    }}
-                    transition={{ duration: 0.18 }}
-                    className="h-full rounded-2xl border p-4 shadow-sm"
+                  <div
+                    className={cn(
+                      "h-full rounded-2xl border p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.985]",
+                      isSelected
+                        ? "border-blue-600/52 bg-blue-600/[0.08]"
+                        : "border-slate-300/90 bg-white/[0.92]",
+                    )}
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div>
@@ -184,11 +163,11 @@ export function StepJurusan({
                         </span>
                       ))}
                     </div>
-                  </motion.div>
-                </motion.button>
+                  </div>
+                </button>
               )
             })}
-          </motion.div>
+          </div>
         ) : (
           <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-5 text-sm text-slate-500">
             <p className="font-medium text-slate-900">{OVERSEAS_SEARCH_COPY.emptyTitle}</p>
@@ -196,66 +175,39 @@ export function StepJurusan({
           </div>
         )}
 
-        <AnimatePresence initial={false}>
-          {selectedUniversity ? (
-            <motion.div
-              key={selectedUniversity.id}
-              initial={{ opacity: 0, height: 0, y: 8 }}
-              animate={{ opacity: 1, height: "auto", y: 0 }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.24 }}
-              className="overflow-hidden rounded-2xl border border-blue-200 bg-blue-50/80 p-4"
-            >
-              <div className="space-y-2">
-                <p className="text-sm font-semibold text-slate-900">{OVERSEAS_SEARCH_COPY.majorsTitle}</p>
-                <p className="text-sm text-slate-500">{OVERSEAS_SEARCH_COPY.majorsDescription}</p>
-              </div>
-
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                {selectedUniversity.majors.map((major) => {
-                  const isSelected = major.label === jurusan
-
-                  return (
-                    <motion.button
-                      key={major.id}
-                      type="button"
-                      whileHover={{ y: -2 }}
-                      whileTap={{ scale: 0.985 }}
-                      onClick={() => onChange({ jurusan: major.label })}
-                      className="text-left"
-                    >
-                      <motion.div
-                        animate={{
-                          borderColor: isSelected ? "rgba(37,99,235,0.52)" : "rgba(203,213,225,0.9)",
-                          backgroundColor: isSelected ? "rgba(37,99,235,0.08)" : "rgba(255,255,255,0.92)",
-                        }}
-                        transition={{ duration: 0.18 }}
-                        className="rounded-2xl border p-4"
-                      >
-                        <p className="font-pixel text-sm font-semibold text-slate-900">{major.label}</p>
-                        <p className="mt-2 text-sm leading-relaxed text-slate-500">{major.focus}</p>
-                      </motion.div>
-                    </motion.button>
-                  )
-                })}
-              </div>
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
-
-        <AnimatePresence>
-          {error ? (
-          <motion.p
-              initial={{ opacity: 0, height: 0, y: -4 }}
-              animate={{ opacity: 1, height: "auto", y: 0 }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
-              className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600"
+        {selectedUniversity ? (
+          <div
+            key={selectedUniversity.id}
+            className="anim-expand rounded-2xl border border-blue-200 bg-blue-50/80 p-4"
           >
+            <div className="space-y-2">
+              <p className="text-sm font-semibold text-slate-900">{OVERSEAS_SEARCH_COPY.majorsTitle}</p>
+              <p className="text-sm text-slate-500">{OVERSEAS_SEARCH_COPY.majorsDescription}</p>
+            </div>
+
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {selectedUniversity.majors.map((major) => {
+                const isSelected = major.label === jurusan
+
+                return (
+                  <ProgramChoiceCard
+                    key={major.id}
+                    selected={isSelected}
+                    onSelect={() => onChange({ jurusan: major.label })}
+                    title={major.label}
+                    description={major.focus}
+                  />
+                )
+              })}
+            </div>
+          </div>
+        ) : null}
+
+        {error ? (
+          <p className="anim-expand rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600">
             {error}
-          </motion.p>
-          ) : null}
-        </AnimatePresence>
+          </p>
+        ) : null}
       </div>
     )
   }
@@ -297,12 +249,12 @@ export function StepJurusan({
       </label>
 
       {sections.length > 0 ? (
-        <motion.div variants={container} initial="hidden" animate="show" className="space-y-4">
-          {sections.map((section) => (
-            <motion.div
+        <div className="space-y-4">
+          {sections.map((section, sectionIndex) => (
+            <div
               key={section.id}
-              variants={item}
-              className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4"
+              className="anim-fade-up rounded-2xl border border-slate-200 bg-slate-50/70 p-4"
+              style={{ animationDelay: `${0.05 + sectionIndex * 0.05}s` }}
             >
               <div className="mb-4 space-y-1">
                 <p className="font-pixel text-sm font-semibold text-slate-900">{section.label}</p>
@@ -314,35 +266,20 @@ export function StepJurusan({
                   const isSelected = itemData.value === jurusan
 
                   return (
-                    <motion.button
+                    <ProgramChoiceCard
                       key={itemData.value}
-                      type="button"
-                      whileHover={{ y: -2 }}
-                      whileTap={{ scale: 0.985 }}
-                      onClick={() => onChange({ university: "", jurusan: itemData.value })}
-                      className="text-left"
-                    >
-                      <motion.div
-                        animate={{
-                          borderColor: isSelected ? "rgba(37,99,235,0.52)" : "rgba(203,213,225,0.9)",
-                          backgroundColor: isSelected ? "rgba(37,99,235,0.08)" : "rgba(255,255,255,0.92)",
-                        }}
-                        transition={{ duration: 0.18 }}
-                        className="rounded-2xl border p-4"
-                      >
-                        <p className="font-pixel text-sm font-semibold text-slate-900">{itemData.label}</p>
-                        <p className="mt-2 text-sm leading-relaxed text-slate-500">
-                          {itemData.description}
-                        </p>
-                        <p className="mt-3 text-xs text-slate-400">{itemData.hint}</p>
-                      </motion.div>
-                    </motion.button>
+                      selected={isSelected}
+                      onSelect={() => onChange({ university: "", jurusan: itemData.value })}
+                      title={itemData.label}
+                      description={itemData.description}
+                      hint={itemData.hint}
+                    />
                   )
                 })}
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       ) : (
         <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-5 text-sm text-slate-500">
           <p className="font-medium text-slate-900">{fieldMeta.emptyTitle}</p>
@@ -350,19 +287,11 @@ export function StepJurusan({
         </div>
       )}
 
-      <AnimatePresence>
-        {error ? (
-          <motion.p
-            initial={{ opacity: 0, height: 0, y: -4 }}
-            animate={{ opacity: 1, height: "auto", y: 0 }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600"
-          >
-            {error}
-          </motion.p>
-        ) : null}
-      </AnimatePresence>
+      {error ? (
+        <p className="anim-expand rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600">
+          {error}
+        </p>
+      ) : null}
     </div>
   )
 }

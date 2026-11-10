@@ -1,20 +1,15 @@
 "use client"
 
-import { useState, type CSSProperties } from "react"
+import { lazy, Suspense, useState, type CSSProperties } from "react"
 import Link from "next/link"
-import { AnimatePresence, motion } from "motion/react"
 import { ArrowRight, ChevronLeft, Sparkles, Star } from "lucide-react"
 
 import { BrandLogo } from "@/components/brand-logo"
 import { PS2Particles } from "@/components/ps2-background"
 import { PlayerHud } from "@/components/register/PlayerHud"
 import { ProgressBar } from "@/components/register/ProgressBar"
-import { StepAkun } from "@/components/register/StepAkun"
-import { StepJurusan } from "@/components/register/StepJurusan"
 import { StepKelemahan } from "@/components/register/StepKelemahan"
-import { StepKonfirmasi } from "@/components/register/StepKonfirmasi"
 import { StepProgram } from "@/components/register/StepProgram"
-import { SuccessScreen } from "@/components/register/SuccessScreen"
 import {
   ACTION_LABELS,
   OVERSEAS_PROGRAM_ID,
@@ -27,19 +22,22 @@ import { useRegisterForm } from "@/hooks/useRegisterForm"
 import { cn } from "@/lib/utils"
 import type { AccountFieldId, ProgramId, RegisterData } from "@/types/register"
 
-type AccountDataField = "name" | "email" | "username" | "password"
+// Step yang jarang dibuka pertama kali dimuat saat dibutuhkan saja
+// agar bundle awal halaman register tetap ringan.
+const StepJurusan = lazy(() =>
+  import("@/components/register/StepJurusan").then((module) => ({ default: module.StepJurusan })),
+)
+const StepAkun = lazy(() =>
+  import("@/components/register/StepAkun").then((module) => ({ default: module.StepAkun })),
+)
+const StepKonfirmasi = lazy(() =>
+  import("@/components/register/StepKonfirmasi").then((module) => ({ default: module.StepKonfirmasi })),
+)
+const SuccessScreen = lazy(() =>
+  import("@/components/register/SuccessScreen").then((module) => ({ default: module.SuccessScreen })),
+)
 
-const transitionVariants = {
-  enter: (direction: number) => ({
-    x: direction > 0 ? 48 : -48,
-    opacity: 0,
-  }),
-  center: { x: 0, opacity: 1 },
-  exit: (direction: number) => ({
-    x: direction > 0 ? -48 : 48,
-    opacity: 0,
-  }),
-}
+type AccountDataField = "name" | "email" | "username" | "password"
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const usernameRegex = /^[a-z0-9_]+$/
@@ -86,7 +84,6 @@ function getTargetLabel(program: ProgramId | "") {
 export default function RegisterPage() {
   const {
     step,
-    direction,
     data,
     done,
     submitting,
@@ -260,6 +257,13 @@ export default function RegisterPage() {
     stepContent = <StepKonfirmasi data={data} submitError={submitError} />
   }
 
+  const stepFallback = (
+    <div className="flex h-full min-h-40 items-center justify-center gap-3">
+      <span className="size-6 animate-spin rounded-full border-2 border-blue-200 border-t-blue-600" />
+      <span className="text-sm text-slate-400">Memuat langkah...</span>
+    </div>
+  )
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(160deg,#080d20_0%,#111a3d_46%,#1b1145_100%)] font-sans text-white">
       {/* Latar arena — orb yang drift pelan (CSS-only, ringan) */}
@@ -313,12 +317,7 @@ export default function RegisterPage() {
       </div>
 
       <div className="relative flex min-h-screen items-center justify-center p-0 sm:p-4 lg:p-6">
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45 }}
-          className="relative grid min-h-screen w-full max-w-7xl overflow-hidden border border-white/10 bg-slate-950/70 shadow-[0_40px_140px_rgba(2,6,23,0.6)] sm:min-h-0 sm:rounded-[2.25rem] lg:min-h-[720px] lg:grid-cols-[340px_1fr]"
-        >
+        <div className="anim-fade-up relative grid min-h-screen w-full max-w-7xl overflow-hidden border border-white/10 bg-slate-950/70 shadow-[0_40px_140px_rgba(2,6,23,0.6)] sm:min-h-0 sm:rounded-[2.25rem] lg:min-h-[720px] lg:grid-cols-[340px_1fr]">
           {/* Gradasi pixel di dalam kartu (statis) */}
           <div
             className="pointer-events-none absolute inset-0 z-0 opacity-40 mix-blend-screen"
@@ -387,11 +386,9 @@ export default function RegisterPage() {
                   </span>
                 </div>
                 <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-black/30">
-                  <motion.div
-                    className="h-full rounded-full bg-linear-to-r from-cyan-400 via-blue-500 to-violet-500"
-                    initial={false}
-                    animate={{ width: `${Math.min(100, Math.round((xp / 600) * 100))}%` }}
-                    transition={{ type: "spring", stiffness: 120, damping: 20 }}
+                  <div
+                    className="h-full rounded-full bg-linear-to-r from-cyan-400 via-blue-500 to-violet-500 transition-[width] duration-500 ease-out"
+                    style={{ width: `${Math.min(100, Math.round((xp / 600) * 100))}%` }}
                   />
                 </div>
               </div>
@@ -431,20 +428,15 @@ export default function RegisterPage() {
               </div>
 
               <div className="relative z-10 h-full">
-                <AnimatePresence mode="wait" custom={direction}>
-                  <motion.div
+                <Suspense fallback={stepFallback}>
+                  <div
                     key={step}
-                    custom={direction}
-                    variants={transitionVariants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    transition={{ duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
-                    className="h-full"
+                    className="anim-fade-up h-full"
+                    style={{ animationDuration: "0.28s" }}
                   >
                     {stepContent}
-                  </motion.div>
-                </AnimatePresence>
+                  </div>
+                </Suspense>
               </div>
             </div>
 
@@ -459,38 +451,32 @@ export default function RegisterPage() {
 
               <div className="flex flex-col-reverse gap-3 sm:flex-row">
                 {step > 0 ? (
-                  <motion.button
+                  <button
                     type="button"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.97 }}
                     onClick={prev}
-                    className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/8 px-5 font-pixel text-sm font-semibold text-white/80 transition-colors hover:bg-white/15"
+                    className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/8 px-5 font-pixel text-sm font-semibold text-white/80 transition-all hover:bg-white/15 hover:scale-[1.02] active:scale-[0.97]"
                   >
                     <ChevronLeft size={18} />
                     {ACTION_LABELS.previous}
-                  </motion.button>
+                  </button>
                 ) : null}
 
                 {step < totalSteps - 1 ? (
-                  <motion.button
+                  <button
                     type="button"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.97 }}
                     onClick={handleNext}
-                    className="group inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-linear-to-r from-cyan-400 via-blue-500 to-violet-500 px-6 font-pixel text-sm font-bold text-slate-950 shadow-lg shadow-blue-900/40"
+                    className="group inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-linear-to-r from-cyan-400 via-blue-500 to-violet-500 px-6 font-pixel text-sm font-bold text-slate-950 shadow-lg shadow-blue-900/40 transition-transform hover:scale-[1.02] active:scale-[0.97]"
                   >
                     {step === 3 ? ACTION_LABELS.review : ACTION_LABELS.next}
                     <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-                  </motion.button>
+                  </button>
                 ) : (
-                  <motion.button
+                  <button
                     type="button"
                     disabled={submitting}
-                    whileHover={submitting ? undefined : { scale: 1.02 }}
-                    whileTap={submitting ? undefined : { scale: 0.97 }}
                     onClick={handleSubmit}
                     className={cn(
-                      "inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-linear-to-r from-cyan-400 via-blue-500 to-violet-500 px-6 font-pixel text-sm font-bold text-slate-950 shadow-lg shadow-blue-900/40",
+                      "inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-linear-to-r from-cyan-400 via-blue-500 to-violet-500 px-6 font-pixel text-sm font-bold text-slate-950 shadow-lg shadow-blue-900/40 transition-transform hover:scale-[1.02] active:scale-[0.97]",
                       submitting && "pointer-events-none opacity-70",
                     )}
                   >
@@ -498,12 +484,12 @@ export default function RegisterPage() {
                       <span className="size-4 animate-spin rounded-full border-2 border-slate-950/30 border-t-slate-950" />
                     ) : null}
                     {submitting ? ACTION_LABELS.submitting : ACTION_LABELS.submit}
-                  </motion.button>
+                  </button>
                 )}
               </div>
             </div>
           </section>
-        </motion.div>
+        </div>
       </div>
 
       {done ? <SuccessScreen redirectTo="/dashboard" /> : null}

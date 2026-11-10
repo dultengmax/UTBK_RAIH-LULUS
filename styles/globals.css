@@ -196,10 +196,194 @@
   animation: ps2-ribbon-sweep 17s ease-in-out infinite;
 }
 
+/* =========================================================================
+   Animasi ringan berbasis CSS untuk menggantikan animasi JS (motion/framer).
+   ========================================================================= */
+
+@keyframes ui-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes ui-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ui-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ui-pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ui-expand {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -4px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes ui-ring-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  70% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+.anim-fade-up {
+  animation: ui-fade-up 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.anim-fade-in {
+  animation: ui-fade-in 0.4s ease-out both;
+}
+
+.anim-pop-in {
+  animation: ui-pop-in 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.anim-expand {
+  animation: ui-expand 0.2s ease-out both;
+}
+
+.anim-spin {
+  animation: ui-spin 0.7s linear infinite;
+}
+
+.anim-ring-pulse {
+  animation: ui-ring-pulse 1.6s ease-out infinite;
+}
+
+@keyframes ui-draw-line {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.anim-draw-line {
+  animation: ui-draw-line 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes success-particle-burst {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.2);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--sp-x, 0px), var(--sp-y, 0px), 0) scale(0.6);
+    opacity: 0;
+  }
+}
+
+.success-particle {
+  animation: success-particle-burst 1s ease-out both;
+}
+
+.success-check-draw {
+  animation: ui-draw-line 0.5s ease-out 0.4s both;
+}
+
+@keyframes ui-shimmer {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+  }
+  100% {
+    transform: translate3d(240%, 0, 0);
+  }
+}
+
+.anim-shimmer {
+  animation: ui-shimmer 2.6s ease-in-out infinite;
+}
+
+@keyframes ui-rail-slide {
+  0%,
+  100% {
+    top: 0%;
+  }
+  50% {
+    top: 100%;
+  }
+}
+
+.rail-dot {
+  animation: ui-rail-slide 6s ease-in-out infinite;
+}
+
+@keyframes ui-rail-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 1;
+  }
+}
+
+.rail-accent {
+  animation: ui-rail-pulse 2.4s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ps2-particle,
   .ps2-orb,
-  .ps2-ribbon {
+  .ps2-ribbon,
+  .anim-fade-up,
+  .anim-fade-in,
+  .anim-pop-in,
+  .anim-expand,
+  .anim-ring-pulse,
+  .anim-shimmer,
+  .anim-draw-line,
+  .success-particle,
+  .success-check-draw,
+  .rail-dot,
+  .rail-accent {
     animation: none !important;
   }
 }

@@ -1,14 +1,8 @@
 "use client"
 
-import { Suspense, useState, type CSSProperties, type FormEvent, type KeyboardEvent, type MouseEvent } from "react"
+import { Suspense, useState, type CSSProperties, type FormEvent, type KeyboardEvent } from "react"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
-import {
-  AnimatePresence,
-  motion,
-  useMotionTemplate,
-  useMotionValue,
-} from "motion/react"
 import { ArrowRight, BarChart3, Lock, Mail, ShieldCheck, Sparkles, Target } from "lucide-react"
 
 import { BrandLogo } from "@/components/brand-logo"
@@ -112,12 +106,7 @@ function LoginForm() {
         />
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 14 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.05 }}
-        className="mx-auto w-full max-w-md"
-      >
+      <div className="anim-fade-up mx-auto w-full max-w-md">
         <span className="inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50/70 px-3 py-1 font-pixel text-[11px] font-bold uppercase tracking-[0.18em] text-indigo-500">
           <Sparkles size={12} /> Selamat datang kembali
         </span>
@@ -129,10 +118,8 @@ function LoginForm() {
           Lanjutkan persiapan UTBK-mu dan lihat progres skor terbaru hari ini.
         </p>
 
-        <motion.button
-          whileHover={{ scale: 1.01 }}
-          whileTap={{ scale: 0.99 }}
-          className="group mt-8 flex w-full items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3.5 font-bold text-slate-900 shadow-sm transition-all hover:border-indigo-200 hover:bg-indigo-50/40 hover:shadow-md"
+        <button
+          className="group mt-8 flex w-full items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3.5 font-bold text-slate-900 shadow-sm transition-all hover:scale-[1.01] hover:border-indigo-200 hover:bg-indigo-50/40 hover:shadow-md active:scale-[0.99]"
           type="button"
         >
           <svg className="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">
@@ -154,7 +141,7 @@ function LoginForm() {
             />
           </svg>
           <span className="font-pixel text-sm">Masuk dengan Google</span>
-        </motion.button>
+        </button>
 
         <div className="relative my-7 flex items-center">
           <div className="flex-grow border-t border-slate-200" />
@@ -224,28 +211,20 @@ function LoginForm() {
               <span className="pointer-events-none absolute left-3.5 top-1/2 flex size-6 -translate-y-1/2 items-center justify-center rounded-lg bg-indigo-50 text-indigo-500 transition-colors group-focus-within:bg-indigo-100">
                 <Lock size={18} aria-hidden="true" />
               </span>
-              <motion.button
+              <button
                 type="button"
-                whileTap={{ scale: 0.94 }}
                 onClick={() => setShowPassword((value) => !value)}
                 aria-label={showPassword ? "Sembunyikan password" : "Tampilkan password"}
-                className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center justify-center rounded-full p-2 text-slate-400 transition-colors hover:text-indigo-600"
+                className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center justify-center rounded-full p-2 text-slate-400 transition-all hover:text-indigo-600 active:scale-90"
               >
                 <PasswordToggleIcon visible={showPassword} />
-              </motion.button>
+              </button>
             </div>
-            <AnimatePresence>
-              {capsLock ? (
-                <motion.p
-                  initial={{ opacity: 0, y: -4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  className="mt-2 ml-1 font-pixel text-[11px] font-semibold text-amber-600"
-                >
-                  Caps Lock sedang aktif.
-                </motion.p>
-              ) : null}
-            </AnimatePresence>
+            {capsLock ? (
+              <p className="anim-expand mt-2 ml-1 font-pixel text-[11px] font-semibold text-amber-600">
+                Caps Lock sedang aktif.
+              </p>
+            ) : null}
           </div>
 
           <button
@@ -260,50 +239,36 @@ function LoginForm() {
                   : "border-slate-300 bg-white"
               }`}
             >
-              <AnimatePresence>
-                {remember ? (
-                  <motion.svg
-                    initial={{ scale: 0.4, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.4, opacity: 0 }}
-                    viewBox="0 0 24 24"
-                    className="size-3.5 text-white"
-                    fill="none"
-                  >
-                    <path
-                      d="m5 13 4 4L19 7"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </motion.svg>
-                ) : null}
-              </AnimatePresence>
+              {remember ? (
+                <svg
+                  viewBox="0 0 24 24"
+                  className="anim-pop-in size-3.5 text-white"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="m5 13 4 4L19 7"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              ) : null}
             </span>
             Ingat saya selama 7 hari
           </button>
 
-          <AnimatePresence>
-            {errorMessage ? (
-              <motion.p
-                initial={{ opacity: 0, height: 0, y: -4 }}
-                animate={{ opacity: 1, height: "auto", y: 0 }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.2 }}
-                className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600"
-              >
-                {errorMessage}
-              </motion.p>
-            ) : null}
-          </AnimatePresence>
+          {errorMessage ? (
+            <p className="anim-expand rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600">
+              {errorMessage}
+            </p>
+          ) : null}
 
-          <motion.button
+          <button
             type="submit"
             disabled={submitting}
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
-            className="group relative mt-2 flex w-full items-center justify-center gap-2 overflow-hidden rounded-2xl bg-linear-to-r from-blue-600 via-indigo-600 to-violet-600 bg-[length:200%_100%] bg-left py-4 font-bold text-white shadow-xl shadow-indigo-600/25 transition-all duration-500 hover:bg-right disabled:pointer-events-none disabled:opacity-70"
+            className="group relative mt-2 flex w-full items-center justify-center gap-2 overflow-hidden rounded-2xl bg-linear-to-r from-blue-600 via-indigo-600 to-violet-600 bg-[length:200%_100%] bg-left py-4 font-bold text-white shadow-xl shadow-indigo-600/25 transition-all duration-500 hover:bg-right hover:scale-[1.01] active:scale-[0.99] disabled:pointer-events-none disabled:opacity-70"
           >
             <span className="pointer-events-none absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
             {submitting ? (
@@ -313,7 +278,7 @@ function LoginForm() {
             {!submitting ? (
               <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
             ) : null}
-          </motion.button>
+          </button>
         </form>
 
         <p className="mt-8 text-center text-sm text-slate-500">
@@ -325,35 +290,19 @@ function LoginForm() {
             Daftar Gratis
           </Link>
         </p>
-      </motion.div>
+      </div>
     </div>
   )
 }
 
 const LoginPage = () => {
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-  const spotlight = useMotionTemplate`radial-gradient(520px circle at ${mouseX}px ${mouseY}px, rgba(99,102,241,0.12), transparent 68%)`
-
-  const handlePointerMove = (event: MouseEvent<HTMLDivElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect()
-    mouseX.set(event.clientX - rect.left)
-    mouseY.set(event.clientY - rect.top)
-  }
-
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#020617] font-sans text-slate-900">
       {/* Background animasi bergaya boot screen PlayStation 2 */}
       <PS2Background />
 
       <div className="relative flex min-h-screen items-center justify-center p-0 sm:p-4 lg:p-6">
-        <motion.div
-          onMouseMove={handlePointerMove}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45 }}
-          className="relative grid min-h-screen w-full max-w-7xl overflow-hidden border border-white/40 bg-white/95 shadow-[0_30px_120px_rgba(1,4,15,0.6)] sm:min-h-0 sm:rounded-[2.5rem] lg:min-h-[680px] lg:grid-cols-[30fr_60fr_10fr]"
-        >
+        <div className="anim-fade-up relative grid min-h-screen w-full max-w-7xl overflow-hidden border border-white/40 bg-white/95 shadow-[0_30px_120px_rgba(1,4,15,0.6)] sm:min-h-0 sm:rounded-[2.5rem] lg:min-h-[680px] lg:grid-cols-[30fr_60fr_10fr]">
           {/* Gradasi pixel di dalam kartu (static, tidak animasi) */}
           <div
             className="pointer-events-none absolute inset-0 z-0 opacity-45"
@@ -361,12 +310,6 @@ const LoginPage = () => {
               backgroundImage:
                 "radial-gradient(circle at 12% 12%, rgba(125,211,252,0.9), transparent 28%), radial-gradient(circle at 88% 22%, rgba(165,180,252,0.85), transparent 30%), radial-gradient(circle at 70% 88%, rgba(196,181,253,0.9), transparent 32%), radial-gradient(circle at 22% 82%, rgba(147,197,253,0.85), transparent 30%)",
             }}
-          />
-
-          <motion.div
-            aria-hidden="true"
-            style={{ background: spotlight }}
-            className="pointer-events-none absolute inset-0 z-20"
           />
 
           {/* 30% — Panel Branding */}
@@ -422,13 +365,10 @@ const LoginPage = () => {
 
               <div className="mt-8 space-y-3">
                 {HERO_FEATURES.map((feature, index) => (
-                  <motion.div
+                  <div
                     key={feature.title}
-                    initial={{ opacity: 0, x: -14 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: 0.2 + index * 0.09 }}
-                    whileHover={{ x: 4 }}
-                    className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-3 transition-colors hover:border-white/25 hover:bg-white/10"
+                    className="anim-fade-up flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-3 transition-all hover:translate-x-1 hover:border-white/25 hover:bg-white/10"
+                    style={{ animationDelay: `${0.2 + index * 0.09}s` }}
                   >
                     <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-cyan-400/30 to-violet-400/30 text-cyan-100">
                       <feature.icon size={18} />
@@ -437,7 +377,7 @@ const LoginPage = () => {
                       <span className="block font-pixel text-sm font-semibold text-white">{feature.title}</span>
                       <span className="block truncate text-xs text-blue-100/60">{feature.desc}</span>
                     </span>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -510,27 +450,17 @@ const LoginPage = () => {
             </span>
 
             <div className="relative flex flex-1 flex-col items-center justify-center gap-3 py-6">
-              <div className="relative h-full min-h-32 w-px bg-linear-to-b from-transparent via-indigo-300 to-transparent">
-                <motion.span
-                  className="absolute left-1/2 size-2.5 -translate-x-1/2 rounded-full bg-indigo-500 shadow-[0_0_12px_rgba(99,102,241,0.8)]"
-                  animate={{ top: ["0%", "100%", "0%"] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                />
+              <div className="rail-line relative h-full min-h-32 w-px bg-linear-to-b from-transparent via-indigo-300 to-transparent">
+                <span className="rail-dot absolute left-1/2 size-2.5 -translate-x-1/2 rounded-full bg-indigo-500 shadow-[0_0_12px_rgba(99,102,241,0.8)]" />
               </div>
             </div>
 
             <div className="relative flex flex-col items-center gap-2.5">
               {RAIL_ACCENTS.map((accent, index) => (
-                <motion.span
+                <span
                   key={accent}
-                  className={`size-2 rounded-full ${accent}`}
-                  animate={{ scale: [1, 1.5, 1], opacity: [0.55, 1, 0.55] }}
-                  transition={{
-                    duration: 2.4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: index * 0.28,
-                  }}
+                  className={`rail-accent size-2 rounded-full ${accent}`}
+                  style={{ animationDelay: `${index * 0.28}s` }}
                 />
               ))}
             </div>
@@ -539,7 +469,7 @@ const LoginPage = () => {
               Aman &amp; Terenkripsi
             </span>
           </aside>
-        </motion.div>
+        </div>
       </div>
     </div>
   )

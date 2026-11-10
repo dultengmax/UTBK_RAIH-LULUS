@@ -1,7 +1,6 @@
 "use client"
 
 import { useId } from "react"
-import { motion } from "motion/react"
 
 import {
   REGISTER_EXPERIENCE_COPY,
@@ -96,34 +95,31 @@ export function LearningCurveCard({ compact = false, className }: LearningCurveC
               )
             })}
 
-            <motion.path
+            <path
               d={areaPath}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.35 }}
+              className="anim-fade-in"
               fill={`url(#${gradientId}-fill)`}
             />
-            <motion.path
+            <path
               d={linePath}
               fill="none"
               stroke={`url(#${gradientId}-line)`}
               strokeWidth="4"
               strokeLinecap="round"
               strokeLinejoin="round"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 0.85, ease: [0.25, 0.46, 0.45, 0.94] }}
+              pathLength={1}
+              strokeDasharray={1}
+              className="anim-draw-line"
             />
 
             {points.map((point, index) => (
               <g key={point.label}>
-                <motion.circle
+                <circle
                   cx={point.x}
                   cy={point.y}
                   r="5"
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.18 + index * 0.08, type: "spring", stiffness: 240, damping: 16 }}
+                  className="anim-pop-in"
+                  style={{ transformOrigin: `${point.x}px ${point.y}px`, animationDelay: `${0.18 + index * 0.08}s` }}
                   fill="#ffffff"
                   stroke="#3b82f6"
                   strokeWidth="3"
@@ -152,31 +148,24 @@ export function LearningCurveCard({ compact = false, className }: LearningCurveC
           </svg>
 
           {lastPoint ? (
-            <motion.div
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.45, duration: 0.3 }}
-              className="absolute top-2 right-0 rounded-full border border-blue-200 bg-white/95 px-3 py-1 text-[11px] font-semibold text-blue-700 shadow-sm"
-            >
+            <div className="anim-fade-in absolute top-2 right-0 rounded-full border border-blue-200 bg-white/95 px-3 py-1 text-[11px] font-semibold text-blue-700 shadow-sm" style={{ animationDelay: "0.45s" }}>
               {lastPoint.accent}
-            </motion.div>
+            </div>
           ) : null}
         </div>
       </div>
 
       <div className={cn("mt-5 grid gap-3", compact ? "grid-cols-1" : "sm:grid-cols-3")}>
         {REGISTER_LEARNING_STATS.map((stat, index) => (
-          <motion.div
+          <div
             key={stat.label}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.12 + index * 0.08, duration: 0.28 }}
-            className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4"
+            className="anim-fade-up rounded-2xl border border-slate-200 bg-slate-50/80 p-4"
+            style={{ animationDelay: `${0.12 + index * 0.08}s` }}
           >
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">{stat.label}</p>
             <p className="mt-2 text-lg font-bold text-slate-900">{stat.value}</p>
             <p className="mt-2 text-sm leading-relaxed text-slate-500">{stat.description}</p>
-          </motion.div>
+          </div>
         ))}
       </div>
 

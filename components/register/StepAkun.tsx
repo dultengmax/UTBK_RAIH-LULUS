@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { AnimatePresence, motion } from "motion/react"
 
 import { ACCOUNT_FIELDS, PASSWORD_RULES } from "@/data/registerData"
 import { Input } from "@/components/ui/input"
@@ -112,36 +111,25 @@ export function StepAkun({
                 />
 
                 {isPasswordField ? (
-                  <motion.button
+                  <button
                     type="button"
-                    whileTap={{ scale: 0.96 }}
                     onClick={() =>
                       field.id === "password"
                         ? setShowPassword((value) => !value)
                         : setShowConfirmPassword((value) => !value)
                     }
-                    className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center justify-center rounded-full p-2 text-slate-400 transition-colors hover:text-slate-700"
+                    className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center justify-center rounded-full p-2 text-slate-400 transition-all hover:text-slate-700 active:scale-90"
                   >
                     <PasswordToggleIcon visible={isVisible} />
-                  </motion.button>
+                  </button>
                 ) : null}
               </div>
 
               <p className="mt-2 text-xs text-slate-400">{field.helper}</p>
 
-              <AnimatePresence>
-                {errors[field.id] ? (
-                  <motion.p
-                    initial={{ opacity: 0, height: 0, y: -4 }}
-                    animate={{ opacity: 1, height: "auto", y: 0 }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="mt-2 text-sm text-rose-600"
-                  >
-                    {errors[field.id]}
-                  </motion.p>
-                ) : null}
-              </AnimatePresence>
+              {errors[field.id] ? (
+                <p className="anim-expand mt-2 text-sm text-rose-600">{errors[field.id]}</p>
+              ) : null}
             </div>
           )
         })}
@@ -165,11 +153,9 @@ export function StepAkun({
 
             return (
               <div key={`strength-${index}`} className="h-2 overflow-hidden rounded-full bg-slate-200">
-                <motion.div
-                  animate={{ scaleX: isActive ? 1 : 0.2 }}
-                  style={{ transformOrigin: "left center" }}
-                  transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
-                  className="h-full rounded-full bg-linear-to-r from-blue-500 to-indigo-500"
+                <div
+                  className="h-full origin-left rounded-full bg-linear-to-r from-blue-500 to-indigo-500 transition-transform duration-300 ease-out"
+                  style={{ transform: `scaleX(${isActive ? 1 : 0.2})` }}
                 />
               </div>
             )

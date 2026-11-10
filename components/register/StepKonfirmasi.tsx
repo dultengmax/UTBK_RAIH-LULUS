@@ -1,7 +1,5 @@
 "use client"
 
-import { AnimatePresence, motion } from "motion/react"
-
 import {
   OVERSEAS_PROGRAM_ID,
   PROGRAM_FIELD_META,
@@ -14,18 +12,6 @@ import type { RegisterData } from "@/types/register"
 interface StepKonfirmasiProps {
   data: RegisterData
   submitError: string
-}
-
-const container = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.05, delayChildren: 0.05 },
-  },
-}
-
-const item = {
-  hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.25 } },
 }
 
 export function StepKonfirmasi({ data, submitError }: StepKonfirmasiProps) {
@@ -73,12 +59,7 @@ export function StepKonfirmasi({ data, submitError }: StepKonfirmasiProps) {
 
   return (
     <div className="space-y-6">
-      <motion.div
-        variants={container}
-        initial="hidden"
-        animate="show"
-        className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4"
-      >
+      <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
         <div className="mb-4 flex items-center justify-between gap-3">
           <div>
             <p className="font-pixel text-sm font-semibold text-slate-900">Ringkasan pendaftaran</p>
@@ -92,27 +73,22 @@ export function StepKonfirmasi({ data, submitError }: StepKonfirmasiProps) {
         </div>
 
         <div className="space-y-3">
-          {summaryRows.map((row) => (
-            <motion.div
+          {summaryRows.map((row, index) => (
+            <div
               key={row.id}
-              variants={item}
-              className="flex flex-col gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+              className="anim-fade-up flex flex-col gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+              style={{ animationDelay: `${0.05 + index * 0.05}s` }}
             >
               <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
                 {row.label}
               </span>
               <span className="text-sm font-medium text-slate-800">{row.value}</span>
-            </motion.div>
+            </div>
           ))}
         </div>
-      </motion.div>
+      </div>
 
-      <motion.div
-        variants={container}
-        initial="hidden"
-        animate="show"
-        className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4"
-      >
+      <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
         <div className="mb-4">
           <p className="font-pixel text-sm font-semibold text-slate-900">Fokus kelemahan</p>
           <p className="mt-1 text-sm text-slate-500">
@@ -121,31 +97,23 @@ export function StepKonfirmasi({ data, submitError }: StepKonfirmasiProps) {
         </div>
 
         <div className="flex flex-wrap gap-2">
-          {data.weaknesses.map((weakness) => (
-            <motion.span
+          {data.weaknesses.map((weakness, index) => (
+            <span
               key={weakness}
-              variants={item}
-              className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-sm text-blue-700"
+              className="anim-fade-up rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-sm text-blue-700"
+              style={{ animationDelay: `${0.05 + index * 0.05}s` }}
             >
               {weakness}
-            </motion.span>
+            </span>
           ))}
         </div>
-      </motion.div>
+      </div>
 
-      <AnimatePresence>
-        {submitError ? (
-          <motion.p
-            initial={{ opacity: 0, height: 0, y: -4 }}
-            animate={{ opacity: 1, height: "auto", y: 0 }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600"
-          >
-            {submitError}
-          </motion.p>
-        ) : null}
-      </AnimatePresence>
+      {submitError ? (
+        <p className="anim-expand rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600">
+          {submitError}
+        </p>
+      ) : null}
     </div>
   )
 }

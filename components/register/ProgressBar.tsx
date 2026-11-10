@@ -1,6 +1,5 @@
 "use client"
 
-import { motion } from "motion/react"
 import {
   ClipboardCheck,
   LayoutGrid,
@@ -34,11 +33,9 @@ export function ProgressBar({ step, onStepClick }: ProgressBarProps) {
     <div className="space-y-4">
       <div className="relative">
         <div className="absolute left-[10%] right-[10%] top-5 h-1 -translate-y-1/2 rounded-full bg-white/10" />
-        <motion.div
-          className="absolute left-[10%] right-[10%] top-5 h-1 -translate-y-1/2 origin-left rounded-full bg-linear-to-r from-cyan-400 via-blue-500 to-violet-500 shadow-[0_0_16px_rgba(56,189,248,0.5)]"
-          initial={false}
-          animate={{ scaleX: progress }}
-          transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
+        <div
+          className="absolute left-[10%] right-[10%] top-5 h-1 origin-left -translate-y-1/2 rounded-full bg-linear-to-r from-cyan-400 via-blue-500 to-violet-500 shadow-[0_0_16px_rgba(56,189,248,0.5)] transition-transform duration-500 ease-out"
+          style={{ transform: `scaleX(${progress})` }}
         />
 
         <div className="relative grid grid-cols-5 gap-1 sm:gap-3">
@@ -51,21 +48,21 @@ export function ProgressBar({ step, onStepClick }: ProgressBarProps) {
               <div key={item.id} className="flex min-w-0 flex-col items-center gap-2 text-center">
                 <div className="relative">
                   {isActive ? (
-                    <motion.span
-                      className="absolute inset-0 rounded-2xl bg-cyan-400/40"
-                      animate={{ scale: [1, 1.6, 1], opacity: [0.6, 0, 0.6] }}
-                      transition={{ duration: 1.6, repeat: Infinity, ease: "easeOut" }}
-                    />
+                    <span className="anim-ring-pulse absolute inset-0 rounded-2xl bg-cyan-400/40" />
                   ) : null}
-                  <motion.button
+                  <button
                     type="button"
                     disabled={!isClickable}
                     aria-label={`${item.label}${isDone ? " (selesai)" : isActive ? " (aktif)" : " (terkunci)"}`}
                     aria-current={isActive ? "step" : undefined}
                     onClick={isClickable ? () => onStepClick?.(index) : undefined}
-                    whileHover={isClickable ? { scale: 1.08 } : undefined}
-                    whileTap={isClickable ? { scale: 0.94 } : undefined}
-                    animate={{
+                    className={cn(
+                      "relative flex size-10 items-center justify-center rounded-2xl border shadow-lg outline-none transition-all duration-200",
+                      isClickable
+                        ? "cursor-pointer hover:scale-105 focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 active:scale-95"
+                        : "cursor-default",
+                    )}
+                    style={{
                       backgroundColor: isDone
                         ? "rgba(16,185,129,0.95)"
                         : isActive
@@ -78,13 +75,6 @@ export function ProgressBar({ step, onStepClick }: ProgressBarProps) {
                           : "rgba(255,255,255,0.18)",
                       color: isDone || isActive ? "rgba(6,17,38,1)" : "rgba(255,255,255,0.55)",
                     }}
-                    transition={{ duration: 0.2 }}
-                    className={cn(
-                      "relative flex size-10 items-center justify-center rounded-2xl border shadow-lg outline-none transition-shadow",
-                      isClickable
-                        ? "cursor-pointer focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
-                        : "cursor-default",
-                    )}
                   >
                     {isDone ? (
                       <svg viewBox="0 0 20 20" className="size-5" fill="none" aria-hidden="true">
@@ -102,7 +92,7 @@ export function ProgressBar({ step, onStepClick }: ProgressBarProps) {
                         return <Icon size={18} aria-hidden="true" />
                       })()
                     )}
-                  </motion.button>
+                  </button>
                 </div>
 
                 <p

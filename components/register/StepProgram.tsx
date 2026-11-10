@@ -1,6 +1,5 @@
 "use client"
 
-import { AnimatePresence, motion } from "motion/react"
 import {
   Briefcase,
   GraduationCap,
@@ -33,61 +32,37 @@ const PROGRAM_ICONS: Record<ProgramId, LucideIcon> = {
   luar_negeri: Globe,
 }
 
-const container = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.05, delayChildren: 0.05 },
-  },
-}
-
-const item = {
-  hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.25 } },
-}
-
 export function StepProgram({ value, error, onChange }: StepProgramProps) {
   return (
     <div className="space-y-6">
-      <motion.div
-        variants={container}
-        initial="hidden"
-        animate="show"
-        className="grid grid-cols-2 gap-3 sm:grid-cols-3"
-      >
-        {PROGRAM_OPTIONS.map((program) => {
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+        {PROGRAM_OPTIONS.map((program, index) => {
           const selected = program.id === value
           const Icon = PROGRAM_ICONS[program.id]
 
           return (
-            <motion.button
+            <button
               key={program.id}
-              variants={item}
               type="button"
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.98 }}
               onClick={() => onChange(program.id)}
-              className="text-left"
+              className="anim-fade-up text-left"
+              style={{ animationDelay: `${0.05 + index * 0.05}s` }}
             >
-              <motion.div
-                animate={{
-                  borderColor: selected ? "rgba(37,99,235,0.55)" : "rgba(203,213,225,0.8)",
-                  backgroundColor: selected ? "rgba(37,99,235,0.08)" : "rgba(255,255,255,0.9)",
-                }}
-                transition={{ duration: 0.18 }}
-                className="flex h-full min-h-40 flex-col rounded-2xl border p-4 shadow-sm"
+              <div
+                className={cn(
+                  "flex h-full min-h-40 flex-col rounded-2xl border p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98]",
+                  selected ? "border-blue-600/55 bg-blue-600/[0.08]" : "border-slate-300/80 bg-white/90",
+                )}
               >
                 <div className="flex items-start justify-between gap-3">
-                  <motion.span
-                    animate={{
-                      backgroundColor: selected ? "rgba(37,99,235,0.95)" : "rgba(241,245,249,1)",
-                      color: selected ? "rgba(255,255,255,1)" : "rgba(100,116,139,1)",
-                      scale: selected ? 1.05 : 1,
-                    }}
-                    transition={{ duration: 0.18 }}
-                    className="flex size-11 items-center justify-center rounded-xl"
+                  <span
+                    className={cn(
+                      "flex size-11 items-center justify-center rounded-xl transition-all duration-200",
+                      selected ? "scale-105 bg-blue-600 text-white" : "bg-slate-100 text-slate-500",
+                    )}
                   >
                     <Icon size={20} />
-                  </motion.span>
+                  </span>
                   {program.badge ? (
                     <Badge className="border-blue-200 bg-blue-50 text-blue-700" variant="outline">
                       {program.badge}
@@ -107,7 +82,7 @@ export function StepProgram({ value, error, onChange }: StepProgramProps) {
                   >
                     <span
                       className={cn(
-                        "flex size-4 items-center justify-center rounded-full border",
+                        "flex size-4 items-center justify-center rounded-full border transition-colors",
                         selected ? "border-blue-600 bg-blue-600 text-white" : "border-slate-300",
                       )}
                     >
@@ -126,25 +101,17 @@ export function StepProgram({ value, error, onChange }: StepProgramProps) {
                     {selected ? "Terpilih" : "Pilih"}
                   </span>
                 </div>
-              </motion.div>
-            </motion.button>
+              </div>
+            </button>
           )
         })}
-      </motion.div>
+      </div>
 
-      <AnimatePresence>
-        {error ? (
-          <motion.p
-            initial={{ opacity: 0, height: 0, y: -4 }}
-            animate={{ opacity: 1, height: "auto", y: 0 }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600"
-          >
-            {error}
-          </motion.p>
-        ) : null}
-      </AnimatePresence>
+      {error ? (
+        <p className="anim-expand rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600">
+          {error}
+        </p>
+      ) : null}
     </div>
   )
 }

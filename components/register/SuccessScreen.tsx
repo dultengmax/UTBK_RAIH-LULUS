@@ -1,8 +1,7 @@
 "use client"
 
-import { useEffect, useEffectEvent } from "react"
+import { useEffect, useEffectEvent, type CSSProperties } from "react"
 import { useRouter } from "next/navigation"
-import { motion } from "motion/react"
 
 import { SUCCESS_COPY, SUCCESS_PARTICLES } from "@/data/registerData"
 import { BrandLogo } from "@/components/brand-logo"
@@ -47,59 +46,46 @@ export function SuccessScreen({ redirectTo }: SuccessScreenProps) {
 
         <div className="relative mx-auto mb-8 flex h-40 w-40 items-center justify-center">
           {SUCCESS_PARTICLES.map((particle, index) => (
-            <motion.span
+            <span
               key={`particle-${particle.x}-${particle.y}-${index}`}
-              initial={{ x: 0, y: 0, opacity: 0, scale: 0.2 }}
-              animate={{
-                x: particle.x,
-                y: particle.y,
-                opacity: [0, 1, 0],
-                scale: [0.2, 1, 0.6],
-              }}
-              transition={{
-                delay: particle.delay,
-                duration: particle.duration,
-                ease: "easeOut",
-              }}
-              className={`absolute rounded-full ${particle.colorClass}`}
-              style={{ width: particle.size, height: particle.size }}
+              className={`success-particle absolute rounded-full ${particle.colorClass}`}
+              style={
+                {
+                  width: particle.size,
+                  height: particle.size,
+                  "--sp-x": `${particle.x}px`,
+                  "--sp-y": `${particle.y}px`,
+                  animationDelay: `${particle.delay}s`,
+                  animationDuration: `${particle.duration}s`,
+                } as CSSProperties
+              }
             />
           ))}
 
-          <motion.div
-            initial={{ scale: 0.6, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 220, damping: 18, delay: 0.15 }}
-            className="relative z-10 flex size-28 items-center justify-center rounded-full border border-blue-200 bg-blue-50 shadow-[0_0_40px_rgba(59,130,246,0.16)]"
-          >
+          <div className="anim-pop-in relative z-10 flex size-28 items-center justify-center rounded-full border border-blue-200 bg-blue-50 shadow-[0_0_40px_rgba(59,130,246,0.16)]">
             <svg viewBox="0 0 64 64" className="size-14 text-blue-600" fill="none" aria-hidden="true">
               <circle cx="32" cy="32" r="25" stroke="currentColor" strokeWidth="3" opacity="0.25" />
-              <motion.path
+              <path
                 d="M20 33.5 28.5 42 45 25.5"
                 stroke="currentColor"
                 strokeWidth="4"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{ delay: 0.4, duration: 0.5, ease: "easeOut" }}
+                pathLength={1}
+                strokeDasharray={1}
+                className="success-check-draw"
               />
             </svg>
-          </motion.div>
+          </div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35, delay: 0.25 }}
-          className="space-y-3"
-        >
+        <div className="anim-fade-up space-y-3" style={{ animationDelay: "0.25s" }}>
           <h2 className="text-3xl font-bold text-slate-950">{SUCCESS_COPY.title}</h2>
           <p className="mx-auto max-w-md text-sm leading-relaxed text-slate-500">
             {SUCCESS_COPY.description}
           </p>
           <p className="text-xs uppercase tracking-[0.2em] text-slate-400">{SUCCESS_COPY.redirectLabel}</p>
-        </motion.div>
+        </div>
 
         <div className="mt-8 flex justify-center">
           <AnimButton onClick={() => router.push(redirectTo)}>{SUCCESS_COPY.secondary}</AnimButton>

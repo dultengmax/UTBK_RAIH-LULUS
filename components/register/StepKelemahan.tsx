@@ -1,7 +1,5 @@
 "use client"
 
-import { AnimatePresence, motion } from "motion/react"
-
 import { OVERSEAS_PROGRAM_ID, WEAKNESS_OPTIONS } from "@/data/registerData"
 import type { ProgramId } from "@/types/register"
 
@@ -10,18 +8,6 @@ interface StepKelemahanProps {
   selected: string[]
   error: string
   onToggle: (value: string) => void
-}
-
-const container = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.05, delayChildren: 0.05 },
-  },
-}
-
-const item = {
-  hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.25 } },
 }
 
 export function StepKelemahan({ program, selected, error, onToggle }: StepKelemahanProps) {
@@ -38,50 +24,37 @@ export function StepKelemahan({ program, selected, error, onToggle }: StepKelema
             : "Pilih subtes atau area materi yang paling sering terasa menghambat saat latihan."}
         </p>
 
-        <motion.span
+        <span
           key={selected.length}
-          initial={{ scale: 0.9, opacity: 0.75 }}
-          animate={{ scale: 1, opacity: 1 }}
-          className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700"
+          className="anim-pop-in rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700"
         >
           {selected.length} dipilih
-        </motion.span>
+        </span>
       </div>
 
-      <motion.div
-        variants={container}
-        initial="hidden"
-        animate="show"
-        className="grid gap-3 sm:grid-cols-2"
-      >
-        {options.map((option) => {
+      <div className="grid gap-3 sm:grid-cols-2">
+        {options.map((option, index) => {
           const isSelected = selected.includes(option.value)
 
           return (
-            <motion.button
+            <button
               key={option.value}
               type="button"
-              variants={item}
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.985 }}
               onClick={() => onToggle(option.value)}
-              className="text-left"
+              className="anim-fade-up text-left"
+              style={{ animationDelay: `${0.05 + index * 0.05}s` }}
             >
-              <motion.div
-                animate={{
-                  borderColor: isSelected ? "rgba(37,99,235,0.52)" : "rgba(203,213,225,0.9)",
-                  backgroundColor: isSelected ? "rgba(37,99,235,0.08)" : "rgba(255,255,255,0.92)",
-                }}
-                transition={{ duration: 0.18 }}
-                className="flex h-full items-start gap-4 rounded-2xl border p-4 shadow-sm"
+              <div
+                className={`flex h-full items-start gap-4 rounded-2xl border p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.985] ${
+                  isSelected
+                    ? "border-blue-600/50 bg-blue-600/[0.08]"
+                    : "border-slate-300/90 bg-white/[0.92]"
+                }`}
               >
-                <motion.div
-                  animate={{
-                    backgroundColor: isSelected ? "rgba(37,99,235,0.95)" : "rgba(255,255,255,0.9)",
-                    borderColor: isSelected ? "rgba(37,99,235,0.95)" : "rgba(203,213,225,0.9)",
-                  }}
-                  transition={{ duration: 0.18 }}
-                  className="mt-1 flex size-5 shrink-0 items-center justify-center rounded-md border"
+                <div
+                  className={`mt-1 flex size-5 shrink-0 items-center justify-center rounded-md border transition-colors duration-200 ${
+                    isSelected ? "border-blue-600 bg-blue-600" : "border-slate-300 bg-white/90"
+                  }`}
                 >
                   {isSelected ? (
                     <svg viewBox="0 0 20 20" className="size-3.5 text-white" fill="none" aria-hidden="true">
@@ -94,31 +67,23 @@ export function StepKelemahan({ program, selected, error, onToggle }: StepKelema
                       />
                     </svg>
                   ) : null}
-                </motion.div>
+                </div>
 
                 <div className="space-y-2">
                   <p className="font-pixel text-sm font-semibold text-slate-900">{option.label}</p>
                   <p className="text-sm leading-relaxed text-slate-500">{option.description}</p>
                 </div>
-              </motion.div>
-            </motion.button>
+              </div>
+            </button>
           )
         })}
-      </motion.div>
+      </div>
 
-      <AnimatePresence>
-        {error ? (
-          <motion.p
-            initial={{ opacity: 0, height: 0, y: -4 }}
-            animate={{ opacity: 1, height: "auto", y: 0 }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600"
-          >
-            {error}
-          </motion.p>
-        ) : null}
-      </AnimatePresence>
+      {error ? (
+        <p className="anim-expand rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600">
+          {error}
+        </p>
+      ) : null}
     </div>
   )
 }

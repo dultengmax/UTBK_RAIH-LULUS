@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
+import Link from "next/link"
 import { motion, useAnimate, useReducedMotion } from "motion/react"
 import RotatingText from "../RotatingText"
 
@@ -83,7 +84,7 @@ const HeroSection = () => {
   return (
     <section
       ref={scope}
-      className="relative flex min-h-screen w-full items-center overflow-hidden bg-[linear-gradient(112deg,#081426_0%,#0b1b34_52%,#182561_100%)] pt-24 lg:pt-28"
+      className="relative flex min-h-screen w-full items-center overflow-hidden bg-[linear-gradient(160deg,#081426_0%,#0a192f_60%,#0a192f_100%)] pt-24 lg:pt-28"
     >
       <div className="absolute left-[-5%] top-[-10%] h-[34%] w-[34%] rounded-full bg-blue-600/18 blur-[96px]" />
       <div className="absolute bottom-[-10%] right-[-5%] h-[34%] w-[34%] rounded-full bg-indigo-600/18 blur-[96px]" />
@@ -115,8 +116,8 @@ const HeroSection = () => {
         ))}
       </div>
 
-      <div className="container relative z-10 mx-auto grid items-center gap-14 px-6 lg:min-h-168 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-end">
-        <motion.div data-hero-left className="pb-2 lg:pb-10">
+      <div className="container relative z-10 mx-auto grid items-center gap-12 px-6 lg:min-h-[calc(100vh-7rem)] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
+        <motion.div data-hero-left className="pb-4 lg:pb-0">
           <motion.div
             data-hero-badge
             className="mb-6 inline-flex items-center space-x-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2"
@@ -130,41 +131,39 @@ const HeroSection = () => {
             </span>
           </motion.div>
 
-<RotatingText
-  texts={['Lolos PTN Impian', 'Lolos di kedinasan', 'Lolos seleksi BUMN']}
-  mainClassName="px-2 sm:px-2 md:px-3  text-white overflow-hidden py-0.5 sm:py-1  text-5xl lg:text-7xl font-bold"
-  staggerFrom={"last"}
-  initial={{ y: "100%" }}
-  animate={{ y: 0 }}
-  exit={{ y: "-120%" }}
-  staggerDuration={0.025}
-  splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
-  transition={{ type: "spring", damping: 30, stiffness: 400 }}
-  rotationInterval={6000}
-/>
-          <h1 className="mb-10 max-w-lg text-lg leading-relaxed text-gray-400">
-          <p className="mb-6 text-5xl font-bold leading-[1.1] lg:text-7xl bg-linear-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
-              Mulai Dari Sini.
-          </p>
+          <h1 className="max-w-xl text-lg leading-relaxed text-gray-400">
+            <span className="mb-4 block text-4xl font-bold leading-[1.1] text-white sm:text-5xl lg:text-6xl">
+              <span className="text-gray-400">Siap </span>
+              <RotatingText
+                texts={["Lolos PTN Impian", "Lolos di Kedinasan", "Lolos Seleksi BUMN"]}
+                mainClassName="inline-flex text-blue-400"
+                staggerFrom={"last"}
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                exit={{ y: "-120%" }}
+                staggerDuration={0.025}
+                splitLevelClassName="overflow-hidden pb-1"
+                transition={{ type: "spring", damping: 30, stiffness: 400 }}
+                rotationInterval={6000}
+              />
+            </span>
             Simulasi ujian dengan sistem penilaian IRT yang akurat, pembahasan mendalam, dan
             pemetaan peluang masuk jurusan favoritmu secara real-time.
           </h1>
 
           <div className="flex flex-col gap-4 sm:flex-row">
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.95 }}
-              className="rounded-xl bg-blue-600 px-8 py-4 font-bold text-white shadow-lg shadow-blue-500/25 transition-all hover:bg-blue-500"
+            <Link
+              href="/register"
+              className="rounded-xl bg-blue-600 px-8 py-4 text-center font-bold text-white shadow-lg shadow-blue-500/25 transition-all hover:bg-blue-500"
             >
               Mulai Tryout Gratis
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.015 }}
-              whileTap={{ scale: 0.97 }}
-              className="rounded-xl border border-white/10 bg-white/5 px-8 py-4 font-bold text-white backdrop-blur-sm transition-all hover:bg-white/10"
+            </Link>
+            <Link
+              href="#leaderboard"
+              className="rounded-xl border border-white/10 bg-white/5 px-8 py-4 text-center font-bold text-white backdrop-blur-sm transition-all hover:bg-white/10"
             >
               Lihat Ranking
-            </motion.button>
+            </Link>
           </div>
 
           <div className="mt-10 flex items-center space-x-4">
@@ -186,43 +185,45 @@ const HeroSection = () => {
 
         <motion.div
           data-hero-right
-          className="relative hidden min-h-168 transform-gpu lg:flex lg:items-end lg:justify-end"
+          className="relative hidden transform-gpu lg:flex lg:items-center lg:justify-end"
         >
-          <div className="pointer-events-none absolute inset-x-12 bottom-2 h-20 rounded-full bg-blue-500/10 blur-2xl" />
+          <div className="pointer-events-none absolute -bottom-10 right-10 h-28 w-[60%] rounded-full bg-blue-500/12 blur-3xl" />
 
-          <div className="relative z-20 ml-auto flex h-152 w-full max-w-248 items-end justify-center overflow-hidden  bg-linear-to-b from-transparent to-white/1 shadow-[0_34px_100px_rgba(2,8,23,0.42)]">
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-size-[150px_100%] opacity-20" />
-            <div className="absolute inset-x-0 bottom-0 z-10 h-44 bg-linear-to-t from-[#0a192f] via-[#0a192f]/58 to-transparent" />
+          <div className="relative ml-auto aspect-[4/5] w-full max-w-[560px] overflow-hidden rounded-[2rem] bg-gradient-to-b from-white/5 via-transparent to-white/2 shadow-[0_60px_140px_-80px_rgba(59,130,246,0.45)] ring-1 ring-white/10">
+            <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_0%,rgba(148,197,255,0.16),transparent_70%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-size-[140px_100%] opacity-15" />
+            <div className="absolute inset-x-0 bottom-0 z-10 h-40 bg-gradient-to-t from-[#081426] via-[#081426]/70 to-transparent" />
+
             <img
               src="/orang.png"
-              alt="Students Studying"
-              className="relative z-0 h-[105%] w-auto max-w-none object-contain object-bottom opacity-[0.96]"
+              alt="Siswa sedang belajar untuk persiapan UTBK SNBT"
+              className="relative z-0 h-full w-full object-contain object-bottom drop-shadow-[0_40px_90px_rgba(14,165,233,0.18)]"
             />
           </div>
 
           <motion.div
-            animate={shouldReduceMotion ? undefined : { y: [0, -10, 0] }}
+            animate={shouldReduceMotion ? undefined : { y: [0, -8, 0] }}
             transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute right-4 top-10 z-30 rounded-2xl border border-white/18 bg-white/10 p-4 shadow-xl backdrop-blur-sm will-change-transform"
+            className="absolute right-6 top-12 z-30 rounded-2xl border border-white/15 bg-white/10 p-4 shadow-[0_30px_80px_-60px_rgba(56,189,248,0.9)] backdrop-blur-md will-change-transform"
           >
             <div className="flex items-center space-x-3">
-              <div className="rounded-lg bg-green-500/20 p-2">
-                <div className="h-6 w-6 rounded-full bg-green-500" />
+              <div className="rounded-lg bg-emerald-400/20 p-2">
+                <div className="h-5 w-5 rounded-full bg-emerald-400 shadow-[0_0_0_6px_rgba(52,211,153,0.12)]" />
               </div>
               <div>
                 <p className="text-xs text-gray-300">Skor IRT Kamu</p>
-                <p className="text-xl font-bold text-white">748.50</p>
+                <p className="text-lg font-bold text-white">748.50</p>
               </div>
             </div>
           </motion.div>
 
           <motion.div
-            animate={shouldReduceMotion ? undefined : { y: [0, 10, 0] }}
-            transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-            className="absolute bottom-6 left-0 z-30 rounded-2xl border border-white/18 bg-white/10 p-5 shadow-xl backdrop-blur-sm will-change-transform lg:-left-6"
+            animate={shouldReduceMotion ? undefined : { y: [0, 8, 0] }}
+            transition={{ duration: 7.2, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
+            className="absolute -left-6 bottom-10 z-30 rounded-2xl border border-white/15 bg-white/10 p-5 shadow-[0_30px_80px_-60px_rgba(59,130,246,0.9)] backdrop-blur-md will-change-transform xl:-left-10"
           >
             <p className="mb-1 text-xs text-gray-300">Ranking Nasional</p>
-            <p className="text-2xl font-bold text-blue-400">
+            <p className="text-xl font-bold text-sky-300">
               #12 <span className="text-sm font-normal text-gray-400">/ 50k</span>
             </p>
           </motion.div>

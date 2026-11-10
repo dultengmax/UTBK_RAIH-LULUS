@@ -42,7 +42,7 @@ export function StepKelemahan({ program, selected, error, onToggle }: StepKelema
           key={selected.length}
           initial={{ scale: 0.9, opacity: 0.75 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700"
+          className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700"
         >
           {selected.length} dipilih
         </motion.span>
@@ -69,16 +69,16 @@ export function StepKelemahan({ program, selected, error, onToggle }: StepKelema
             >
               <motion.div
                 animate={{
-                  borderColor: isSelected ? "rgba(14,165,233,0.52)" : "rgba(203,213,225,0.9)",
-                  backgroundColor: isSelected ? "rgba(14,165,233,0.08)" : "rgba(255,255,255,0.92)",
+                  borderColor: isSelected ? "rgba(37,99,235,0.52)" : "rgba(203,213,225,0.9)",
+                  backgroundColor: isSelected ? "rgba(37,99,235,0.08)" : "rgba(255,255,255,0.92)",
                 }}
                 transition={{ duration: 0.18 }}
                 className="flex h-full items-start gap-4 rounded-2xl border p-4 shadow-sm"
               >
                 <motion.div
                   animate={{
-                    backgroundColor: isSelected ? "rgba(14,165,233,0.95)" : "rgba(255,255,255,0.9)",
-                    borderColor: isSelected ? "rgba(14,165,233,0.95)" : "rgba(203,213,225,0.9)",
+                    backgroundColor: isSelected ? "rgba(37,99,235,0.95)" : "rgba(255,255,255,0.9)",
+                    borderColor: isSelected ? "rgba(37,99,235,0.95)" : "rgba(203,213,225,0.9)",
                   }}
                   transition={{ duration: 0.18 }}
                   className="mt-1 flex size-5 shrink-0 items-center justify-center rounded-md border"
@@ -97,7 +97,7 @@ export function StepKelemahan({ program, selected, error, onToggle }: StepKelema
                 </motion.div>
 
                 <div className="space-y-2">
-                  <p className="text-sm font-semibold text-slate-900">{option.label}</p>
+                  <p className="font-pixel text-sm font-semibold text-slate-900">{option.label}</p>
                   <p className="text-sm leading-relaxed text-slate-500">{option.description}</p>
                 </div>
               </motion.div>

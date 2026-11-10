@@ -93,7 +93,7 @@ export function StepAkun({
               key={field.id}
               className={field.id === "password" || field.id === "confirmPassword" ? "sm:col-span-2" : ""}
             >
-              <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+              <label className="mb-2 block font-pixel text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
                 {field.label}
               </label>
 
@@ -108,7 +108,7 @@ export function StepAkun({
                       : onConfirmPasswordChange(event.target.value)
                   }
                   placeholder={field.placeholder}
-                  className="h-12 rounded-2xl border-slate-200 bg-white px-4 text-slate-900 placeholder:text-slate-400 focus-visible:border-sky-400 focus-visible:ring-sky-100"
+                  className="h-12 rounded-2xl border-slate-200 bg-white px-4 text-slate-900 placeholder:text-slate-400 focus-visible:border-blue-400 focus-visible:ring-blue-100"
                 />
 
                 {isPasswordField ? (
@@ -154,7 +154,7 @@ export function StepAkun({
             <p className="mt-1 text-sm text-slate-500">{passwordStrengthLabel}</p>
           </div>
 
-          <span className="rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700">
+          <span className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
             {passwordScore}/4 indikator
           </span>
         </div>
@@ -169,7 +169,7 @@ export function StepAkun({
                   animate={{ scaleX: isActive ? 1 : 0.2 }}
                   style={{ transformOrigin: "left center" }}
                   transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
-                  className="h-full rounded-full bg-linear-to-r from-sky-500 to-emerald-500"
+                  className="h-full rounded-full bg-linear-to-r from-blue-500 to-indigo-500"
                 />
               </div>
             )
@@ -185,7 +185,7 @@ export function StepAkun({
                 <span
                   className={
                     isActive
-                      ? "flex size-5 items-center justify-center rounded-full bg-sky-500 text-white"
+                      ? "flex size-5 items-center justify-center rounded-full bg-blue-600 text-white"
                       : "flex size-5 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-400"
                   }
                 >

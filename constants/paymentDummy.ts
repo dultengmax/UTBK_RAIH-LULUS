@@ -9,8 +9,8 @@ type ProgramKey = "cpns" | "utbk" | "kedinasan" | "all"
 
 export const PAYMENT_COUNTDOWN_SECONDS = 15 * 60
 export const PAYMENT_CONFIRM_DELAY_MS = 2000
-export const PAYMENT_QR_SIZE = 200
-export const PAYMENT_QR_INNER_SIZE = 180
+export const PAYMENT_QR_SIZE = 240
+export const PAYMENT_QR_INNER_SIZE = 320
 export const PAYMENT_FALLBACK_ORDER_ID = "TRY-2025-08471"
 
 export const PAYMENT_MERCHANT = {

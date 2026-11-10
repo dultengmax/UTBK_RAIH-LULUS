@@ -1,7 +1,9 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
-import { AnimatePresence, motion } from "motion/react"
+import { useEffect, useMemo, useRef, useState } from "react"
+import { Clock3 } from "lucide-react"
+
+import { cn } from "@/lib/utils"
 import { type CountdownState } from "@/types/payment"
 
 type CountdownTimerProps = {
@@ -20,6 +22,14 @@ export default function CountdownTimer({ initialSeconds, onStateChange }: Countd
   const expired = seconds <= 0
   const display = useMemo(() => formatClock(seconds), [seconds])
 
+  // Simpan callback terbaru di ref agar efek di bawah tidak ikut berjalan
+  // setiap kali parent melakukan re-render.
+  const onStateChangeRef = useRef(onStateChange)
+
+  useEffect(() => {
+    onStateChangeRef.current = onStateChange
+  }, [onStateChange])
+
   useEffect(() => {
     if (expired) {
       return
@@ -33,44 +43,30 @@ export default function CountdownTimer({ initialSeconds, onStateChange }: Countd
   }, [expired])
 
   useEffect(() => {
-    onStateChange?.({ seconds, display, expired })
-  }, [display, expired, onStateChange, seconds])
+    onStateChangeRef.current?.({ seconds, display, expired })
+  }, [display, expired, seconds])
+
+  const isUrgent = !expired && seconds <= 60
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.24, ease: "easeOut" }}
-      className="flex items-center justify-between rounded-lg border border-sky-200 bg-white px-4 py-3"
+    <div
+      role="timer"
+      aria-live="polite"
+      aria-label={expired ? "Waktu pembayaran habis" : `Sisa waktu pembayaran ${display}`}
+      className={cn(
+        "inline-flex shrink-0 items-center gap-2 rounded-full border px-3 py-1.5",
+        expired && "border-red-200 bg-red-50 text-red-600",
+        isUrgent && "border-red-200 bg-red-50 text-red-600",
+        !expired && !isUrgent && "border-amber-200 bg-amber-50 text-amber-700",
+      )}
     >
-      <div className="flex items-center gap-2">
-        <AnimatePresence mode="wait" initial={false}>
-          {!expired ? (
-            <motion.span
-              key="active-dot"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              className="h-2.5 w-2.5 rounded-full bg-orange-400 animate-pulse"
-            />
-          ) : null}
-        </AnimatePresence>
-        <p className={`text-xs ${expired ? "font-semibold text-red-600" : "text-orange-500"}`}>
-          {expired ? "Waktu habis" : "Selesaikan pembayaran dalam"}
-        </p>
-      </div>
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.p
-          key={expired ? "00:00" : display}
-          initial={{ opacity: 0, y: -4 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 4 }}
-          transition={{ duration: 0.14, ease: "easeOut" }}
-          className={`text-xs font-semibold ${expired ? "text-red-600" : "text-orange-500"}`}
-        >
-          {expired ? "00:00" : display}
-        </motion.p>
-      </AnimatePresence>
-    </motion.div>
+      <Clock3 className={cn("h-3.5 w-3.5", !expired && "animate-pulse")} />
+      <span className="hidden text-[11px] font-medium sm:inline">
+        {expired ? "Waktu habis" : "Sisa waktu"}
+      </span>
+      <span className="font-mono text-[13px] font-semibold tabular-nums">
+        {expired ? "00:00" : display}
+      </span>
+    </div>
   )
 }

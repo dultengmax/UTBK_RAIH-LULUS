@@ -105,7 +105,7 @@ export function StepJurusan({
                 className={cn(
                   "rounded-full border px-4 py-2 text-sm transition-colors",
                   isActive
-                    ? "border-sky-200 bg-sky-50 text-sky-700"
+                    ? "border-blue-200 bg-blue-50 text-blue-700"
                     : "border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-900",
                 )}
               >
@@ -121,7 +121,7 @@ export function StepJurusan({
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder={OVERSEAS_SEARCH_COPY.searchPlaceholder}
-            className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-400 focus:outline-none"
+            className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100"
           />
         </label>
 
@@ -152,8 +152,8 @@ export function StepJurusan({
                 >
                   <motion.div
                     animate={{
-                      borderColor: isSelected ? "rgba(14,165,233,0.52)" : "rgba(203,213,225,0.9)",
-                      backgroundColor: isSelected ? "rgba(14,165,233,0.08)" : "rgba(255,255,255,0.92)",
+                      borderColor: isSelected ? "rgba(37,99,235,0.52)" : "rgba(203,213,225,0.9)",
+                      backgroundColor: isSelected ? "rgba(37,99,235,0.08)" : "rgba(255,255,255,0.92)",
                     }}
                     transition={{ duration: 0.18 }}
                     className="h-full rounded-2xl border p-4 shadow-sm"
@@ -164,7 +164,7 @@ export function StepJurusan({
                           <span className="text-lg" aria-hidden="true">
                             {itemData.flag}
                           </span>
-                          <p className="text-sm font-semibold text-slate-900">{itemData.name}</p>
+                          <p className="font-pixel text-sm font-semibold text-slate-900">{itemData.name}</p>
                         </div>
                         <p className="mt-1 text-sm text-slate-500">{itemData.country}</p>
                       </div>
@@ -204,7 +204,7 @@ export function StepJurusan({
               animate={{ opacity: 1, height: "auto", y: 0 }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.24 }}
-              className="overflow-hidden rounded-2xl border border-sky-200 bg-sky-50/80 p-4"
+              className="overflow-hidden rounded-2xl border border-blue-200 bg-blue-50/80 p-4"
             >
               <div className="space-y-2">
                 <p className="text-sm font-semibold text-slate-900">{OVERSEAS_SEARCH_COPY.majorsTitle}</p>
@@ -226,13 +226,13 @@ export function StepJurusan({
                     >
                       <motion.div
                         animate={{
-                          borderColor: isSelected ? "rgba(14,165,233,0.52)" : "rgba(203,213,225,0.9)",
-                          backgroundColor: isSelected ? "rgba(14,165,233,0.08)" : "rgba(255,255,255,0.92)",
+                          borderColor: isSelected ? "rgba(37,99,235,0.52)" : "rgba(203,213,225,0.9)",
+                          backgroundColor: isSelected ? "rgba(37,99,235,0.08)" : "rgba(255,255,255,0.92)",
                         }}
                         transition={{ duration: 0.18 }}
                         className="rounded-2xl border p-4"
                       >
-                        <p className="text-sm font-semibold text-slate-900">{major.label}</p>
+                        <p className="font-pixel text-sm font-semibold text-slate-900">{major.label}</p>
                         <p className="mt-2 text-sm leading-relaxed text-slate-500">{major.focus}</p>
                       </motion.div>
                     </motion.button>
@@ -292,7 +292,7 @@ export function StepJurusan({
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder={fieldMeta.searchPlaceholder}
-          className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-400 focus:outline-none"
+          className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100"
         />
       </label>
 
@@ -305,7 +305,7 @@ export function StepJurusan({
               className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4"
             >
               <div className="mb-4 space-y-1">
-                <p className="text-sm font-semibold text-slate-900">{section.label}</p>
+                <p className="font-pixel text-sm font-semibold text-slate-900">{section.label}</p>
                 <p className="text-sm text-slate-500">{section.description}</p>
               </div>
 
@@ -324,13 +324,13 @@ export function StepJurusan({
                     >
                       <motion.div
                         animate={{
-                          borderColor: isSelected ? "rgba(14,165,233,0.52)" : "rgba(203,213,225,0.9)",
-                          backgroundColor: isSelected ? "rgba(14,165,233,0.08)" : "rgba(255,255,255,0.92)",
+                          borderColor: isSelected ? "rgba(37,99,235,0.52)" : "rgba(203,213,225,0.9)",
+                          backgroundColor: isSelected ? "rgba(37,99,235,0.08)" : "rgba(255,255,255,0.92)",
                         }}
                         transition={{ duration: 0.18 }}
                         className="rounded-2xl border p-4"
                       >
-                        <p className="text-sm font-semibold text-slate-900">{itemData.label}</p>
+                        <p className="font-pixel text-sm font-semibold text-slate-900">{itemData.label}</p>
                         <p className="mt-2 text-sm leading-relaxed text-slate-500">
                           {itemData.description}
                         </p>

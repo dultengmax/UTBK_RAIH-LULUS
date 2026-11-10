@@ -29,9 +29,9 @@ export function SuccessScreen({ redirectTo }: SuccessScreenProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-[rgba(239,246,255,0.88)] px-6 backdrop-blur-xl">
       <div className="absolute inset-0">
-        <div className="absolute left-1/2 top-1/2 size-[32rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-200/40 blur-[130px]" />
-        <div className="absolute left-[12%] top-[18%] size-40 rounded-full bg-sky-300/35 blur-[100px]" />
-        <div className="absolute bottom-[12%] right-[10%] size-44 rounded-full bg-emerald-200/35 blur-[120px]" />
+        <div className="absolute left-1/2 top-1/2 size-[32rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-200/40 blur-[130px]" />
+        <div className="absolute left-[12%] top-[18%] size-40 rounded-full bg-blue-300/35 blur-[100px]" />
+        <div className="absolute bottom-[12%] right-[10%] size-44 rounded-full bg-indigo-200/35 blur-[120px]" />
       </div>
 
       <div className="relative w-full max-w-xl rounded-[2rem] border border-white/[0.85] bg-white/[0.88] p-8 text-center shadow-[0_30px_90px_rgba(15,23,42,0.14)]">
@@ -70,9 +70,9 @@ export function SuccessScreen({ redirectTo }: SuccessScreenProps) {
             initial={{ scale: 0.6, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: "spring", stiffness: 220, damping: 18, delay: 0.15 }}
-            className="relative z-10 flex size-28 items-center justify-center rounded-full border border-sky-200 bg-sky-50 shadow-[0_0_40px_rgba(14,165,233,0.16)]"
+            className="relative z-10 flex size-28 items-center justify-center rounded-full border border-blue-200 bg-blue-50 shadow-[0_0_40px_rgba(59,130,246,0.16)]"
           >
-            <svg viewBox="0 0 64 64" className="size-14 text-sky-600" fill="none" aria-hidden="true">
+            <svg viewBox="0 0 64 64" className="size-14 text-blue-600" fill="none" aria-hidden="true">
               <circle cx="32" cy="32" r="25" stroke="currentColor" strokeWidth="3" opacity="0.25" />
               <motion.path
                 d="M20 33.5 28.5 42 45 25.5"

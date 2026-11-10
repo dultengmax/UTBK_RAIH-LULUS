@@ -39,7 +39,7 @@ const otherRankers = [
 
 const LeaderboardSection = () => {
   return (
-    <section className="relative overflow-hidden bg-[#0a192f] py-24">
+    <section id="leaderboard" className="relative overflow-hidden bg-[#0a192f] py-24">
       <div className="absolute top-0 right-0 h-[500px] w-[500px] rounded-full bg-indigo-600/10 blur-[120px]" />
       <div className="absolute bottom-0 left-0 h-[500px] w-[500px] rounded-full bg-blue-600/10 blur-[120px]" />
 

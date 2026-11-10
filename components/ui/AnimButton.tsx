@@ -15,7 +15,7 @@ interface AnimButtonProps extends Omit<HTMLMotionProps<"button">, "ref"> {
 
 const variantClasses: Record<AnimButtonVariant, string> = {
   primary:
-    "bg-linear-to-r from-sky-500 to-cyan-500 text-white shadow-lg shadow-sky-500/20 hover:from-sky-500/95 hover:to-cyan-500/95",
+    "bg-linear-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25 hover:from-blue-500 hover:to-indigo-500",
   secondary:
     "border border-slate-200 bg-white text-slate-700 shadow-sm hover:bg-slate-50",
   outline:

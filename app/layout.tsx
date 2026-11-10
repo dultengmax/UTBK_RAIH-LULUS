@@ -1,6 +1,6 @@
 import React from "react"
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist, Geist_Mono, Press_Start_2P, Silkscreen } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { BRAND } from '@/lib/brand'
 import './globals.css'
@@ -13,6 +13,18 @@ const geist = Geist({
 const geistMono = Geist_Mono({
   subsets: ['latin'],
   variable: '--font-geist-mono',
+})
+
+const silkscreen = Silkscreen({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-silkscreen',
+})
+
+const pressStart = Press_Start_2P({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-press-start',
 })
 
 export const metadata: Metadata = {
@@ -49,7 +61,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id">
-      <body className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}>
+      <body
+        className={`${geist.variable} ${geistMono.variable} ${silkscreen.variable} ${pressStart.variable} font-sans antialiased`}
+      >
         {children}
         <Analytics />
       </body>

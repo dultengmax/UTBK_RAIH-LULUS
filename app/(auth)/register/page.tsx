@@ -3,9 +3,11 @@
 import { useState } from "react"
 import Link from "next/link"
 import { AnimatePresence, motion } from "motion/react"
+import { ArrowRight, ChevronLeft, Sparkles, Star } from "lucide-react"
 
 import { BrandLogo } from "@/components/brand-logo"
-import { LearningCurveCard } from "@/components/register/LearningCurveCard"
+import { PS2Particles } from "@/components/ps2-background"
+import { PlayerHud } from "@/components/register/PlayerHud"
 import { ProgressBar } from "@/components/register/ProgressBar"
 import { StepAkun } from "@/components/register/StepAkun"
 import { StepJurusan } from "@/components/register/StepJurusan"
@@ -13,20 +15,17 @@ import { StepKelemahan } from "@/components/register/StepKelemahan"
 import { StepKonfirmasi } from "@/components/register/StepKonfirmasi"
 import { StepProgram } from "@/components/register/StepProgram"
 import { SuccessScreen } from "@/components/register/SuccessScreen"
-import { AnimButton } from "@/components/ui/AnimButton"
+import { PIXEL_PRESETS, PixelGradient } from "@/components/ui/pixel-gradient"
 import {
   ACTION_LABELS,
   OVERSEAS_PROGRAM_ID,
   PROGRAM_FIELD_META,
-  PROGRAM_LABELS,
-  REGISTER_HIGHLIGHTS,
   REGISTER_PAGE_COPY,
   REGISTER_STEP_META,
-  UNIVERSITIES,
 } from "@/data/registerData"
-import { REGISTER_EXPERIENCE_COPY, REGISTER_TRUST_CHIPS } from "@/data/registerExperience"
+import { computeXp, getLevel, getRankTitle } from "@/data/registerGame"
 import { useRegisterForm } from "@/hooks/useRegisterForm"
-import { BRAND } from "@/lib/brand"
+import { cn } from "@/lib/utils"
 import type { AccountFieldId, ProgramId, RegisterData } from "@/types/register"
 
 type AccountDataField = "name" | "email" | "username" | "password"
@@ -96,6 +95,7 @@ export default function RegisterPage() {
     update,
     next,
     prev,
+    goToStep,
     submit,
     setSubmitError,
   } = useRegisterForm()
@@ -105,26 +105,11 @@ export default function RegisterPage() {
   const [accountErrors, setAccountErrors] = useState<Partial<Record<AccountFieldId, string>>>({})
 
   const activeStep = REGISTER_STEP_META[step]
-  const targetLabel = getTargetLabel(data.program)
-  const selectedUniversity = UNIVERSITIES.find((item) => item.id === data.university) ?? null
+  const totalSteps = REGISTER_STEP_META.length
 
-  const selectionDetails = [
-    {
-      label: "Program",
-      value: data.program ? PROGRAM_LABELS[data.program] : "Belum dipilih",
-    },
-    {
-      label: data.program === OVERSEAS_PROGRAM_ID ? "Universitas" : targetLabel,
-      value:
-        data.program === OVERSEAS_PROGRAM_ID
-          ? selectedUniversity?.name || "Belum dipilih"
-          : data.jurusan || "Belum dipilih",
-    },
-    {
-      label: "Fokus",
-      value: data.weaknesses.length > 0 ? `${data.weaknesses.length} area dipilih` : "Belum dipilih",
-    },
-  ]
+  const xp = computeXp(data, step)
+  const level = getLevel(xp)
+  const rankTitle = getRankTitle(level)
 
   const handleProgramChange = (program: ProgramId) => {
     setStepError("")
@@ -277,208 +262,262 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(186,230,253,0.55),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(167,243,208,0.45),transparent_25%),linear-gradient(180deg,#f8fbff_0%,#eef6ff_44%,#f8fbff_100%)] font-sans text-slate-900">
-      <div className="absolute left-[-8%] top-[-10%] size-112 rounded-full bg-sky-300/40 blur-[140px]" />
-      <div className="absolute right-[-8%] bottom-[-10%] size-120 rounded-full bg-emerald-200/40 blur-[160px]" />
+    <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(160deg,#080d20_0%,#111a3d_46%,#1b1145_100%)] font-sans text-white">
+      {/* Latar arena — orb yang drift pelan */}
+      <motion.div
+        className="pointer-events-none absolute left-[-6%] top-[-12%] size-112 rounded-full bg-cyan-500/25 blur-[150px]"
+        animate={{ x: [0, 70, -35, 0], y: [0, -50, 25, 0], opacity: [0.6, 1, 0.7, 0.6] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="pointer-events-none absolute right-[-10%] top-[6%] size-120 rounded-full bg-violet-600/25 blur-[170px]"
+        animate={{ x: [0, -60, 30, 0], y: [0, 45, -25, 0], opacity: [0.55, 0.95, 0.65, 0.55] }}
+        transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="pointer-events-none absolute bottom-[-14%] left-1/3 size-120 rounded-full bg-blue-600/25 blur-[180px]"
+        animate={{ x: [0, 55, -30, 0], y: [0, -40, 20, 0], opacity: [0.5, 0.9, 0.6, 0.5] }}
+        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: -8 }}
+      />
+
+      {/* Pita cahaya (light ribbon) ala streak boot PS2 */}
+      <motion.div
+        className="pointer-events-none absolute -left-1/4 top-[30%] h-44 w-[150%] -rotate-6 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(34,211,238,0.26),rgba(59,130,246,0.12)_45%,transparent_70%)] blur-3xl"
+        animate={{ x: [0, 80, -45, 0], opacity: [0.4, 0.85, 0.55, 0.4], scale: [1, 1.06, 0.97, 1] }}
+        transition={{ duration: 17, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="pointer-events-none absolute -left-1/3 bottom-[8%] h-40 w-[160%] rotate-[4deg] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.26),rgba(99,102,241,0.1)_45%,transparent_70%)] blur-3xl"
+        animate={{ x: [0, -85, 50, 0], opacity: [0.35, 0.8, 0.5, 0.35], scale: [1, 1.08, 0.96, 1] }}
+        transition={{ duration: 21, repeat: Infinity, ease: "easeInOut", delay: -7 }}
+      />
+
+
+      {/* Gradasi pixel — mosaic kotak yang membentuk transisi warna */}
+      <div className="pointer-events-none absolute inset-0 opacity-80 mix-blend-screen">
+        <PixelGradient
+          cols={48}
+          rows={28}
+          from={PIXEL_PRESETS.arena.from}
+          mid={PIXEL_PRESETS.arena.mid}
+          to={PIXEL_PRESETS.arena.to}
+        />
+      </div>
+
+      {/* Grid halus menegaskan tekstur pixel */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.1]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(148,163,184,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.4) 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+          maskImage: "radial-gradient(circle at 50% 30%, black, transparent 72%)",
+        }}
+      />
+
+      {/* Partikel cahaya melayang ala boot screen PS2 */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <PS2Particles variant="night" count={44} />
+      </div>
 
       <div className="relative flex min-h-screen items-center justify-center p-0 sm:p-4 lg:p-6">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
-          className="grid min-h-screen w-full max-w-7xl overflow-hidden border border-white/80 bg-white/78 shadow-[0_30px_120px_rgba(15,23,42,0.12)] backdrop-blur-xl lg:min-h-195 lg:rounded-[2.5rem] xl:grid-cols-[0.96fr_1.04fr]"
+          className="relative grid min-h-screen w-full max-w-7xl overflow-hidden border border-white/10 bg-slate-950/40 shadow-[0_40px_140px_rgba(2,6,23,0.6)] backdrop-blur-2xl sm:min-h-0 sm:rounded-[2.25rem] lg:min-h-[720px] lg:grid-cols-[340px_1fr]"
         >
-          <aside className="relative hidden overflow-hidden border-r border-sky-100/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.92)_0%,rgba(240,249,255,0.94)_56%,rgba(236,253,245,0.9)_100%)] p-8 lg:flex lg:flex-col lg:justify-between xl:p-10">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.18),transparent_42%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.14),transparent_38%)]" />
-            <div className="relative z-10">
-              <BrandLogo
-                theme="dark"
-                subtitle={REGISTER_PAGE_COPY.heroSubtitle}
-                titleClassName="text-slate-950"
-                subtitleClassName="text-slate-500"
-                logoWrapperClassName="border-white/90 shadow-sm"
-              />
+          {/* Gradasi pixel di dalam kartu agar tetap terlihat di layar kecil */}
+          <div className="pointer-events-none absolute inset-0 z-0 opacity-40 mix-blend-screen">
+            <PixelGradient
+              cols={40}
+              rows={24}
+              from={PIXEL_PRESETS.card.from}
+              mid={PIXEL_PRESETS.card.mid}
+              to={PIXEL_PRESETS.card.to}
+            />
+          </div>
 
-              <div className="mt-10 space-y-6">
-                <div className="space-y-4">
-                  <span className="inline-flex rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-700">
-                    {REGISTER_EXPERIENCE_COPY.eyebrow}
-                  </span>
-                  <h1 className="max-w-lg text-4xl font-bold leading-tight text-slate-950">
-                    {REGISTER_PAGE_COPY.heroTitle}
-                  </h1>
-                  <p className="max-w-md text-base leading-relaxed text-slate-600">
-                    {REGISTER_PAGE_COPY.heroDescription}
-                  </p>
-                </div>
-
-                <div className="grid gap-3">
-                  {REGISTER_HIGHLIGHTS.map((highlight) => (
-                    <div
-                      key={highlight.label}
-                      className="rounded-2xl border border-white/80 bg-white/75 p-4 shadow-sm"
-                    >
-                      <div className="flex items-center justify-between gap-3">
-                        <p className="text-sm font-semibold text-slate-900">{highlight.label}</p>
-                        <span className="rounded-full border border-sky-200 bg-sky-50 px-2.5 py-1 text-xs font-semibold text-sky-700">
-                          {highlight.value}
-                        </span>
-                      </div>
-                      <p className="mt-3 text-sm leading-relaxed text-slate-500">
-                        {highlight.description}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-                <LearningCurveCard />
-              </div>
+          {/* HUD pemain — 340px */}
+          <aside className="relative z-10 hidden flex-col border-r border-white/10 p-6 lg:flex xl:p-7">
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(30,41,59,0.5),rgba(2,6,23,0.2))]" />
+            {/* Partikel PS2 melayang di panel HUD */}
+            <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+              <PS2Particles variant="night" count={16} />
             </div>
-
-            <div className="relative z-10 space-y-4 rounded-[1.75rem] border border-white/85 bg-white/78 p-6 shadow-sm">
-              <div>
-                <p className="text-sm font-semibold text-slate-900">{REGISTER_PAGE_COPY.sideCardTitle}</p>
-                <p className="mt-2 text-sm leading-relaxed text-slate-500">
-                  {REGISTER_PAGE_COPY.sideCardDescription}
-                </p>
-              </div>
-
-              <div className="space-y-3 border-t border-slate-200/80 pt-4">
-                {selectionDetails.map((detail) => (
-                  <div key={detail.label} className="flex items-center justify-between gap-4">
-                    <span className="text-xs uppercase tracking-[0.2em] text-slate-400">{detail.label}</span>
-                    <span className="text-right text-sm font-medium text-slate-700">{detail.value}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="rounded-2xl border border-sky-100 bg-sky-50/70 p-4 text-sm italic leading-relaxed text-slate-600">
-                {REGISTER_PAGE_COPY.testimonial}
-                <p className="mt-3 text-xs not-italic uppercase tracking-[0.2em] text-slate-400">
-                  {REGISTER_PAGE_COPY.testimonialAuthor}
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {REGISTER_TRUST_CHIPS.map((chip) => (
-                  <span
-                    key={chip}
-                    className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-medium text-emerald-700"
-                  >
-                    {chip}
-                  </span>
-                ))}
-              </div>
+            <motion.div
+              aria-hidden="true"
+              className="pointer-events-none absolute -bottom-16 left-1/2 size-56 -translate-x-1/2 rounded-full bg-cyan-400/20 blur-3xl"
+              animate={{ y: [0, -24, 0], opacity: [0.4, 0.8, 0.4] }}
+              transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <div className="relative mb-6">
+              <BrandLogo
+                theme="light"
+                subtitle="Raih Lulus Arena"
+                titleClassName="text-white"
+                subtitleClassName="text-cyan-200/70"
+                logoWrapperClassName="border-white/15"
+              />
+            </div>
+            <div className="relative flex-1">
+              <PlayerHud data={data} step={step} xp={xp} />
             </div>
           </aside>
 
-          <section className="flex min-h-screen flex-col bg-white/70 px-5 py-7 sm:px-8 lg:px-10 lg:py-10 xl:min-h-0">
-            <div className="mb-8 flex items-center justify-between gap-4 xl:hidden">
+          {/* Papan misi */}
+          <section className="relative z-10 flex min-h-screen flex-col p-5 sm:p-7 lg:min-h-0 lg:p-8 xl:p-10">
+            {/* Header brand (mobile) */}
+            <div className="mb-6 flex items-center justify-between gap-4 lg:hidden">
               <BrandLogo
-                theme="dark"
+                theme="light"
                 subtitle={REGISTER_PAGE_COPY.mobileSubtitle}
-                titleClassName="text-slate-950"
-                subtitleClassName="text-slate-500"
-                logoWrapperClassName="border-white/90 shadow-sm"
+                titleClassName="text-white"
+                subtitleClassName="text-cyan-200/70"
+                logoWrapperClassName="border-white/15"
               />
               <Link
                 href="/login"
-                className="text-sm font-semibold text-sky-700 transition-colors hover:text-sky-600"
+                className="text-sm font-semibold text-cyan-300 transition-colors hover:text-cyan-200"
               >
                 {ACTION_LABELS.signIn}
               </Link>
             </div>
 
-            <div className="mb-6 space-y-4 lg:hidden">
-              <div className="rounded-[1.75rem] border border-white/85 bg-white/80 p-5 shadow-sm">
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-sky-700">
-                  {REGISTER_EXPERIENCE_COPY.eyebrow}
-                </p>
-                <h1 className="mt-3 text-2xl font-bold leading-tight text-slate-950">
-                  {REGISTER_EXPERIENCE_COPY.mobileTitle}
-                </h1>
-                <p className="mt-3 text-sm leading-relaxed text-slate-600">
-                  {REGISTER_EXPERIENCE_COPY.description}
-                </p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {REGISTER_TRUST_CHIPS.map((chip) => (
-                    <span
-                      key={chip}
-                      className="rounded-full border border-sky-100 bg-sky-50 px-3 py-1 text-[11px] font-medium text-sky-700"
-                    >
-                      {chip}
-                    </span>
-                  ))}
+            {/* Strip pemain (mobile) */}
+            <div className="mb-6 flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-3 lg:hidden">
+              <span className="flex size-11 items-center justify-center rounded-xl bg-linear-to-br from-cyan-400 via-blue-500 to-violet-600 text-lg font-black text-white">
+                {(data.name.trim()[0] ?? "P").toUpperCase()}
+              </span>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="truncate font-pixel text-sm font-bold text-white">
+                    {data.name.trim() || "Pemain Baru"}
+                  </p>
+                  <span className="flex items-center gap-1 rounded-full bg-amber-400/20 px-2 py-0.5 font-pixel text-[11px] font-bold text-amber-300">
+                    <Star size={11} /> Lv {level}
+                  </span>
+                </div>
+                <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-black/30">
+                  <motion.div
+                    className="h-full rounded-full bg-linear-to-r from-cyan-400 via-blue-500 to-violet-500"
+                    initial={false}
+                    animate={{ width: `${Math.min(100, Math.round((xp / 600) * 100))}%` }}
+                    transition={{ type: "spring", stiffness: 120, damping: 20 }}
+                  />
                 </div>
               </div>
-
-              <LearningCurveCard compact />
             </div>
 
-            <div className="mb-8">
-              <ProgressBar step={step} />
+            {/* Quest path */}
+            <div className="mb-7 rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur-md">
+              <ProgressBar step={step} onStepClick={goToStep} />
             </div>
 
-            <div className="mb-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-                Step {step + 1} / {REGISTER_STEP_META.length}
-              </p>
-              <h2 className="mt-3 text-3xl font-bold text-slate-950">{activeStep.title}</h2>
-              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600">
+            {/* Judul misi */}
+            <div className="mb-6">
+              <span className="inline-flex items-center gap-2 rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1 font-pixel text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-200">
+                <Sparkles size={12} /> Level {level} · {rankTitle}
+              </span>
+              <h2 className="mt-4 font-pixel text-2xl font-bold leading-snug tracking-tight text-white sm:text-[2rem]">
+                {activeStep.title}
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/60">
                 {activeStep.description}
               </p>
             </div>
 
-            <div className="flex-1 rounded-[1.9rem] border border-slate-200/80 bg-white/82 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] sm:p-5 lg:p-6">
-              <AnimatePresence mode="wait" custom={direction}>
+            {/* Panel konten misi */}
+            <div className="relative flex-1 overflow-hidden rounded-[1.75rem] border border-white/60 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(241,245,249,0.96)_100%)] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] sm:p-5 lg:p-6">
+              {/* Partikel PS2 versi terang di belakang konten misi */}
+              <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
                 <motion.div
-                  key={step}
-                  custom={direction}
-                  variants={transitionVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{ duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
-                  className="h-full"
-                >
-                  {stepContent}
-                </motion.div>
-              </AnimatePresence>
+                  aria-hidden="true"
+                  className="absolute -left-16 top-[10%] size-56 rounded-full bg-cyan-300/30 blur-[90px]"
+                  animate={{ x: [0, 110, -35, 0], y: [0, 55, -20, 0], opacity: [0.35, 0.75, 0.45, 0.35] }}
+                  transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.div
+                  aria-hidden="true"
+                  className="absolute -right-14 bottom-[6%] size-52 rounded-full bg-violet-300/30 blur-[90px]"
+                  animate={{ x: [0, -95, 30, 0], y: [0, -60, 22, 0], opacity: [0.3, 0.7, 0.4, 0.3] }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: -5 }}
+                />
+                <PS2Particles variant="light" count={20} />
+              </div>
+
+              <div className="relative z-10 h-full">
+                <AnimatePresence mode="wait" custom={direction}>
+                  <motion.div
+                    key={step}
+                    custom={direction}
+                    variants={transitionVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{ duration: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    className="h-full"
+                  >
+                    {stepContent}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
             </div>
 
-            <div className="mt-8 flex flex-col gap-4 border-t border-slate-200/80 pt-6 sm:flex-row sm:items-center sm:justify-between">
-              <div className="space-y-2">
-                <p className="text-sm text-slate-600">{REGISTER_PAGE_COPY.footerDescription}</p>
-                <p className="text-xs text-slate-400">
-                  Sudah punya akun?{" "}
-                  <Link href="/login" className="font-semibold text-sky-700 hover:text-sky-600">
-                    {ACTION_LABELS.signIn}
-                  </Link>
-                </p>
-              </div>
+            {/* Navigasi misi */}
+            <div className="mt-7 flex flex-col gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm text-white/50">
+                Sudah punya akun?{" "}
+                <Link href="/login" className="font-semibold text-cyan-300 hover:text-cyan-200">
+                  {ACTION_LABELS.signIn}
+                </Link>
+              </p>
 
               <div className="flex flex-col-reverse gap-3 sm:flex-row">
                 {step > 0 ? (
-                  <AnimButton variant="outline" onClick={prev}>
+                  <motion.button
+                    type="button"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={prev}
+                    className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/8 px-5 font-pixel text-sm font-semibold text-white/80 transition-colors hover:bg-white/15"
+                  >
+                    <ChevronLeft size={18} />
                     {ACTION_LABELS.previous}
-                  </AnimButton>
+                  </motion.button>
                 ) : null}
 
-                {step < REGISTER_STEP_META.length - 1 ? (
-                  <AnimButton onClick={handleNext}>
+                {step < totalSteps - 1 ? (
+                  <motion.button
+                    type="button"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={handleNext}
+                    className="group inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-linear-to-r from-cyan-400 via-blue-500 to-violet-500 px-6 font-pixel text-sm font-bold text-slate-950 shadow-lg shadow-blue-900/40"
+                  >
                     {step === 3 ? ACTION_LABELS.review : ACTION_LABELS.next}
-                  </AnimButton>
+                    <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                  </motion.button>
                 ) : (
-                  <AnimButton loading={submitting} onClick={handleSubmit}>
+                  <motion.button
+                    type="button"
+                    disabled={submitting}
+                    whileHover={submitting ? undefined : { scale: 1.02 }}
+                    whileTap={submitting ? undefined : { scale: 0.97 }}
+                    onClick={handleSubmit}
+                    className={cn(
+                      "inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-linear-to-r from-cyan-400 via-blue-500 to-violet-500 px-6 font-pixel text-sm font-bold text-slate-950 shadow-lg shadow-blue-900/40",
+                      submitting && "pointer-events-none opacity-70",
+                    )}
+                  >
+                    {submitting ? (
+                      <span className="size-4 animate-spin rounded-full border-2 border-slate-950/30 border-t-slate-950" />
+                    ) : null}
                     {submitting ? ACTION_LABELS.submitting : ACTION_LABELS.submit}
-                  </AnimButton>
+                  </motion.button>
                 )}
               </div>
             </div>
-
-            <p className="mt-6 text-xs text-slate-400">
-              {BRAND.displayName} membantu pengguna baru langsung masuk ke alur belajar yang lebih terarah.
-            </p>
           </section>
         </motion.div>
       </div>

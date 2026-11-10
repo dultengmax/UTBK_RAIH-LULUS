@@ -81,12 +81,12 @@ export function StepKonfirmasi({ data, submitError }: StepKonfirmasiProps) {
       >
         <div className="mb-4 flex items-center justify-between gap-3">
           <div>
-            <p className="text-sm font-semibold text-slate-900">Ringkasan pendaftaran</p>
+            <p className="font-pixel text-sm font-semibold text-slate-900">Ringkasan pendaftaran</p>
             <p className="mt-1 text-sm text-slate-500">
               Semua detail ini akan dikirim saat kamu menekan tombol buat akun.
             </p>
           </div>
-          <span className="rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-700">
+          <span className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
             Final check
           </span>
         </div>
@@ -114,7 +114,7 @@ export function StepKonfirmasi({ data, submitError }: StepKonfirmasiProps) {
         className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4"
       >
         <div className="mb-4">
-          <p className="text-sm font-semibold text-slate-900">Fokus kelemahan</p>
+          <p className="font-pixel text-sm font-semibold text-slate-900">Fokus kelemahan</p>
           <p className="mt-1 text-sm text-slate-500">
             Area ini akan membantu personalisasi rekomendasi awal di dashboard.
           </p>
@@ -125,7 +125,7 @@ export function StepKonfirmasi({ data, submitError }: StepKonfirmasiProps) {
             <motion.span
               key={weakness}
               variants={item}
-              className="rounded-full border border-sky-200 bg-sky-50 px-3 py-1.5 text-sm text-sky-700"
+              className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-sm text-blue-700"
             >
               {weakness}
             </motion.span>

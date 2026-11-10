@@ -49,14 +49,14 @@ export function LearningCurveCard({ compact = false, className }: LearningCurveC
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-[1.75rem] border border-sky-100/90 bg-white/[0.92] p-5 shadow-[0_18px_60px_rgba(14,165,233,0.14)] backdrop-blur",
+        "overflow-hidden rounded-[1.75rem] border border-blue-100/90 bg-white/[0.92] p-5 shadow-[0_18px_60px_rgba(59,130,246,0.14)] backdrop-blur",
         compact ? "p-4" : "p-5",
         className,
       )}
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="space-y-2">
-          <span className="inline-flex rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-sky-700">
+          <span className="inline-flex rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-700">
             {REGISTER_EXPERIENCE_COPY.eyebrow}
           </span>
           <div>
@@ -70,16 +70,16 @@ export function LearningCurveCard({ compact = false, className }: LearningCurveC
         </div>
 
         {lastPoint ? (
-          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-right">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-600">Akhir fase awal</p>
-            <p className="mt-1 text-xl font-bold text-emerald-700">{lastPoint.score}%</p>
+          <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-3 py-2 text-right">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-indigo-600">Akhir fase awal</p>
+            <p className="mt-1 text-xl font-bold text-indigo-700">{lastPoint.score}%</p>
           </div>
         ) : null}
       </div>
 
-      <div className="mt-5 rounded-[1.5rem] border border-slate-100 bg-linear-to-br from-sky-50 via-white to-emerald-50 p-4">
+      <div className="mt-5 rounded-[1.5rem] border border-slate-100 bg-linear-to-br from-blue-50 via-white to-indigo-50 p-4">
         <div className="relative">
-          <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="h-48 w-full">
+          <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="h-44 w-full sm:h-48">
             {[0, 1, 2, 3].map((line) => {
               const y = chartPaddingY + (line * (chartHeight - chartPaddingY * 2)) / 3
 
@@ -125,7 +125,7 @@ export function LearningCurveCard({ compact = false, className }: LearningCurveC
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.18 + index * 0.08, type: "spring", stiffness: 240, damping: 16 }}
                   fill="#ffffff"
-                  stroke="#0ea5e9"
+                  stroke="#3b82f6"
                   strokeWidth="3"
                 />
                 <text
@@ -141,12 +141,12 @@ export function LearningCurveCard({ compact = false, className }: LearningCurveC
 
             <defs>
               <linearGradient id={`${gradientId}-line`} x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#0ea5e9" />
-                <stop offset="100%" stopColor="#10b981" />
+                <stop offset="0%" stopColor="#3b82f6" />
+                <stop offset="100%" stopColor="#6366f1" />
               </linearGradient>
               <linearGradient id={`${gradientId}-fill`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="rgba(14,165,233,0.28)" />
-                <stop offset="100%" stopColor="rgba(16,185,129,0.02)" />
+                <stop offset="0%" stopColor="rgba(59,130,246,0.28)" />
+                <stop offset="100%" stopColor="rgba(99,102,241,0.02)" />
               </linearGradient>
             </defs>
           </svg>
@@ -156,7 +156,7 @@ export function LearningCurveCard({ compact = false, className }: LearningCurveC
               initial={{ opacity: 0, x: 10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.45, duration: 0.3 }}
-              className="absolute top-2 right-0 rounded-full border border-sky-200 bg-white/95 px-3 py-1 text-[11px] font-semibold text-sky-700 shadow-sm"
+              className="absolute top-2 right-0 rounded-full border border-blue-200 bg-white/95 px-3 py-1 text-[11px] font-semibold text-blue-700 shadow-sm"
             >
               {lastPoint.accent}
             </motion.div>

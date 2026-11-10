@@ -4,7 +4,7 @@ export default function Loading() {
   return (
     <div className="min-h-screen bg-[#071426] text-white">
       <div className="flex min-h-screen items-center justify-center px-6">
-        <div className="w-full max-w-lg rounded-4xl border border-white/10 bg-white/4 p-8 text-center shadow-2xl backdrop-blur-xl">
+        <div className="w-full max-w-lg rounded-4xl border border-white/10 bg-white/6 p-8 text-center shadow-2xl">
           <div className="mb-8 flex justify-center">
             <BrandLogo
               theme="light"

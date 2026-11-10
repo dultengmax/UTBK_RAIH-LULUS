@@ -123,3 +123,83 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* =========================================================================
+   Animasi background bergaya boot screen PlayStation 2
+   Sengaja dibuat CSS-only (bukan JS/framer-motion) + hanya transform/opacity
+   agar berjalan di compositor/GPU thread dan tidak membebani main thread.
+   ========================================================================= */
+
+@keyframes ps2-particle-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: var(--ps2-min, 0.12);
+  }
+  30% {
+    transform: translate3d(var(--ps2-x, 40px), var(--ps2-y, -30px), 0) scale(1.45);
+    opacity: var(--ps2-peak, 0.85);
+  }
+  65% {
+    transform: translate3d(calc(var(--ps2-x, 40px) * -0.45), calc(var(--ps2-y, -30px) * -0.45), 0) scale(0.92);
+    opacity: calc(var(--ps2-peak, 0.85) * 0.45);
+  }
+}
+
+.ps2-particle {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  will-change: transform, opacity;
+  animation: ps2-particle-drift 14s ease-in-out infinite;
+}
+
+@keyframes ps2-orb-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(var(--ps2-x, 40px), var(--ps2-y, -30px), 0) scale(1.12);
+    opacity: 1;
+  }
+}
+
+.ps2-orb {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  will-change: transform, opacity;
+  animation: ps2-orb-float 18s ease-in-out infinite;
+}
+
+@keyframes ps2-ribbon-sweep {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(var(--ps2-rot, -6deg)) scale(1);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translate3d(var(--ps2-x, 70px), 0, 0) rotate(var(--ps2-rot, -6deg)) scale(1.06);
+    opacity: 0.85;
+  }
+}
+
+.ps2-ribbon {
+  position: absolute;
+  pointer-events: none;
+  transform: rotate(var(--ps2-rot, -6deg));
+  will-change: transform, opacity;
+  animation: ps2-ribbon-sweep 17s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ps2-particle,
+  .ps2-orb,
+  .ps2-ribbon {
+    animation: none !important;
+  }
+}

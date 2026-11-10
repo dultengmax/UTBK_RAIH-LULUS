@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useState, type FormEvent, type KeyboardEvent, type MouseEvent } from "react"
+import { Suspense, useState, type CSSProperties, type FormEvent, type KeyboardEvent, type MouseEvent } from "react"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import {
@@ -14,7 +14,6 @@ import { ArrowRight, BarChart3, Lock, Mail, ShieldCheck, Sparkles, Target } from
 import { BrandLogo } from "@/components/brand-logo"
 import { PS2Background, PS2Particles } from "@/components/ps2-background"
 import { Input } from "@/components/ui/input"
-import { PIXEL_PRESETS, PixelGradient } from "@/components/ui/pixel-gradient"
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -353,18 +352,16 @@ const LoginPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
-          className="relative grid min-h-screen w-full max-w-7xl overflow-hidden border border-white/40 bg-white/78 shadow-[0_30px_120px_rgba(1,4,15,0.6)] backdrop-blur-xl sm:min-h-0 sm:rounded-[2.5rem] lg:min-h-[680px] lg:grid-cols-[30fr_60fr_10fr]"
+          className="relative grid min-h-screen w-full max-w-7xl overflow-hidden border border-white/40 bg-white/95 shadow-[0_30px_120px_rgba(1,4,15,0.6)] sm:min-h-0 sm:rounded-[2.5rem] lg:min-h-[680px] lg:grid-cols-[30fr_60fr_10fr]"
         >
-          {/* Gradasi pixel di dalam kartu agar tetap terlihat */}
-          <div className="pointer-events-none absolute inset-0 z-0 opacity-45">
-            <PixelGradient
-              cols={38}
-              rows={22}
-              from={PIXEL_PRESETS.light.from}
-              mid={PIXEL_PRESETS.light.mid}
-              to={PIXEL_PRESETS.light.to}
-            />
-          </div>
+          {/* Gradasi pixel di dalam kartu (static, tidak animasi) */}
+          <div
+            className="pointer-events-none absolute inset-0 z-0 opacity-45"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 12% 12%, rgba(125,211,252,0.9), transparent 28%), radial-gradient(circle at 88% 22%, rgba(165,180,252,0.85), transparent 30%), radial-gradient(circle at 70% 88%, rgba(196,181,253,0.9), transparent 32%), radial-gradient(circle at 22% 82%, rgba(147,197,253,0.85), transparent 30%)",
+            }}
+          />
 
           <motion.div
             aria-hidden="true"
@@ -376,35 +373,32 @@ const LoginPage = () => {
           <aside className="relative z-10 hidden flex-col justify-between overflow-hidden border-r border-blue-100/80 p-10 text-white lg:flex">
             <div className="absolute inset-0 z-0">
               <img
-                src="https://images.unsplash.com/photo-1523240715630-974bb1ad1932?q=80&w=2070&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1523240715630-974bb1ad1932?q=60&w=900&auto=format&fit=crop"
                 alt=""
+                loading="lazy"
+                decoding="async"
+                fetchPriority="low"
                 className="h-full w-full object-cover opacity-30 mix-blend-overlay"
               />
               <div className="absolute inset-0 bg-linear-to-br from-blue-700/92 via-indigo-800/94 to-violet-950/96" />
-              <div className="pointer-events-none absolute inset-0 opacity-30 mix-blend-screen">
-                <PixelGradient
-                  cols={24}
-                  rows={40}
-                  from={PIXEL_PRESETS.hero.from}
-                  mid={PIXEL_PRESETS.hero.mid}
-                  to={PIXEL_PRESETS.hero.to}
-                />
-              </div>
-              <motion.div
-                aria-hidden="true"
-                className="pointer-events-none absolute -left-16 top-16 size-56 rounded-full bg-cyan-400/25 blur-3xl"
-                animate={{ y: [0, 26, 0], opacity: [0.5, 0.85, 0.5] }}
-                transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+              <div
+                className="pointer-events-none absolute inset-0 opacity-30 mix-blend-screen"
+                style={{
+                  backgroundImage:
+                    "radial-gradient(circle at 18% 20%, rgba(34,211,238,0.85), transparent 34%), radial-gradient(circle at 80% 15%, rgba(59,130,246,0.8), transparent 32%), radial-gradient(circle at 70% 78%, rgba(139,92,246,0.85), transparent 36%), radial-gradient(circle at 25% 88%, rgba(56,189,248,0.75), transparent 30%)",
+                }}
               />
-              <motion.div
-                aria-hidden="true"
-                className="pointer-events-none absolute -right-10 bottom-24 size-48 rounded-full bg-violet-400/30 blur-3xl"
-                animate={{ y: [0, -22, 0], opacity: [0.45, 0.8, 0.45] }}
-                transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
+              <div
+                className="ps2-orb -left-16 top-16 size-56 bg-cyan-400/25 blur-3xl"
+                style={{ "--ps2-x": "0px", "--ps2-y": "26px", animationDuration: "9s" } as CSSProperties}
+              />
+              <div
+                className="ps2-orb -right-10 bottom-24 size-48 bg-violet-400/30 blur-3xl"
+                style={{ "--ps2-x": "0px", "--ps2-y": "-22px", animationDuration: "11s", animationDelay: "-4s" } as CSSProperties}
               />
               {/* Partikel PS2 melayang di panel branding */}
               <div className="pointer-events-none absolute inset-0 z-[1]">
-                <PS2Particles variant="night" count={22} />
+                <PS2Particles variant="night" count={12} />
               </div>
             </div>
 
@@ -434,7 +428,7 @@ const LoginPage = () => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.4, delay: 0.2 + index * 0.09 }}
                     whileHover={{ x: 4 }}
-                    className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-3 backdrop-blur-md transition-colors hover:border-white/25 hover:bg-white/10"
+                    className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-3 transition-colors hover:border-white/25 hover:bg-white/10"
                   >
                     <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-cyan-400/30 to-violet-400/30 text-cyan-100">
                       <feature.icon size={18} />
@@ -454,8 +448,10 @@ const LoginPage = () => {
                   <img
                     key={i}
                     className="h-9 w-9 rounded-full border-2 border-indigo-700 shadow-lg"
-                    src={`https://i.pravatar.cc/150?u=${i + 20}`}
+                    src={`https://i.pravatar.cc/72?u=${i + 20}`}
                     alt=""
+                    loading="lazy"
+                    decoding="async"
                   />
                 ))}
                 <div className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-indigo-700 bg-linear-to-br from-cyan-400 to-indigo-500 font-pixel text-[10px] font-bold shadow-lg">
@@ -469,22 +465,18 @@ const LoginPage = () => {
           </aside>
 
           {/* 60% — Form Login */}
-          <section className="relative z-10 flex flex-col bg-white/70">
+          <section className="relative z-10 flex flex-col bg-white/88">
             {/* Partikel PS2 versi terang di belakang form */}
             <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-              <motion.div
-                aria-hidden="true"
-                className="absolute -left-20 top-[10%] size-64 rounded-full bg-indigo-300/30 blur-[90px]"
-                animate={{ x: [0, 120, -40, 0], y: [0, 60, -20, 0], opacity: [0.4, 0.8, 0.5, 0.4] }}
-                transition={{ duration: 17, repeat: Infinity, ease: "easeInOut" }}
+              <div
+                className="ps2-orb -left-20 top-[10%] size-64 bg-indigo-300/30 blur-[70px]"
+                style={{ "--ps2-x": "120px", "--ps2-y": "60px", animationDuration: "17s" } as CSSProperties}
               />
-              <motion.div
-                aria-hidden="true"
-                className="absolute -right-16 bottom-[5%] size-56 rounded-full bg-blue-300/30 blur-[90px]"
-                animate={{ x: [0, -100, 30, 0], y: [0, -70, 25, 0], opacity: [0.35, 0.75, 0.45, 0.35] }}
-                transition={{ duration: 21, repeat: Infinity, ease: "easeInOut", delay: -5 }}
+              <div
+                className="ps2-orb -right-16 bottom-[5%] size-56 bg-blue-300/30 blur-[70px]"
+                style={{ "--ps2-x": "-100px", "--ps2-y": "-70px", animationDuration: "21s", animationDelay: "-5s" } as CSSProperties}
               />
-              <PS2Particles variant="light" count={26} />
+              <PS2Particles variant="light" count={14} />
             </div>
             <div className="relative z-10 flex flex-1 flex-col justify-center">
               <Suspense
@@ -503,16 +495,14 @@ const LoginPage = () => {
           {/* 10% — Rail Dekoratif */}
           <aside className="relative z-10 hidden flex-col items-center justify-between overflow-hidden border-l border-blue-100/70 bg-[linear-gradient(180deg,#eef2ff_0%,#faf5ff_50%,#eef6ff_100%)] py-10 lg:flex">
             <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-linear-to-b from-indigo-500/15 to-transparent" />
-            <motion.div
-              aria-hidden="true"
-              className="pointer-events-none absolute bottom-8 left-1/2 size-24 -translate-x-1/2 rounded-full bg-violet-400/25 blur-2xl"
-              animate={{ scale: [1, 1.25, 1], opacity: [0.4, 0.75, 0.4] }}
-              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+            <div
+              className="ps2-orb bottom-8 left-[calc(50%-3rem)] size-24 bg-violet-400/25 blur-2xl"
+              style={{ "--ps2-x": "0px", "--ps2-y": "-18px", animationDuration: "7s" } as CSSProperties}
             />
 
             {/* Partikel PS2 kecil di rail dekoratif */}
             <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-              <PS2Particles variant="night" count={10} />
+              <PS2Particles variant="night" count={6} />
             </div>
 
             <span className="relative rotate-180 font-pixel text-[10px] font-bold uppercase tracking-[0.42em] text-indigo-400 [writing-mode:vertical-rl]">

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, type CSSProperties } from "react"
 import Link from "next/link"
 import { AnimatePresence, motion } from "motion/react"
 import { ArrowRight, ChevronLeft, Sparkles, Star } from "lucide-react"
@@ -15,7 +15,6 @@ import { StepKelemahan } from "@/components/register/StepKelemahan"
 import { StepKonfirmasi } from "@/components/register/StepKonfirmasi"
 import { StepProgram } from "@/components/register/StepProgram"
 import { SuccessScreen } from "@/components/register/SuccessScreen"
-import { PIXEL_PRESETS, PixelGradient } from "@/components/ui/pixel-gradient"
 import {
   ACTION_LABELS,
   OVERSEAS_PROGRAM_ID,
@@ -263,46 +262,39 @@ export default function RegisterPage() {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(160deg,#080d20_0%,#111a3d_46%,#1b1145_100%)] font-sans text-white">
-      {/* Latar arena — orb yang drift pelan */}
-      <motion.div
-        className="pointer-events-none absolute left-[-6%] top-[-12%] size-112 rounded-full bg-cyan-500/25 blur-[150px]"
-        animate={{ x: [0, 70, -35, 0], y: [0, -50, 25, 0], opacity: [0.6, 1, 0.7, 0.6] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+      {/* Latar arena — orb yang drift pelan (CSS-only, ringan) */}
+      <div
+        className="ps2-orb left-[-6%] top-[-12%] size-112 bg-cyan-500/25 blur-[100px]"
+        style={{ "--ps2-x": "70px", "--ps2-y": "-50px", animationDuration: "20s" } as CSSProperties}
       />
-      <motion.div
-        className="pointer-events-none absolute right-[-10%] top-[6%] size-120 rounded-full bg-violet-600/25 blur-[170px]"
-        animate={{ x: [0, -60, 30, 0], y: [0, 45, -25, 0], opacity: [0.55, 0.95, 0.65, 0.55] }}
-        transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
+      <div
+        className="ps2-orb right-[-10%] top-[6%] size-120 bg-violet-600/25 blur-[110px]"
+        style={{ "--ps2-x": "-60px", "--ps2-y": "45px", animationDuration: "24s", animationDelay: "-9s" } as CSSProperties}
       />
-      <motion.div
-        className="pointer-events-none absolute bottom-[-14%] left-1/3 size-120 rounded-full bg-blue-600/25 blur-[180px]"
-        animate={{ x: [0, 55, -30, 0], y: [0, -40, 20, 0], opacity: [0.5, 0.9, 0.6, 0.5] }}
-        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut", delay: -8 }}
+      <div
+        className="ps2-orb bottom-[-14%] left-1/3 size-120 bg-blue-600/25 blur-[120px]"
+        style={{ "--ps2-x": "55px", "--ps2-y": "-40px", animationDuration: "22s", animationDelay: "-8s" } as CSSProperties}
       />
 
       {/* Pita cahaya (light ribbon) ala streak boot PS2 */}
-      <motion.div
-        className="pointer-events-none absolute -left-1/4 top-[30%] h-44 w-[150%] -rotate-6 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(34,211,238,0.26),rgba(59,130,246,0.12)_45%,transparent_70%)] blur-3xl"
-        animate={{ x: [0, 80, -45, 0], opacity: [0.4, 0.85, 0.55, 0.4], scale: [1, 1.06, 0.97, 1] }}
-        transition={{ duration: 17, repeat: Infinity, ease: "easeInOut" }}
+      <div
+        className="ps2-ribbon -left-1/4 top-[30%] h-44 w-[150%] bg-[radial-gradient(ellipse_at_center,rgba(34,211,238,0.26),rgba(59,130,246,0.12)_45%,transparent_70%)] blur-2xl"
+        style={{ "--ps2-rot": "-6deg", "--ps2-x": "80px", animationDuration: "17s" } as CSSProperties}
       />
-      <motion.div
-        className="pointer-events-none absolute -left-1/3 bottom-[8%] h-40 w-[160%] rotate-[4deg] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.26),rgba(99,102,241,0.1)_45%,transparent_70%)] blur-3xl"
-        animate={{ x: [0, -85, 50, 0], opacity: [0.35, 0.8, 0.5, 0.35], scale: [1, 1.08, 0.96, 1] }}
-        transition={{ duration: 21, repeat: Infinity, ease: "easeInOut", delay: -7 }}
+      <div
+        className="ps2-ribbon -left-1/3 bottom-[8%] h-40 w-[160%] bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,0.26),rgba(99,102,241,0.1)_45%,transparent_70%)] blur-2xl"
+        style={{ "--ps2-rot": "4deg", "--ps2-x": "-85px", animationDuration: "21s", animationDelay: "-7s" } as CSSProperties}
       />
 
 
-      {/* Gradasi pixel — mosaic kotak yang membentuk transisi warna */}
-      <div className="pointer-events-none absolute inset-0 opacity-80 mix-blend-screen">
-        <PixelGradient
-          cols={48}
-          rows={28}
-          from={PIXEL_PRESETS.arena.from}
-          mid={PIXEL_PRESETS.arena.mid}
-          to={PIXEL_PRESETS.arena.to}
-        />
-      </div>
+      {/* Gradasi pixel — statis (tanpa rect SVG massal) */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-70 mix-blend-screen"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 10% 15%, rgba(56,110,220,0.75), transparent 34%), radial-gradient(circle at 82% 18%, rgba(139,92,246,0.7), transparent 32%), radial-gradient(circle at 68% 82%, rgba(37,99,235,0.7), transparent 36%), radial-gradient(circle at 20% 80%, rgba(34,211,238,0.6), transparent 32%)",
+        }}
+      />
 
       {/* Grid halus menegaskan tekstur pixel */}
       <div
@@ -317,7 +309,7 @@ export default function RegisterPage() {
 
       {/* Partikel cahaya melayang ala boot screen PS2 */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <PS2Particles variant="night" count={44} />
+        <PS2Particles variant="night" count={28} />
       </div>
 
       <div className="relative flex min-h-screen items-center justify-center p-0 sm:p-4 lg:p-6">
@@ -325,31 +317,27 @@ export default function RegisterPage() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
-          className="relative grid min-h-screen w-full max-w-7xl overflow-hidden border border-white/10 bg-slate-950/40 shadow-[0_40px_140px_rgba(2,6,23,0.6)] backdrop-blur-2xl sm:min-h-0 sm:rounded-[2.25rem] lg:min-h-[720px] lg:grid-cols-[340px_1fr]"
+          className="relative grid min-h-screen w-full max-w-7xl overflow-hidden border border-white/10 bg-slate-950/70 shadow-[0_40px_140px_rgba(2,6,23,0.6)] sm:min-h-0 sm:rounded-[2.25rem] lg:min-h-[720px] lg:grid-cols-[340px_1fr]"
         >
-          {/* Gradasi pixel di dalam kartu agar tetap terlihat di layar kecil */}
-          <div className="pointer-events-none absolute inset-0 z-0 opacity-40 mix-blend-screen">
-            <PixelGradient
-              cols={40}
-              rows={24}
-              from={PIXEL_PRESETS.card.from}
-              mid={PIXEL_PRESETS.card.mid}
-              to={PIXEL_PRESETS.card.to}
-            />
-          </div>
+          {/* Gradasi pixel di dalam kartu (statis) */}
+          <div
+            className="pointer-events-none absolute inset-0 z-0 opacity-40 mix-blend-screen"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 14% 18%, rgba(37,99,235,0.8), transparent 32%), radial-gradient(circle at 84% 22%, rgba(124,58,237,0.75), transparent 34%), radial-gradient(circle at 62% 80%, rgba(56,110,220,0.7), transparent 34%)",
+            }}
+          />
 
           {/* HUD pemain — 340px */}
           <aside className="relative z-10 hidden flex-col border-r border-white/10 p-6 lg:flex xl:p-7">
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(30,41,59,0.5),rgba(2,6,23,0.2))]" />
             {/* Partikel PS2 melayang di panel HUD */}
             <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-              <PS2Particles variant="night" count={16} />
+              <PS2Particles variant="night" count={10} />
             </div>
-            <motion.div
-              aria-hidden="true"
-              className="pointer-events-none absolute -bottom-16 left-1/2 size-56 -translate-x-1/2 rounded-full bg-cyan-400/20 blur-3xl"
-              animate={{ y: [0, -24, 0], opacity: [0.4, 0.8, 0.4] }}
-              transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+            <div
+              className="ps2-orb -bottom-16 left-[calc(50%-7rem)] size-56 bg-cyan-400/20 blur-3xl"
+              style={{ "--ps2-x": "0px", "--ps2-y": "-24px", animationDuration: "12s" } as CSSProperties}
             />
             <div className="relative mb-6">
               <BrandLogo
@@ -410,7 +398,7 @@ export default function RegisterPage() {
             </div>
 
             {/* Quest path */}
-            <div className="mb-7 rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur-md">
+            <div className="mb-7 rounded-3xl border border-white/10 bg-white/5 p-5">
               <ProgressBar step={step} onStepClick={goToStep} />
             </div>
 
@@ -431,19 +419,15 @@ export default function RegisterPage() {
             <div className="relative flex-1 overflow-hidden rounded-[1.75rem] border border-white/60 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(241,245,249,0.96)_100%)] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)] sm:p-5 lg:p-6">
               {/* Partikel PS2 versi terang di belakang konten misi */}
               <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-                <motion.div
-                  aria-hidden="true"
-                  className="absolute -left-16 top-[10%] size-56 rounded-full bg-cyan-300/30 blur-[90px]"
-                  animate={{ x: [0, 110, -35, 0], y: [0, 55, -20, 0], opacity: [0.35, 0.75, 0.45, 0.35] }}
-                  transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+                <div
+                  className="ps2-orb -left-16 top-[10%] size-56 bg-cyan-300/30 blur-[70px]"
+                  style={{ "--ps2-x": "110px", "--ps2-y": "55px", animationDuration: "16s" } as CSSProperties}
                 />
-                <motion.div
-                  aria-hidden="true"
-                  className="absolute -right-14 bottom-[6%] size-52 rounded-full bg-violet-300/30 blur-[90px]"
-                  animate={{ x: [0, -95, 30, 0], y: [0, -60, 22, 0], opacity: [0.3, 0.7, 0.4, 0.3] }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: -5 }}
+                <div
+                  className="ps2-orb -right-14 bottom-[6%] size-52 bg-violet-300/30 blur-[70px]"
+                  style={{ "--ps2-x": "-95px", "--ps2-y": "-60px", animationDuration: "20s", animationDelay: "-5s" } as CSSProperties}
                 />
-                <PS2Particles variant="light" count={20} />
+                <PS2Particles variant="light" count={14} />
               </div>
 
               <div className="relative z-10 h-full">

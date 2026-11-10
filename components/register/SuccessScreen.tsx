@@ -27,7 +27,7 @@ export function SuccessScreen({ redirectTo }: SuccessScreenProps) {
   }, [handleRedirect])
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-[rgba(239,246,255,0.88)] px-6 backdrop-blur-xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-[rgba(239,246,255,0.94)] px-6">
       <div className="absolute inset-0">
         <div className="absolute left-1/2 top-1/2 size-[32rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-200/40 blur-[130px]" />
         <div className="absolute left-[12%] top-[18%] size-40 rounded-full bg-blue-300/35 blur-[100px]" />

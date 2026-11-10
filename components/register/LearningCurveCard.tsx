@@ -49,7 +49,7 @@ export function LearningCurveCard({ compact = false, className }: LearningCurveC
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-[1.75rem] border border-blue-100/90 bg-white/[0.92] p-5 shadow-[0_18px_60px_rgba(59,130,246,0.14)] backdrop-blur",
+        "overflow-hidden rounded-[1.75rem] border border-blue-100/90 bg-white/[0.96] p-5 shadow-[0_18px_60px_rgba(59,130,246,0.14)]",
         compact ? "p-4" : "p-5",
         className,
       )}

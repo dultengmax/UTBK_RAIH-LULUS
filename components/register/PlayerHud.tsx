@@ -61,7 +61,7 @@ export function PlayerHud({ data, step, xp }: PlayerHudProps) {
   return (
     <div className="flex h-full flex-col gap-6">
       {/* Kartu pemain */}
-      <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur-xl">
+      <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-white/10 p-5">
         <div className="pointer-events-none absolute -right-10 -top-10 size-32 rounded-full bg-violet-500/30 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-12 -left-8 size-32 rounded-full bg-cyan-400/25 blur-3xl" />
 
@@ -121,7 +121,7 @@ export function PlayerHud({ data, step, xp }: PlayerHudProps) {
         {stats.map((stat) => (
           <div
             key={stat.label}
-            className="rounded-2xl border border-white/10 bg-white/5 p-3 text-center backdrop-blur-md"
+            className="rounded-2xl border border-white/10 bg-white/5 p-3 text-center"
           >
             <stat.icon className={cn("mx-auto mb-1.5", stat.tint)} size={16} />
             <p className="font-pixel-display text-lg font-black leading-none text-white">{stat.value}</p>
@@ -133,7 +133,7 @@ export function PlayerHud({ data, step, xp }: PlayerHudProps) {
       </div>
 
       {/* Misi / quest list */}
-      <div className="rounded-3xl border border-white/10 bg-white/5 p-4 backdrop-blur-md">
+      <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
         <p className="mb-3 flex items-center gap-2 font-pixel text-xs font-bold uppercase tracking-[0.2em] text-white/60">
           <Goal size={14} /> Daftar Misi
         </p>
@@ -198,7 +198,7 @@ export function PlayerHud({ data, step, xp }: PlayerHudProps) {
       </div>
 
       {/* Pencapaian */}
-      <div className="rounded-3xl border border-white/10 bg-white/5 p-4 backdrop-blur-md">
+      <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
         <p className="mb-3 flex items-center gap-2 font-pixel text-xs font-bold uppercase tracking-[0.2em] text-white/60">
           <Trophy size={14} /> Pencapaian
         </p>
